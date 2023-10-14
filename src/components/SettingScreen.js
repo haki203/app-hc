@@ -15,22 +15,18 @@ const SettingScreen = (props) => {
                 <View style={styles.body} >
                     <TouchableOpacity style={styles.itembody} onPress={()=>navigation.navigate('Profile')}>
                         <Image source={require(baseImgPath + 'icprofile.png')} />
-
                         <Text style={styles.textItem}> Chỉnh sửa tài khoản </Text>
                         <Image source={require(baseImgPath + 'chevron-right.png')} />
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={()=>setIsEnabled(!isEnabled)} style={styles.itembody} >
                         <Image source={require(baseImgPath + 'icalert.png')} />
-
                         <Text style={styles.textItem}> Tắt thông báo </Text>
                         <Switch style={styles.switch} trackColor={styles.trackColor} thumbColor={styles.thumbColor(isEnabled)} onValueChange={setIsEnabled} value={isEnabled} />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.itembody} >
                         <Image source={require(baseImgPath + 'icexit.png')} />
-
                         <Text style={styles.textItem} > Đăng xuất </Text>
-
                     </TouchableOpacity>
 
 
