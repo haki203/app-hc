@@ -1,10 +1,11 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, {useState} from 'react'
-
-const Report = () => {
+import React, { useState } from 'react'
+const baseImgPath = '../assets/images/';
+const Report = (props) => {
+  const {navigation} = props
   const [currentStep, setCurrentStep] = useState(1);
-  const [imageSource1, setImageSource1] = useState(require('../images/resum.png'));
-  const [imageSource2, setImageSource2] = useState(require('../images/resum.png'));
+  const [imageSource1, setImageSource1] = useState(require(baseImgPath + 'resum.png'));
+  const [imageSource2, setImageSource2] = useState(require(baseImgPath + 'resum.png'));
   const [text1, setText1] = useState('Yêu cầu đã được tiếp nhận');
   const [text2, setText2] = useState('__:__ am');
   const [text3, setText3] = useState('Yêu cầu đã hoàn thành');
@@ -14,7 +15,7 @@ const Report = () => {
   const handleButtonClick = () => {
     switch (currentStep) {
       case 1:
-        setImageSource1(require('../images/tick.png'));
+        setImageSource1(require(baseImgPath + 'tick.png'));
         setText1('Yêu cầu đã được tiếp nhận');
         setText2('10:00 am');
         setButtonText('Phản hồi');
@@ -22,7 +23,7 @@ const Report = () => {
         setCurrentStep(2);
         break;
       case 2:
-        setImageSource2(require('../images/tick.png'));
+        setImageSource2(require(baseImgPath + 'tick.png'));
         setText3('Yêu cầu đã hoàn thành');
         setButtonText('Đánh giá');
         setText4('12:00 pm');
@@ -33,7 +34,10 @@ const Report = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image style={styles.back} source={require('../images/back.png')}></Image>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
+          <Image style={styles.back} source={require(baseImgPath + 'back.png')}></Image>
+        </TouchableOpacity>
+
         <Text style={styles.text}>Yêu cầu hỗ trợ CNTT</Text>
         <Text></Text>
       </View>
@@ -55,7 +59,7 @@ const Report = () => {
       <View>
         <View style={{ flexDirection: 'row', paddingLeft: 16 }}>
           <View style={{ alignItems: 'center' }}>
-            <Image source={require('../images/tick.png')}></Image>
+            <Image source={require(baseImgPath + 'tick.png')}></Image>
             <View style={{
               backgroundColor: '#D9D9D9',
               width: 4,
@@ -91,7 +95,7 @@ const Report = () => {
           </View>
         </View>
       </View>
-      <View style={{alignItems: 'center', marginTop: 64}}>
+      <View style={{ alignItems: 'center', marginTop: 64 }}>
         <TouchableOpacity onPress={handleButtonClick} style={{
           display: 'flex',
           width: 343,

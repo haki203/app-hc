@@ -16,7 +16,7 @@ const ReportB = () => {
       <View style={styles.header}>
         <Image
           style={styles.ic_back}
-          source={require('../image/ic_backReport.png')}></Image>
+          source={require(baseImgPath+'ic_backReport.png')}></Image>
         <Text style={styles.text1}>Yêu cầu hỗ trợ sự cố</Text>
         <Image></Image>
       </View>
@@ -31,7 +31,7 @@ const ReportB = () => {
             <Text style={styles.in4_sdt}>SĐT: 0942144169</Text>
             <Image
               style={styles.sticker}
-              source={require('../image/ic_sticker.png')}
+              source={require(baseImgPath+'ic_sticker.png')}
             />
           </View>
         </View>
@@ -41,7 +41,7 @@ const ReportB = () => {
           <View style={styles.status1}>
             <Image
               style={styles.ic}
-              source={require('../image/ic_tick.png')}></Image>
+              source={require(baseImgPath+'ic_tick.png')}></Image>
             <View style={styles.status1_text}>
               <Text style={styles.status1_text__name}>Yêu cầu</Text>
               <Text style={styles.status1_text_time}>09:25 am</Text>
@@ -51,7 +51,7 @@ const ReportB = () => {
           <View style={styles.status2}>
             <Image
               style={styles.ic}
-              source={require('../image/ic_reload.png')}></Image>
+              source={require(baseImgPath+'ic_reload.png')}></Image>
             <View style={styles.status1_text}>
               <Text style={styles.status1_text__name}>
                 Yêu cầu đã được tiếp nhận
@@ -63,7 +63,7 @@ const ReportB = () => {
           <View style={styles.status1}>
             <Image
               style={styles.ic}
-              source={require('../image/ic_reload.png')}></Image>
+              source={require(baseImgPath+'ic_reload.png')}></Image>
             <View style={styles.status1_text}>
               <Text style={styles.status1_text__name}>
                 Yêu cầu đã được hoàn thành

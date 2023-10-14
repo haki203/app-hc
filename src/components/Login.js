@@ -1,20 +1,22 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-
+import React,{useContext} from 'react'
+const baseImgPath = '../assets/images/';
+import { AppContext } from '../context/AppContext';
 const Login = () => {
+    const { isLogin, setIsLogin } = useContext(AppContext);
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.body}>
-                    <Image style={styles.logo} source={require('../Image/fpt.png')}/>
+                    <Image style={styles.logo} source={require(baseImgPath+'fpt.png')}/>
                     <View style={styles.btn}>
                          <Pressable style={styles.btncoso}>
                         <Text style={{textAlign:'center',fontSize:14}}>Lựa chọn cơ sở</Text>
                     </Pressable>
-                    <Pressable style={styles.btngg}>
-                    <Image style={{marginRight:10,marginTop:-2}} source={require('../Image/logogg.png')}/>
+                    <Pressable style={styles.btngg} onPress={()=>setIsLogin(true)}>
+                    <Image style={{marginRight:10,marginTop:-2}} source={require(baseImgPath+'logogg.png')}/>
 
-                        <Text style={{textAlign:'center',color:'#FFFFFF',fontSize:14}}>Google</Text>
+                        <Text  style={{textAlign:'center',color:'#FFFFFF',fontSize:14}}>Google</Text>
                     </Pressable>
                     </View>
                    

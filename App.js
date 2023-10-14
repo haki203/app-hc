@@ -1,13 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import Report from './src/LongVu/Report'
-import History from './src/LongVu/History'
+
+import { AppContextProvider } from './src/context/AppContext'
+import { NavigationContainer } from '@react-navigation/native'
+import AppNavigator from './src/navigation/AppNavigator'
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <History/>
-    </View>
+    <AppContextProvider >
+      <NavigationContainer >
+        <AppNavigator />
+      </NavigationContainer>
+    </AppContextProvider>
   )
 }
 

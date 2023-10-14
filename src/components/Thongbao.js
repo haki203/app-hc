@@ -1,7 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View, FlatList } from 'react-native'
-import React from 'react'
+import React,{useContext,useEffect} from 'react'
 import Icon from "react-native-vector-icons/AntDesign"
-
+import { AppContext } from '../context/AppContext'
 
 const Thongbao = (props) => {
     const { navigation } = props;
@@ -32,7 +32,7 @@ const Thongbao = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Icon style={styles.iconleft} name='left' size={20} color="#FFFFFF" />
+                <Icon onPress={()=>navigation.goBack()} style={styles.iconleft} name='left' size={20} color="#FFFFFF" />
                 <Text style={styles.title}>
                     Thông báo
                 </Text>

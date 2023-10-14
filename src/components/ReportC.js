@@ -9,63 +9,83 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-
-const ReportA = () => {
+const baseImgPath = '../assets/images/';
+const ReportC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
           style={styles.ic_back}
-          source={require('../image/ic_backReport.png')}></Image>
-        <Text style={styles.text1}>Yêu cầu hỗ trợ sự cố</Text>
+          source={require(baseImgPath+'ic_backReport.png')}></Image>
+        <Text style={styles.text1}>Yêu cầu</Text>
         <Image></Image>
       </View>
       <View style={styles.body}>
+        <View style={styles.in4}>
+          <Text style={styles.in4_text1}>Sự cố về cơ sở vật chất</Text>
+          <Text style={styles.in4_name}>Người tiếp nhận:Nguyễn Trung Hải</Text>
+
+          <View style={styles.in4_chitiet}>
+            <Text style={styles.in4_day}>8-2-2023</Text>
+            <Text style={styles.in4_time}>09:05 am</Text>
+            <Text style={styles.in4_sdt}>Phòng: T1101</Text>
+            <Image
+              style={styles.sticker}
+              source={require(baseImgPath+'ic_sticker.png')}
+            />
+          </View>
+        </View>
+
         <Text style={styles.text2}>Trạng thái yêu cầu</Text>
         <View style={styles.status}>
           <View style={styles.status1}>
             <Image
               style={styles.ic}
-              source={require('../image/ic_tick.png')}></Image>
+              source={require(baseImgPath+'ic_tick.png')}></Image>
             <View style={styles.status1_text}>
               <Text style={styles.status1_text__name}>Yêu cầu</Text>
-              <Text style={styles.status1_text_time}>09:25 am</Text>
+              <Text style={styles.status1_text_time}>8-2-2023 | 09:05 am</Text>
             </View>
           </View>
           <View style={styles.line1}></View>
           <View style={styles.status2}>
             <Image
               style={styles.ic}
-              source={require('../image/ic_reload.png')}></Image>
+              source={require(baseImgPath+'ic_tick.png')}></Image>
             <View style={styles.status1_text}>
               <Text style={styles.status1_text__name}>
                 Yêu cầu đã được tiếp nhận
               </Text>
-              <Text style={styles.status1_text_time}>__:__ am</Text>
+              <Text style={styles.status1_text_time}>8-2-2023 | 09:40 am</Text>
             </View>
           </View>
           <View style={styles.line2}></View>
           <View style={styles.status1}>
             <Image
               style={styles.ic}
-              source={require('../image/ic_reload.png')}></Image>
+              source={require(baseImgPath+'ic_reload.png')}></Image>
             <View style={styles.status1_text}>
               <Text style={styles.status1_text__name}>
                 Yêu cầu đã được hoàn thành
               </Text>
-              <Text style={styles.status1_text_time}>__:__ am</Text>
+              <Text style={styles.status1_text_time}>8-2-2023 | 10:00 am</Text>
             </View>
           </View>
         </View>
       </View>
-      <TouchableOpacity style={styles.btnDanhGia}>
-        <Text style={styles.textBtn}>Phản hồi</Text>
-      </TouchableOpacity>
+      {/* <TouchableOpacity style={styles.btnDanhGia}>
+          <Text style={styles.textBtn}>Phản hồi</Text>
+        </TouchableOpacity> */}
+      <View style={styles.danhgia}>
+        <Text style={styles.danhgia_text}>
+          Sự cố này hoàn thành chưa được tốt cần khắc phục
+        </Text>
+      </View>
     </View>
   );
 };
 
-export default ReportA;
+export default ReportC;
 
 const styles = StyleSheet.create({
   container: {
@@ -80,6 +100,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
     height: 60,
+  },
+  body: {
+    width: '100%',
+    height: '70%',
   },
   ic_back: {
     width: 24,
@@ -98,7 +122,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontFamily: 'Poppins',
     marginBottom: 30,
-    marginTop: 50,
+    marginTop: 20,
   },
   status: {
     flexDirection: 'column',
@@ -152,14 +176,13 @@ const styles = StyleSheet.create({
   },
   btnDanhGia: {
     // backgroundColor: '#D97245',
-    borderWidth:1,
-    borderColor:'#D97245',
+    borderWidth: 1,
+    borderColor: '#D97245',
     width: '100%',
     height: 40,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 70,
   },
   textBtn: {
     fontSize: 12,
@@ -167,4 +190,63 @@ const styles = StyleSheet.create({
     color: '#D97245',
     fontFamily: 'Poppins',
   },
+  in4: {
+    width: '100%',
+    height: 'auto',
+    backgroundColor: '#F1F4F5',
+    borderRadius: 10,
+    padding: 20,
+    borderWidth: 0.4,
+  },
+  in4_text1: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#000000',
+    fontFamily: 'Poppins',
+  },
+  in4_name: {
+    fontSize: 12,
+    color: '#000000',
+    fontFamily: 'Poppins',
+    marginTop: 15,
+  },
+  in4_chitiet: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 5,
+    width: '100%',
+  },
+  in4_day: {
+    fontSize: 12,
+    color: '#000000',
+    fontFamily: 'Poppins',
+  },
+  in4_time: {
+    fontSize: 12,
+    color: '#000000',
+    fontFamily: 'Poppins',
+  },
+  in4_sdt: {
+    fontSize: 12,
+    color: '#000000',
+    fontFamily: 'Poppins',
+  },
+  sticker: {
+    width: 48,
+    height: 48,
+    marginTop: -50,
+  },
+  danhgia: {
+    width: '100%',
+    height: 80,
+    backgroundColor: '#F1F4F5',
+    borderRadius: 10,
+    padding: 20,
+    borderWidth: 0.4,
+  },
+    danhgia_text: {
+        fontSize: 14,
+        color: '#000000',
+        fontFamily: 'Poppins',
+    },
 });
