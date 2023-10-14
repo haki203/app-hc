@@ -9,13 +9,15 @@ import {
   TouchableOpacity,
   View,
   FlatList,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { openPicker } from '@baronha/react-native-multiple-image-picker';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 const baseImgPath = '../assets/images/';
+const { width, height } = Dimensions.get('window');
 const ReportProblem = (props) => {
   const { navigation } = props;
   const data = [
@@ -124,6 +126,8 @@ const ReportProblem = (props) => {
           flex: 1,
           backgroundColor: 'white',
           padding: 15,
+          width: '100%',
+          height: height
         }}>
         <View
           style={{
