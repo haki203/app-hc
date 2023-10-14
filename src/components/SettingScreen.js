@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
         fontSize:16,
         color:'#000000',
         fontWeight:'500',
+        fontFamily:'Poppins'
     }
 
 })

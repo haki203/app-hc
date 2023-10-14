@@ -15,7 +15,7 @@ const Home = (props) => {
                 <Icon onPress={()=>navigation.navigate('Notification')} style={styles.iconmenu} name='bells' size={20} color="#FFFFFF" />
             </View>
             <View style={styles.body}>
-                <Text style={{ textAlign: 'center', fontSize: 18, color: '#000000', fontWeight: '700', padding: 25 }}>Dịch vụ trực tuyến</Text>
+                <Text style={{ textAlign: 'center', fontSize: 18, color: '#000000', fontWeight: '700', padding: 25,}}>Dịch vụ trực tuyến</Text>
                 <TouchableOpacity style={styles.bodyItem} onPress={()=>navigation.navigate('Report')}>
                     <Image style={styles.imgBodyItem} source={require(baseImgPath + 'bc.png')} />
                     <Text style={styles.textBodyItem}>Báo cáo sự cố</Text>

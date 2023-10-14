@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: '400',
         fontStyle: 'normal',
-        paddingTop: 13
+        paddingTop: 13,
+        fontFamily:'Poppins'
       },
       leader2: {
         paddingLeft: 18
