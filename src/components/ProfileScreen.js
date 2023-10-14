@@ -1,16 +1,20 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import React,{useEffect,useContext,useState}from 'react'
+import { AppContext } from '../context/AppContext';
+const baseImgPath = '../assets/images/';
+const ProfileScreen = (props) => {
+    const {navigation}=props;
+    const {isTabVisible, setIsTabVisible} = useContext(AppContext);
 
-const ProfileScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <View style={styles.leftHeader}>
-                    <Image style={styles.icarrowleft} source={require('../../asset/images/icArrowLeft.png')} />
+                <TouchableOpacity style={styles.leftHeader} onPress={()=>navigation.goBack()}>
+                    <Image style={styles.icarrowleft} source={require(baseImgPath+'icArrowLeft.png')} />
                     <Text style={styles.textback}> Trở về</Text>
-                </View >
+                </TouchableOpacity >
                 <View style={styles.centerHeader}>
-                    <Image style={styles.icarrowleft} source={require('../../asset/images/avavtarChibi.png')} />
+                    <Image style={styles.icarrowleft} source={require(baseImgPath+'avavtarChibi.png')} />
                     <Text style={{ color: 'white', fontSize: 25, fontWeight: 500 }}>Nguyễn Trung Hải </Text>
                     <Text style={{ color: 'white', fontSize: 15, fontWeight: 400 }}>Trưởng phòng IT </Text>
                 </View>
@@ -21,7 +25,7 @@ const ProfileScreen = () => {
                         <Text style={{ color: '#d9d9d9', fontSize: 20, fontWeight: 500 }}>Số điện thoại </Text>
                         <Text style={{ color: 'black', fontSize: 18, fontWeight: 400,paddingTop:10 }}>012345678 </Text>
                     </View >
-                   <Image style={{  marginTop: 40 }} source={require('../../asset/images/icContact.png')} />
+                   <Image style={{  marginTop: 40 }} source={require(baseImgPath+'icContact.png')} />
                     
                     
                 </View>

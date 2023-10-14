@@ -16,6 +16,9 @@ import SupportForm from '../components/SupportForm';
 import ReportProblem from '../components/ReportProblem';
 import Login from '../components/Login';
 import Thongbao from '../components/Thongbao';
+import SettingScreen from '../components/SettingScreen';
+import ProfileScreen from '../components/ProfileScreen';
+import ContactScreen from '../components/ContactScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Users = () => {
@@ -34,7 +37,27 @@ const Mains = () => {
             <Stack.Screen name="Report" component={ReportProblem} />
             <Stack.Screen name="Help" component={SupportForm} />
             <Stack.Screen name="Notification" component={Thongbao} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="Setting" component={SettingScreen} />
             
+        </Stack.Navigator>
+
+    )
+}
+const Settings = () => {
+    return (
+        <Stack.Navigator initialRouteName='Setting' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Setting" component={SettingScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />       
+        </Stack.Navigator>
+
+    )
+}
+const Histories = () => {
+    return (
+        <Stack.Navigator initialRouteName='History' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="History" component={History} />
+            <Stack.Screen name="Notification" component={Thongbao} />       
         </Stack.Navigator>
 
     )
@@ -94,7 +117,7 @@ const Home = ({ scrollY }) => {
                 )}
             </Tab.Screen>
             <Tab.Screen
-                name="Yêu thích"
+                name="Lich su"
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ color, size, focused }) => (
@@ -106,11 +129,11 @@ const Home = ({ scrollY }) => {
                 }}
             >
                 {() => (
-                    <History />
+                    <Histories />
                 )}
             </Tab.Screen>
             <Tab.Screen
-                name="Sách hot"
+                name="Ho tro"
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ color, size, focused }) => (
@@ -122,7 +145,7 @@ const Home = ({ scrollY }) => {
                 }}
             >
                 {() => (
-                    <History />
+                    <ContactScreen />
                 )}
             </Tab.Screen>
 
@@ -139,7 +162,7 @@ const Home = ({ scrollY }) => {
                 }}
             >
                 {() => (
-                    <History />
+                    <Settings />
                 )}
             </Tab.Screen>
 

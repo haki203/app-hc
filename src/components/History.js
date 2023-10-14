@@ -1,19 +1,21 @@
 import { StyleSheet, Text, View, Dimensions, Image, FlatList } from 'react-native'
 import React from 'react'
 import ItemHistory from './ItemHistory';
+import Icon from "react-native-vector-icons/AntDesign"
 const bacroundHeight = '#FFF';
 const height = Dimensions.get('window').height;
 const baseImgPath = '../assets/images/';
-const History = () => {
+const History = (props) => {
+  const {navigation}=props;
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',}}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: 16, marginTop: 43 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',flex:1,padding:20}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',}}>
             <Image style={styles.profile} source={require(baseImgPath + 'profile.png')}></Image>
             <Text style={styles.text1}>Nguyễn Trung Hải</Text>
           </View>
-          <Image style={styles.notifi} source={require(baseImgPath + 'notifications.png')}></Image>
+          <Icon onPress={()=>navigation.navigate('Notification')} style={styles.iconmenu} name='bells' size={20} color="#FFFFFF" />
         </View>
       </View>
       <View style={styles.leader}>
@@ -112,11 +114,8 @@ const styles = StyleSheet.create({
     paddingLeft: 12
 
   },
-  notifi: {
-    marginRight: 30,
-    marginTop: 43,
-    width: 30,
-    height: 30
+  iconmenu: {
+
   },
   profile: {
     width: 55,
