@@ -1,11 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
 const ItemHistory = (props) => {
     const {product} = props;
+    const {navigation} = props;
   return (
     <View style={styles.container}>
-      <View style={styles.leader}>
+      <TouchableOpacity style={styles.leader} onPress={()=>navigation.navigate('Report')}>
         <View style={styles.leader2}>
           <Text style={styles.text2}>{product.name}</Text>
           <Text style={styles.text3}>Người tiếp nhận: {product.name}</Text>
@@ -18,7 +19,7 @@ const ItemHistory = (props) => {
             <Text></Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   )
 }

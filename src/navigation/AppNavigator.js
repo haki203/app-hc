@@ -58,6 +58,7 @@ const Histories = () => {
         <Stack.Navigator initialRouteName='History' screenOptions={{ headerShown: false }}>
             <Stack.Screen name="History" component={History} />
             <Stack.Screen name="Notification" component={Thongbao} />       
+            <Stack.Screen name="Report" component={Report} />       
         </Stack.Navigator>
 
     )

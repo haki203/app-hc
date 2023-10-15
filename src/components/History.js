@@ -1,28 +1,60 @@
-import { StyleSheet, Text, View, Dimensions, Image, FlatList } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Dimensions, Image, FlatList,ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import ItemHistory from './ItemHistory';
 import Icon from "react-native-vector-icons/AntDesign"
+import AxiosIntance from '../axios/AxiosIntance';
+import Loading from './isLoading/Loading';
+
 const bacroundHeight = '#FFF';
-const height = Dimensions.get('window').height;
+const { width, height } = Dimensions.get('window');
 const baseImgPath = '../assets/images/';
+
 const History = (props) => {
-  const {navigation}=props;
+  const { navigation } = props;
+  const [isLoading, setisLoading] = useState(false);
+
+
+  useEffect(() => {
+    const getNews = async () => {
+      setisLoading(true);
+      const respone = await AxiosIntance().get("/report");
+      if (respone.result == true) {
+
+        // lay du lieu ok
+        // setdataNe(respone.product);
+
+        console.log(respone);
+        setisLoading(false);
+      }
+      else {
+        ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+      }
+    }
+    getNews();
+
+    return () => {
+    }
+  }, []);
+
   return (
     <View style={styles.container}>
+
+      <View>{isLoading ? <Loading/> : <View></View>}</View>
+
       <View style={styles.header}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',flex:1,padding:20}}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1, padding: 20 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
             <Image style={styles.profile} source={require(baseImgPath + 'profile.png')}></Image>
             <Text style={styles.text1}>Nguyễn Trung Hải</Text>
           </View>
-          <Icon onPress={()=>navigation.navigate('Notification')} style={styles.iconmenu} name='bells' size={20} color="#FFFFFF" />
+          <Icon onPress={() => navigation.navigate('Notification')} style={styles.iconmenu} name='bells' size={20} color="#FFFFFF" />
         </View>
       </View>
       <View style={styles.leader}>
         <Text style={styles.text2}>Lịch sử</Text>
         <FlatList
           data={data}
-          renderItem={({ item }) => <ItemHistory product={item} />}
+          renderItem={({ item }) => <ItemHistory product={item} navigation={navigation} />}
           keyExtractor={item => item._id}
           showsVerticalScrollIndicator={false}
         />
@@ -97,7 +129,7 @@ const styles = StyleSheet.create({
   },
   header: {
     height: height * 0.18,
-    
+
   },
   leader: {
     backgroundColor: bacroundHeight,
