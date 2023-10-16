@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 const reportModel = require('../../components/report/ReportModel');
+const userModel = require('../../components/users/UserModel');
 const reportController = require('../../components/report/ReportController');
+
 //api/product
 router.get('/', async (req, res, next) => {
     try {
@@ -20,25 +22,21 @@ router.get('/:id', async (req, res, next) => {
         res.status(400).json({});
     }
 });
-// router.get('/:id', async (req, res, next) => {
-//     const { id } = req.params;
-//     try {
-//         const product = await productController.getProductById(id);
-//         res.status(200).json({product,result:true});
-//     } catch (error) {
-//         res.status(400).json({});
-//     }
-// });
-// // get author by id
-// router.get('/author/:id', async (req, res, next) => {
-//     const { id } = req.params;
-//     try {
-//         const author = await authorModel.findById(id);
-//         res.status(200).json({author,result:true});
-//     } catch (error) {
-//         res.status(400).json({});
-//     }
-// });
+
+// get user by id
+router.get('/user/:id', async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const user = await userModel.findById(id);
+        if(user){
+            console.log(user);
+        }
+        res.status(200).json({user,result:true});
+    } catch (error) {
+        res.status(400).json({});
+    }
+});
+
 // // get category by id
 // router.get('/category/:id', async (req, res, next) => {
 //     const { id } = req.params;
