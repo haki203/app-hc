@@ -29,9 +29,11 @@ router.get('/user/:id', async (req, res, next) => {
     try {
         const user = await userModel.findById(id);
         if(user){
-            console.log(user);
+            res.status(200).json({user,result:true});
         }
-        res.status(200).json({user,result:true});
+        else{
+            res.status(400).json({result:false});
+        }
     } catch (error) {
         res.status(400).json({});
     }
