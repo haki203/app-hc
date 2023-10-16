@@ -3,7 +3,6 @@ import React, {useContext} from 'react'
 import ItemHistory from './ItemHistory';
 import Icon from "react-native-vector-icons/AntDesign"
 import { AppContext } from '../context/AppContext';
-
 const bacroundHeight = '#FFF';
 const height = Dimensions.get('window').height;
 const baseImgPath = '../assets/images/';
