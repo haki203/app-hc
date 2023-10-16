@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const reportModel = require('../../components/report/ReportModel');
 const userModel = require('../../components/users/UserModel');
+const adminModel = require('../../components/users/AdminModel');
 const reportController = require('../../components/report/ReportController');
 
 //api/product
