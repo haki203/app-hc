@@ -5,7 +5,7 @@ const validation = require('../../middle/Validation');
 const jwt = require('jsonwebtoken');
 const userModel = require('../../components/users/UserModel');
 const adminModel = require('../../components/users/AdminModel');
-
+const typeModel = require('../../components/report/TypeModel');
 const { authenApp } = require('../../middle/Authen');
 //api login
 // r
@@ -143,6 +143,20 @@ router.get('/admin', async (req, res, next) => {
         }
     } catch (error) {
         res.status(400).json({result:false});
+    }
+});
+// get category
+router.get('/category', async (req, res, next) => {
+    try {
+        const category = await typeModel.find({});
+        if (category) {
+            res.status(200).json({ category, result: true });
+        }
+        else {
+            res.status(400).json({ result: false, message: "không có danh mục nào" });
+        }
+    } catch (error) {
+        res.status(400).json({ result: false});
     }
 });
 // get user by id
