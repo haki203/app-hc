@@ -19,8 +19,8 @@ router.get('/:id', async (req, res, next) => {
         const report = await reportModel.findById(id);
         res.status(200).json({report,result:true});
     } catch (error) {
-        res.status(400).json({});
-    }
+        res.status(400).json({result:false,message:'khong có id này'});
+    }false
 });
 
 // get user by id

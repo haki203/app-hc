@@ -1,20 +1,26 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { Image } from 'react-native-elements';
 
 const ItemHistory = (props) => {
-    const {product} = props;
+    const {report} = props;
     const {navigation} = props;
+    const clickItem = () => {
+      navigation.navigate('Report', {id: report._id});
+    }
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.leader} onPress={()=>navigation.navigate('Report')}>
+      <TouchableOpacity style={styles.leader} onPress={clickItem}>
         <View style={styles.leader2}>
-          <Text style={styles.text2}>{product.name}</Text>
-          <Text style={styles.text3}>Người tiếp nhận: {product.name}</Text>
+          <Text style={styles.text2}>{report.type}</Text>
+          <View style={{flexDirection: 'row'}}>
+          <Text style={styles.text3}>Người tiếp nhận: {report.userId}</Text>
+          <Image source={{uri: report.image}} style={styles.profile}></Image>
+          </View>
           <View style={styles.leader3}>
-            <Text style={styles.text4}>{product.date}</Text>
-            <Text style={styles.text4}>{product.time}</Text>
-            <Text style={styles.text4}>Phòng: {product.room}</Text>
-            <Text></Text>
+            <Text style={styles.text4}>{report.report_date}</Text>
+            <Text style={styles.text4}>{report.time}</Text>
+            <Text style={styles.text4}>Phòng: {report.room}</Text>
             <Text></Text>
             <Text></Text>
           </View>
@@ -62,37 +68,45 @@ const styles = StyleSheet.create({
       text2: {
         color: '#000',
         fontSize: 14,
-        fontWeight: '600',
+        fontWeight: '700',
         fontStyle: 'normal',
-        paddingTop: 17
+        paddingTop: 17,
+        fontFamily: 'Poppins'
       },
       text3: {
         color: '#000',
         fontSize: 12,
-        fontWeight: '400',
+        fontWeight: '500',
         fontStyle: 'normal',
         paddingTop: 13,
         fontFamily:'Poppins'
       },
       leader2: {
-        paddingLeft: 18
+        paddingLeft: 18,
       },
       leader3: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingTop: 5
       },
       text4: {
         color: '#000',
         fontSize: 12,
-        fontWeight: '400',
+        fontWeight: '500',
         fontStyle: 'normal',
+        fontFamily: 'Poppins'
       },
       text5: {
         color: '#000',
         fontSize: 15,
-        fontWeight: '700',
+        fontWeight: '800',
         fontStyle: 'normal',
-        padding: 17
+        padding: 17,
+        fontFamily: 'Poppins'
       },
+      profile:{
+        width: 40,
+        height: 40,
+        borderRadius: 50,
+        marginLeft: 40
+      }
 })
