@@ -1,115 +1,102 @@
 var express = require('express');
 var router = express.Router();
-const reportModel = require('../../components/report/ReportModel');
-const typeModel = require('../../components/report/TypeModel');
-const userModel = require('../../components/users/UserModel');
-const adminModel = require('../../components/users/AdminModel');
-const moment = require('moment'); // Import thư viện moment
 const reportController = require('../../components/report/ReportController');
-// API POST để thêm báo cáo
-router.post('/new', async (req, res) => {
+const appFirebase = require("../../config/FirebaseConfig")
+
+const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
+const multer = require("multer");
+
+// Initialize Cloud Storage and get a reference to the service
+const storage = getStorage();
+
+// Setting up multer as a middleware to grab photo uploads
+const upload = multer({ storage: multer.memoryStorage() });
+
+
+//http://localhost:3000/api/report/list
+router.get('/list', async (req, res, next) => {
     try {
-        let {
-            report_date,
-            userId,
-            type,
-            room,
-            image,
-            time,
-            admin,
-            accept,
-            done,
-            description,
-        } = req.body; // Lấy dữ liệu từ yêu cầu POST
-
-        if (!report_date) {
-            // Sử dụng hàm new Date() để lấy ngày hiện tại và chuyển định dạng thành chuỗi
-            report_date = moment().format('DD/MM/YYYY');
+        const reports = await reportController.getAllReport();
+        console.log("reports :" ,reports)
+        if (reports) {
+            return res.status(200).json({ result: true, reports: reports });
         }
-        if (!time) {
-            // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
-            time = moment().format('hh:mm A');
-        }
-        // Kiểm tra và đặt các trường là chuỗi rỗng nếu chúng là null hoặc undefined
-        const adminValue = admin || '';
-        const imageValue = image || 'http://dummyimage.com/142x100.png/5fa2dd/ffffff';
-        const acceptValue = accept || '';
-        const doneValue = done || '';
-        const descriptionValue = description || '';
+    } catch (error) {
+        console.log("API:" + error)
+        return res.status(500).json({ result: false, massage: "Can't get reports"})
+    }
+})
 
-        // Tạo một bản ghi report mới
-        const newReport = new reportModel({
-            report_date,
-            userId,
-            type,
-            room,
-            image:imageValue,
-            time,
-            admin: adminValue,
-            accept: acceptValue,
-            done: doneValue,
-            description: descriptionValue,
+//http://localhost:3000/api/report/newReport
+router.post('/newReport/:userId/:typeId', upload.array("filename"), async (req, res, next) => {
+    try {
+        const { room, option, description} = req.body;
+        const {userId, typeId} = req.query
+        const createAt = new Date();
+
+        const dateTime = giveCurrentDateTime();
+    
+        const uploadPromises = req.files.map(async (file) => {
+          const storageRef = ref(storage, `images/${file.originalname + " " + dateTime}`);
+          const metadata = {
+            contentType: file.mimetype,
+          };
+    
+          const snapshot = await uploadBytesResumable(storageRef, file.buffer, metadata);
+          const downloadURL = await getDownloadURL(snapshot.ref);
+    
+          return downloadURL; 
         });
+    
+        const urls = await Promise.all(uploadPromises);
 
-        // Lưu bản ghi report vào cơ sở dữ liệu
-        await newReport.save();
-
-        res.status(201).json({ result: true, message: 'Báo cáo đã được thêm thành công.' });
-    } catch (error) {
-        res.status(400).json({ result: false, message: 'Lỗi khi thêm báo cáo.'+error });
-    }
-});
-// get category
-router.get('/category', async (req, res, next) => {
-    try {
-
-        const category = await typeModel.find({});
-        if (category) {
-            res.status(200).json({ category, result: true });
+        const report = await reportController.newReport(room, urls, option, createAt, description, userId, typeId);
+        
+        if (report) {
+            return res.status(200).json({ result: true, report: report, message: "Add Success" });
         }
-        else {
-            res.status(400).json({ result: false, message: "không có danh mục nào" });
-        }
+        return res.status(400).json({ result: false, report: null, message: "Add Fail" });
+
     } catch (error) {
-        res.status(400).json({ result: false });
+        return res.status(500).json({ result: false, report: null })
     }
-});
+})
 
+const giveCurrentDateTime = () => {
+    const today = new Date();
+    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const dateTime = date + ' ' + time;
+    return dateTime;
+}
 
-//api/product
-router.get('/', async (req, res, next) => {
+// http://localhost:3000/api/report/upload
+router.post("/upload", upload.array("filename"), async (req, res) => {
     try {
-        const report = await reportController.getAllServices();
-        res.status(200).json({ report, result: true });
-    } catch (error) {
-        res.status(400).json({ result: false });
-    }
+        const dateTime = giveCurrentDateTime();
+    
+        const uploadPromises = req.files.map(async (file) => {
+          const storageRef = ref(storage, `images/${file.originalname + " " + dateTime}`);
+          const metadata = {
+            contentType: file.mimetype,
+          };
+    
+          const snapshot = await uploadBytesResumable(storageRef, file.buffer, metadata);
+          const downloadURL = await getDownloadURL(snapshot.ref);
+    
+          return downloadURL; 
+        });
+    
+        const urls = await Promise.all(uploadPromises); 
+    
+        console.log("Tải lên tệp thành công.");
+        return res.send({
+          message: "Tệp đã được tải lên vào lưu trữ Firebase",
+          downloadURLs: urls, 
+        });
+      } catch (error) {
+        return res.status(400).send(error.message);
+      }
 });
-router.get('/:id', async (req, res, next) => {
-    const { id } = req.params;
-    try {
-        const report = await reportModel.findById(id);
-        res.status(200).json({ report, result: true });
-    } catch (error) {
-        res.status(400).json({});
-    }
-});
-
-// get user by id
-router.get('/user/:id', async (req, res, next) => {
-    const { id } = req.params;
-    try {
-        const user = await userModel.findById(id);
-        if (user) {
-            res.status(200).json({ user, result: true });
-        }
-        else {
-            res.status(400).json({ result: false });
-        }
-    } catch (error) {
-        res.status(400).json({});
-    }
-});
-
 
 module.exports = router;
