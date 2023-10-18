@@ -52,7 +52,7 @@ const Report = (props) => {
         <View style={styles.leader2}>
           <Text style={styles.text2}>{data.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}</Text>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.text3}>Người tiếp nhận: {data.admin.full_name}</Text>
+            {/* <Text style={styles.text3}>Người tiếp nhận: {data.admin.full_name}</Text> */}
           </View>
           <View style={styles.leader3}>
             <Text style={styles.text4}>{data.report_date}</Text>
