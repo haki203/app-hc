@@ -1,5 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import AxiosIntance from '../axios/AxiosIntance';
+import Loading from './isLoading/Loading';
 const baseImgPath = '../assets/images/';
 const Report = (props) => {
   const {navigation} = props
@@ -12,6 +14,15 @@ const Report = (props) => {
   const [text4, setText4] = useState('__:__ am');
   const [buttonText, setButtonText] = useState('Phản hồi');
   const [buttonBackgroundColor, setButtonBackgroundColor] = useState('rgba(217, 114, 69, 0.80)');
+  const {route} = props;
+  const {params} = route;
+  const [type, settype] = useState("");
+  const [userId, setuserId] = useState("");
+  const [report_date, setreport_date] = useState("");
+  const [time, settime] = useState("");
+  const [room, setroom] = useState("")
+  const [image, setimage] = useState("");
+  const [isLoading, setisLoading] =useState(true);
   const handleButtonClick = () => {
     switch (currentStep) {
       case 1:
@@ -31,8 +42,36 @@ const Report = (props) => {
         setCurrentStep(3);
     }
   };
+
+  useEffect(() => {
+    const getNews = async () => {
+      setisLoading(true);
+      const response = await AxiosIntance().get("/report/" + params.id);
+      console.log('reponse' + response)
+      console.log('error new detail product: ', response.result)
+      if (response.result == true) {
+        // lay du lieu ok
+        settype(response.report.type);
+        setuserId(response.report.userId);
+        setreport_date(response.report.report_date);
+        settime(response.report.time);
+        setroom(response.report.room);
+        setimage(response.report.image);
+        console.log("du lieu"+response.report);
+        setisLoading(false);
+      }
+      else {
+        ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+      }
+    }
+    getNews();
+
+    return () => {
+    }
+  }, []);
   return (
     <View style={styles.container}>
+      <View>{isLoading ? <Loading/> : <View></View>}</View>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
           <Image style={styles.back} source={require(baseImgPath + 'back.png')}></Image>
@@ -43,12 +82,15 @@ const Report = (props) => {
       </View>
       <View style={styles.leader}>
         <View style={styles.leader2}>
-          <Text style={styles.text2}>Sự cố về cơ sở vật chất</Text>
-          <Text style={styles.text3}>Người tiếp nhận: Nguyễn Trung Hải</Text>
+          <Text style={styles.text2}>{type}</Text>
+          <View style={{flexDirection: 'row'}}>
+          <Text style={styles.text3}>Người tiếp nhận: {userId}</Text>
+          <Image style={styles.profile} source={{uri: image}}></Image>
+          </View>
           <View style={styles.leader3}>
-            <Text style={styles.text4}>8-2-2023</Text>
-            <Text style={styles.text4}>09:05 am</Text>
-            <Text style={styles.text4}>SĐT: 0797151033</Text>
+            <Text style={styles.text4}>{report_date}</Text>
+            <Text style={styles.text4}>{time}</Text>
+            <Text style={styles.text4}>Phòng: {room}</Text>
             <Text></Text>
             <Text></Text>
             <Text></Text>
@@ -144,8 +186,9 @@ const styles = StyleSheet.create({
   text: {
     color: 'rgba(0, 0, 0, 0.87)',
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '800',
     fontStyle: 'normal',
+    fontFamily: 'Poppins'
   },
   leader: {
     backgroundColor: '#F1F4F5',
@@ -162,16 +205,18 @@ const styles = StyleSheet.create({
   text2: {
     color: '#000',
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
     fontStyle: 'normal',
-    paddingTop: 17
+    paddingTop: 17,
+    fontFamily: 'Poppins'
   },
   text3: {
     color: '#000',
     fontSize: 12,
-    fontWeight: '400',
+    fontWeight: '500',
     fontStyle: 'normal',
-    paddingTop: 13
+    paddingTop: 13,
+    fontFamily: 'Poppins'
   },
   leader2: {
     paddingLeft: 18
@@ -179,34 +224,37 @@ const styles = StyleSheet.create({
   leader3: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 5
   },
   text4: {
     color: '#000',
     fontSize: 12,
-    fontWeight: '400',
+    fontWeight: '500',
     fontStyle: 'normal',
+    fontFamily: 'Poppins'
   },
   text5: {
     color: '#000',
     fontSize: 15,
-    fontWeight: '700',
+    fontWeight: '800',
     fontStyle: 'normal',
-    padding: 17
+    padding: 17,
+    fontFamily: 'Poppins'
   },
   text6: {
     color: '#000',
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
     fontStyle: 'normal',
-    marginTop: 2
+    marginTop: 2,
+    fontFamily: 'Poppins'
   },
   text7: {
     color: '#000',
     fontSize: 12,
-    fontWeight: '400',
+    fontWeight: '500',
     fontStyle: 'normal',
-    marginTop: 4
+    marginTop: 4,
+    fontFamily: 'Poppins'
   },
   button: {
     display: 'flex',
@@ -224,5 +272,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10, // Padding theo chiều dọc (top và bottom)
     paddingHorizontal: 33, // Padding theo chiều ngang (left và right),
 
+  },      
+  profile:{
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    marginLeft: 40
   }
 })
