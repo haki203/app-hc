@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 const baseImgPath = '../assets/images/';
 const Report = (props) => {
   const {navigation} = props
+  const {data} = props
   const [currentStep, setCurrentStep] = useState(1);
   const [imageSource1, setImageSource1] = useState(require(baseImgPath + 'resum.png'));
   const [imageSource2, setImageSource2] = useState(require(baseImgPath + 'resum.png'));
