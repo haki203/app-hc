@@ -8,9 +8,29 @@ import {
   Touchable,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React,{useEffect,useState} from 'react';
+import AxiosIntance from '../axios/AxiosIntance';
+import Loading from './isLoading/Loading';
+
 const baseImgPath = '../assets/images/';
+
 const ReportA = () => {
+
+  useEffect(() => {
+    const getReportHistory = async () => {
+      const respone = await AxiosIntance().get("/report");
+      if (respone.result == true) {
+        console.log(respone);
+      }
+      else {
+        ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+      }
+    }
+    getReportHistory();
+
+    return () => {
+    }
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
