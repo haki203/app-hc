@@ -36,7 +36,7 @@ router.post('/new', async (req, res) => {
         const acceptValue = accept || '';
         const doneValue = done || '';
         const descriptionValue = description || '';
-
+        const status =0;
         // Tạo một bản ghi report mới
         const newReport = new reportModel({
             report_date,
@@ -49,6 +49,7 @@ router.post('/new', async (req, res) => {
             accept: acceptValue,
             done: doneValue,
             description: descriptionValue,
+            status:status
         });
 
         // Lưu bản ghi report vào cơ sở dữ liệu
