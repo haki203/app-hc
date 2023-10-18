@@ -18,7 +18,7 @@ const History = (props) => {
     const getNews = async () => {
       setisLoading(true);
       const respone = await AxiosIntance().get("/report");
-      console.log('reponse' + respone)
+      console.log('reponse ' + respone.report[1].admin.full_name)
       if (respone.result == true) {
 
         // lay du lieu ok
@@ -49,7 +49,8 @@ const History = (props) => {
       </View>
       <View style={styles.leader}>
         <Text style={styles.text2}>Lịch sử</Text>
-        <View>{isLoading ? <Loading /> : <FlatList
+        <View>{isLoading ? <Loading /> : 
+        <FlatList
           data={dataNe}
           renderItem={({ item }) => <ItemHistory report={item} navigation={navigation} />}
           keyExtractor={item => item._id}
