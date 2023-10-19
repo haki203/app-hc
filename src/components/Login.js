@@ -19,8 +19,8 @@ const Login = () => {
       setIsLogin(true);
 
     }
-    catch {
-      ToastAndroid.show("Đăng nhập thất bại", ToastAndroid.SHORT);
+    catch (error){
+      ToastAndroid.show("Đăng nhập thất bại"+error, ToastAndroid.SHORT);
     }
   }
   return (
