@@ -2,7 +2,7 @@ import { Image, Pressable, StyleSheet, Text, View, ToastAndroid } from 'react-na
 import React, { useContext } from 'react'
 const baseImgPath = '../assets/images/';
 import { AppContext } from '../context/AppContext';
-import { _siginWithGoogle } from '../firebase/GoogleSigin';
+
 import AxiosIntance from '../axios/AxiosIntance';
 const Login = () => {
   const { setinfoUser, setIsLogin } = useContext(AppContext);
@@ -12,7 +12,6 @@ const Login = () => {
   const logingoogle = async () => {
     try {
       console.log("login");
-      _siginWithGoogle();
       const res = await AxiosIntance().get("/user/login-google/tho387vm@gmail.com ");
       setinfoUser(res.user);
       console.log(res.user);
@@ -20,8 +19,8 @@ const Login = () => {
       setIsLogin(true);
 
     }
-    catch (error) {
-      ToastAndroid.show("Đăng nhập thất bại" + error, ToastAndroid.SHORT);
+    catch (error){
+      ToastAndroid.show("Đăng nhập thất bại"+error, ToastAndroid.SHORT);
     }
   }
   return (
