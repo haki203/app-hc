@@ -2,16 +2,22 @@ import { Image, Pressable, StyleSheet, Text, View, ToastAndroid } from 'react-na
 import React, { useContext } from 'react'
 const baseImgPath = '../assets/images/';
 import { AppContext } from '../context/AppContext';
-
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import AxiosIntance from '../axios/AxiosIntance';
 const Login = () => {
   const { setinfoUser, setIsLogin } = useContext(AppContext);
 
-
+  GoogleSignin.configure({
+    webClientId: '796405893611-6ka7dp7je723lkc54igmi0u43suo76vk.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+    offlineAccess: false,
+  });
 
   const logingoogle = async () => {
     try {
       console.log("login");
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
       const res = await AxiosIntance().get("/user/login-google/tho387vm@gmail.com ");
       setinfoUser(res.user);
       console.log(res.user);
@@ -19,8 +25,9 @@ const Login = () => {
       setIsLogin(true);
 
     }
-    catch (error){
-      ToastAndroid.show("Đăng nhập thất bại"+error, ToastAndroid.SHORT);
+    catch (error) {
+      ToastAndroid.show("Đăng nhập thất bại" + error, ToastAndroid.SHORT);
+      console.error(error);
     }
   }
   return (
