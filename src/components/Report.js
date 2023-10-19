@@ -1,38 +1,52 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import AxiosIntance from '../axios/AxiosIntance';
+import Loading from './isLoading/Loading';
 const baseImgPath = '../assets/images/';
+
+const { width, height } = Dimensions.get('window');
 const Report = (props) => {
-  const {navigation} = props
-  const [currentStep, setCurrentStep] = useState(1);
-  const [imageSource1, setImageSource1] = useState(require(baseImgPath + 'resum.png'));
-  const [imageSource2, setImageSource2] = useState(require(baseImgPath + 'resum.png'));
-  const [text1, setText1] = useState('Yêu cầu đã được tiếp nhận');
-  const [text2, setText2] = useState('__:__ am');
-  const [text3, setText3] = useState('Yêu cầu đã hoàn thành');
-  const [text4, setText4] = useState('__:__ am');
-  const [buttonText, setButtonText] = useState('Phản hồi');
-  const [buttonBackgroundColor, setButtonBackgroundColor] = useState('rgba(217, 114, 69, 0.80)');
-  const handleButtonClick = () => {
-    switch (currentStep) {
-      case 1:
-        setImageSource1(require(baseImgPath + 'tick.png'));
-        setText1('Yêu cầu đã được tiếp nhận');
-        setText2('10:00 am');
-        setButtonText('Phản hồi');
-        setButtonBackgroundColor('rgba(217, 114, 69, 0.80)');
-        setCurrentStep(2);
-        break;
-      case 2:
-        setImageSource2(require(baseImgPath + 'tick.png'));
-        setText3('Yêu cầu đã hoàn thành');
-        setButtonText('Đánh giá');
-        setText4('12:00 pm');
-        setButtonBackgroundColor('#D97245');
-        setCurrentStep(3);
+  const { navigation } = props;
+  const { route } = props;
+  const { params } = route;
+  const { id } = params;
+  const [isLoading, setisLoading] = useState(false);
+  const [data, setdataNe] = useState([]);
+  const [admin, setAdmin] = useState("");
+  const [image, setImage] = useState("http://dummyimage.com/142x100.png/5fa2dd/ffffff");
+
+  useEffect(() => {
+    const getNews = async () => {
+
+      const response = await AxiosIntance().get(`/report/${id}`);
+
+      console.log(response.report);
+      if (response.result == true) {
+        // console.log(respone.report.admin);
+        // lay du lieu ok
+        setdataNe(response.report);
+        try {
+          setAdmin(response.report.admin.full_name);
+          setImage(response.report.image)
+        } catch (error) {
+          
+        }
+        setisLoading(false);
+      }
+      else {
+        ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+      }
     }
-  };
+    setisLoading(true);
+    getNews();
+
+    return () => {
+    }
+  }, []);
+
   return (
     <View style={styles.container}>
+      <View>{isLoading ? <Loading /> : <View></View>}</View>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
           <Image style={styles.back} source={require(baseImgPath + 'back.png')}></Image>
@@ -42,13 +56,16 @@ const Report = (props) => {
         <Text></Text>
       </View>
       <View style={styles.leader}>
+        <Image style={styles.profile} source={{ uri: image }}></Image>
         <View style={styles.leader2}>
-          <Text style={styles.text2}>Sự cố về cơ sở vật chất</Text>
-          <Text style={styles.text3}>Người tiếp nhận: Nguyễn Trung Hải</Text>
+          <Text style={styles.text2}>{data.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.text3}>Người tiếp nhận: {admin}</Text>
+          </View>
           <View style={styles.leader3}>
-            <Text style={styles.text4}>8-2-2023</Text>
-            <Text style={styles.text4}>09:05 am</Text>
-            <Text style={styles.text4}>SĐT: 0797151033</Text>
+            <Text style={styles.text4}>{data.report_date}</Text>
+            <Text style={styles.text4}>{data.time}</Text>
+            <Text style={styles.text4}>Phòng: {data.room}</Text>
             <Text></Text>
             <Text></Text>
             <Text></Text>
@@ -56,47 +73,11 @@ const Report = (props) => {
         </View>
       </View>
       <Text style={styles.text5}>Trạng Thái yêu cầu</Text>
-      <View>
-        <View style={{ flexDirection: 'row', paddingLeft: 16 }}>
-          <View style={{ alignItems: 'center' }}>
-            <Image source={require(baseImgPath + 'tick.png')}></Image>
-            <View style={{
-              backgroundColor: '#D9D9D9',
-              width: 4,
-              height: 52
-            }}></View>
-          </View>
-          <View style={{ alignContent: 'center', marginLeft: 36 }}>
-            <Text style={styles.text6}>Yêu cầu</Text>
-            <Text style={styles.text7}>09:25 am</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', paddingLeft: 16 }}>
-          <View style={{ alignItems: 'center' }}>
-            <Image source={imageSource1}></Image>
-            <View style={{
-              backgroundColor: '#D9D9D9',
-              width: 4,
-              height: 52
-            }}></View>
-          </View>
-          <View style={{ alignContent: 'center', marginLeft: 36 }}>
-            <Text style={styles.text6}>{text1}</Text>
-            <Text style={styles.text7}>{text2}</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', paddingLeft: 16 }}>
-          <View style={{ alignItems: 'center' }}>
-            <Image source={imageSource2}></Image>
-          </View>
-          <View style={{ alignContent: 'center', marginLeft: 36 }}>
-            <Text style={styles.text6}>{text3}</Text>
-            <Text style={styles.text7}>{text4}</Text>
-          </View>
-        </View>
+      <View style={{ height: '56%', width: '100%', padding: 20, paddingBottom: 15 }}>
+        <Content data={data} />
       </View>
-      <View style={{ alignItems: 'center', marginTop: 64 }}>
-        <TouchableOpacity onPress={handleButtonClick} style={{
+      <View style={{ alignItems: 'center', }}>
+        <TouchableOpacity style={{
           display: 'flex',
           width: 343,
           height: 40,
@@ -104,10 +85,10 @@ const Report = (props) => {
           alignItems: 'center',
           flexShrink: 0,
           gap: 10,
-          backgroundColor: buttonBackgroundColor,
           borderWidth: 1,
           borderColor: 'rgba(217, 114, 69, 0.80)',
           borderStyle: 'solid',
+          backgroundColor: '#D97245',
           borderRadius: 8,
           paddingVertical: 10, // Padding theo chiều dọc (top và bottom)
           paddingHorizontal: 33, // Padding theo chiều ngang (left và right),
@@ -117,13 +98,80 @@ const Report = (props) => {
             fontSize: 12,
             fontWeight: '700',
             fontStyle: 'normal',
-          }}>{buttonText}</Text>
+          }}>{data.status === 2 ? 'Đánh giá' : 'Phản hồi'}</Text>
         </TouchableOpacity>
       </View>
     </View>
   )
 }
-
+const Content = (props) => {
+  const { data } = props;
+  const status = data.status;
+  return (
+    <View style={{ flex: 1,  flexDirection: 'row' }}>
+      <View style={{ width: 70, height: '100%', backgroundColor: 'white', padding: 5, alignItems: 'center' }}>
+        <Image source={status < 0 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
+        <View style={{ height: '22%', width: 3, backgroundColor: '#d3d3d3' }}></View>
+        <Image source={status < 1 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
+        <View style={{ height: '22%', width: 3, backgroundColor: '#d3d3d3' }}></View>
+        <Image source={status < 2 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
+      </View>
+      <View style={{ flexDirection: 'column',flex:1 }}>
+        <View style={{padding:20,width:'100%',flex:1}}>
+          {
+            (status < 1) ?
+              (
+                <View style={{ flexDirection: 'column' }}>
+                  <Text>Yêu cầu</Text>
+                  <Text>{data.time}</Text>
+                </View>
+              ) :
+              (
+                <View style={{ flexDirection: 'column' }}>
+                  <Text>Yêu cầu xử lý</Text>
+                  <Text>{data.time}</Text>
+                </View>
+              )
+          }
+        </View>
+        <View style={{padding:20,width:'100%',flex:1}}>
+          {
+            (status < 1) ?
+              (
+                <View style={{ flexDirection: 'column' }}>
+                  <Text>Yêu cầu đã được tiếp nhận</Text>
+                  <Text>__:__</Text>
+                </View>
+              ) :
+              (
+                <View style={{ flexDirection: 'column' }}>
+                  <Text>Yêu cầu đã được tiếp nhận</Text>
+                  <Text>{data.accept}</Text>
+                </View>
+              )
+          }
+        </View>
+        <View style={{padding:20,width:'100%',flex:1}}>
+          {
+            (status <2) ?
+              (
+                <View style={{ flexDirection: 'column' }}>
+                  <Text>Yêu cầu đã hoàn thành</Text>
+                  <Text>__:__</Text>
+                </View>
+              ) :
+              (
+                <View style={{ flexDirection: 'column' }}>
+                  <Text>Yêu cầu đã hoàn thành</Text>
+                  <Text>{data.done}</Text>
+                </View>
+              )
+          }
+        </View>
+      </View>
+    </View>
+  )
+}
 export default Report
 
 const styles = StyleSheet.create({
@@ -144,8 +192,9 @@ const styles = StyleSheet.create({
   text: {
     color: 'rgba(0, 0, 0, 0.87)',
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '800',
     fontStyle: 'normal',
+    fontFamily: 'Poppins'
   },
   leader: {
     backgroundColor: '#F1F4F5',
@@ -162,16 +211,18 @@ const styles = StyleSheet.create({
   text2: {
     color: '#000',
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
     fontStyle: 'normal',
-    paddingTop: 17
+    paddingTop: 17,
+    fontFamily: 'Poppins'
   },
   text3: {
     color: '#000',
     fontSize: 12,
-    fontWeight: '400',
+    fontWeight: '500',
     fontStyle: 'normal',
-    paddingTop: 13
+    paddingTop: 13,
+    fontFamily: 'Poppins'
   },
   leader2: {
     paddingLeft: 18
@@ -179,34 +230,38 @@ const styles = StyleSheet.create({
   leader3: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 5
   },
   text4: {
     color: '#000',
     fontSize: 12,
-    fontWeight: '400',
+    fontWeight: '500',
     fontStyle: 'normal',
+    fontFamily: 'Poppins'
   },
   text5: {
     color: '#000',
     fontSize: 15,
-    fontWeight: '700',
+    fontWeight: '800',
     fontStyle: 'normal',
-    padding: 17
+    padding: 17,
+    fontFamily: 'Poppins',
+    paddingBottom: 5
   },
   text6: {
     color: '#000',
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
     fontStyle: 'normal',
-    marginTop: 2
+    marginTop: 2,
+    fontFamily: 'Poppins'
   },
   text7: {
     color: '#000',
     fontSize: 12,
-    fontWeight: '400',
+    fontWeight: '500',
     fontStyle: 'normal',
-    marginTop: 4
+    marginTop: 4,
+    fontFamily: 'Poppins'
   },
   button: {
     display: 'flex',
@@ -223,6 +278,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 10, // Padding theo chiều dọc (top và bottom)
     paddingHorizontal: 33, // Padding theo chiều ngang (left và right),
+
+  },
+  profile: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    position: 'absolute',
+    end: 10,
+    top: '25%',
 
   }
 })
