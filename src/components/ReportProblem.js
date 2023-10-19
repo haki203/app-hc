@@ -19,6 +19,8 @@ import MasonryList from '@react-native-seoul/masonry-list';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 const baseImgPath = '../assets/images/';
 const { width, height } = Dimensions.get('window');
+import storage from '@react-native-firebase/storage';
+
 const ReportProblem = (props) => {
   const { navigation } = props;
   const data = [
@@ -34,6 +36,46 @@ const ReportProblem = (props) => {
 
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+
+  const uploadImage = async (imageUri) => {
+    const reference = storage().ref(`images/${new Date().getTime()}.jpg`);
+    
+    try {
+      // Tải lên tệp ảnh
+      await reference.putFile(imageUri);
+  
+      // Lấy URL của tệp vừa tải lên
+      const url = await reference.getDownloadURL();
+      console.log('URL ảnh tải lên:', url);
+    } catch (error) {
+      console.error('Lỗi khi tải lên ảnh:', error);
+    }
+  };
+
+  const uploadImages = async (imageUris) => {
+    const uploadPromises = imageUris.map(async (imageUri) => {
+      const reference = storage().ref(`images/${new Date().getTime()}.jpg`);
+      try {
+        // Tải lên tệp ảnh
+        await reference.putFile(imageUri);
+    
+        // Lấy URL của tệp vừa tải lên
+        const url = await reference.getDownloadURL();
+        console.log('URL ảnh tải lên:', url);
+        return url; // Trả về URL của ảnh
+      } catch (error) {
+        console.error('Lỗi khi tải lên ảnh:', error);
+        throw error; // Ném ra lỗi để Promise.all nhận biết lỗi
+      }
+    });
+  
+    try {
+      const uploadedUrls = await Promise.all(uploadPromises);
+      console.log('Tất cả ảnh đã được tải lên:', uploadedUrls);
+    } catch (error) {
+      console.error('Có lỗi khi tải lên ảnh:', error);
+    }
+  };
 
   const [selectedImages, setSelectedImages] = useState([]);
   const [image, setImage] = useState(null);
@@ -292,6 +334,18 @@ const ReportProblem = (props) => {
         )}
 
         <TouchableOpacity
+          onPress={() => 
+            {
+            if (image) {
+              uploadImage(image)
+            }
+            
+            const paths = selectedImages.map(item => item.realPath);
+            console.log(paths);
+            uploadImages(paths)
+          }
+          }
+          
           style={{
             borderColor: 'gray',
             borderWidth: 1,
