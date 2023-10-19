@@ -13,8 +13,6 @@
     "@baronha/react-native-multiple-image-picker": "^1.1.5",
     "@react-native-async-storage/async-storage": "^1.19.3",
     "@react-native-community/masked-view": "^0.1.11",
-    "@react-native-firebase/app": "^18.5.0",
-    "@react-native-firebase/storage": "^18.5.0",
     "@react-native-seoul/masonry-list": "^1.4.2",
     "@react-navigation/bottom-tabs": "^6.5.9",
     "@react-navigation/native": "^6.1.8",
