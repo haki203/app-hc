@@ -37,7 +37,7 @@ router.post('/new', async (req, res) => {
         const acceptValue = accept || '';
         const doneValue = done || '';
         const descriptionValue = description || '';
-
+        const status =0;
         // Tạo một bản ghi report mới
         const newReport = new reportModel({
             report_date,
@@ -50,6 +50,7 @@ router.post('/new', async (req, res) => {
             accept: acceptValue,
             done: doneValue,
             description: descriptionValue,
+            status:status
         });
 
         // Lưu bản ghi report vào cơ sở dữ liệu
@@ -89,11 +90,11 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
     try {
-        const report = await reportModel.findById(id);
+        const report = await reportModel.findById(id).populate('admin', 'full_name');;
         res.status(200).json({ report, result: true });
     } catch (error) {
-        res.status(400).json({});
-    }
+        res.status(400).json({result:false,message:'khong có id này'});
+    }false
 });
 
 // get user by id

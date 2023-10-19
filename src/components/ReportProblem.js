@@ -10,7 +10,8 @@ import {
   View,
   FlatList,
   ScrollView,
-  Dimensions
+  Dimensions,
+  PermissionsAndroid
 } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { openPicker } from '@baronha/react-native-multiple-image-picker';
@@ -51,13 +52,22 @@ const ReportProblem = (props) => {
   };
 
   const pickImage = async () => {
-    const result = await launchCamera(optionsCamera);
-    const image = result.assets[0].uri
-    console.log(result)
-    if (result) {
-      console.log(result.assets[0].uri)
-      setImage(image);
-      console.log(image)
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA
+      )
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        const result = await launchCamera(optionsCamera);
+        const image = result.assets[0].uri
+        console.log(result)
+        if (result) {
+          console.log(result.assets[0].uri)
+          setImage(image);
+          console.log(image)
+        }
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
     }
   }
 
@@ -77,11 +87,16 @@ const ReportProblem = (props) => {
   };
 
   const takeAPicture = async () => {
-    const response = await openPicker(options);
-    if (response && response.length > 0) {
-      setSelectedImages(response);
-      console.log(response)
+    try {
+      const response = await openPicker(options);
+      if (response && response.length > 0) {
+        setSelectedImages(response);
+        console.log(response)
+      }
+    } catch (err) {
+
     }
+    
   }
 
   // const ImageDisplay = ({ selectedImages }) => (
@@ -127,7 +142,6 @@ const ReportProblem = (props) => {
           backgroundColor: 'white',
           padding: 15,
           width: '100%',
-          height: height
         }}>
         <View
           style={{
