@@ -8,69 +8,83 @@ import {
   Touchable,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import AxiosIntance from '../axios/AxiosIntance';
+import Loading from './isLoading/Loading';
+const baseImgPath = '../assets/images/';
 
-const ReportB = () => {
+const ReportD = props => {
+  const {navigation} = props;
+  const {route} = props;
+  const {params} = route;
+  const {id} = params;
+  const [isLoading, setisLoading] = useState(false);
+  const [data, setdataNe] = useState([]);
+  const [admin, setAdmin] = useState('');
+  const [image, setImage] = useState(
+    'http://dummyimage.com/142x100.png/5fa2dd/ffffff',
+  );
+  const [phone, setPhone] = useState('');
+  useEffect(() => {
+    const getNews = async () => {
+      // const response = await AxiosIntance().get(`/user/admin/${id}`);
+      const response = await AxiosIntance().get(`/report/${id}`);
+
+      console.log(response.report);
+      if (response.result == true) {
+        // console.log(respone.report.admin);
+        // lay du lieu ok
+        setdataNe(response.report);
+        try {
+          setAdmin(response.report.admin.full_name);
+          setImage(response.report.image);
+        } catch (error) {}
+        setisLoading(false);
+      } else {
+        ToastAndroid.show('Lay du lieu that bai', ToastAndroid.SHORT);
+      }
+    };
+    setisLoading(true);
+    getNews();
+
+    return () => {};
+  }, []);
   return (
     <View style={styles.container}>
+      <View>{isLoading ? <Loading /> : <View></View>}</View>
       <View style={styles.header}>
-        <Image
-          style={styles.ic_back}
-          source={require(baseImgPath+'ic_backReport.png')}></Image>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={styles.ic_back}
+            source={require(baseImgPath + 'ic_backReport.png')}></Image>
+        </TouchableOpacity>
+
         <Text style={styles.text1}>Yêu cầu hỗ trợ sự cố</Text>
         <Image></Image>
       </View>
       <View style={styles.body}>
         <View style={styles.in4}>
           <Text style={styles.in4_text1}>Sự cố về cơ sở vật chất</Text>
-          <Text style={styles.in4_name}>Người tiếp nhận:Nguyễn Trung Hải</Text>
+          <Text style={styles.in4_name}>Người tiếp nhận: {admin}</Text>
 
           <View style={styles.in4_chitiet}>
-            <Text style={styles.in4_day}>8-2-2023</Text>
-            <Text style={styles.in4_time}>09:05 am</Text>
-            <Text style={styles.in4_sdt}>SĐT: 0942144169</Text>
+            <Text style={styles.in4_day}>{data.report_date}</Text>
+            <Text style={styles.in4_time}>{data.time}</Text>
+            <Text style={styles.in4_sdt}>Phòng: {data.room}</Text>
             <Image
               style={styles.sticker}
-              source={require(baseImgPath+'ic_sticker.png')}
+              source={{uri: image}}
             />
+            {/* <Image
+              style={styles.sticker}
+              source={require(baseImgPath + 'ic_sticker.png')}
+            /> */}
           </View>
         </View>
 
         <Text style={styles.text2}>Trạng thái yêu cầu</Text>
-        <View style={styles.status}>
-          <View style={styles.status1}>
-            <Image
-              style={styles.ic}
-              source={require(baseImgPath+'ic_tick.png')}></Image>
-            <View style={styles.status1_text}>
-              <Text style={styles.status1_text__name}>Yêu cầu</Text>
-              <Text style={styles.status1_text_time}>09:25 am</Text>
-            </View>
-          </View>
-          <View style={styles.line1}></View>
-          <View style={styles.status2}>
-            <Image
-              style={styles.ic}
-              source={require(baseImgPath+'ic_reload.png')}></Image>
-            <View style={styles.status1_text}>
-              <Text style={styles.status1_text__name}>
-                Yêu cầu đã được tiếp nhận
-              </Text>
-              <Text style={styles.status1_text_time}>__:__ am</Text>
-            </View>
-          </View>
-          <View style={styles.line2}></View>
-          <View style={styles.status1}>
-            <Image
-              style={styles.ic}
-              source={require(baseImgPath+'ic_reload.png')}></Image>
-            <View style={styles.status1_text}>
-              <Text style={styles.status1_text__name}>
-                Yêu cầu đã được hoàn thành
-              </Text>
-              <Text style={styles.status1_text_time}>__:__ am</Text>
-            </View>
-          </View>
+        <View>
+          <Processs />
         </View>
       </View>
       <TouchableOpacity style={styles.btnDanhGia}>
@@ -80,7 +94,49 @@ const ReportB = () => {
   );
 };
 
-export default ReportB;
+const Processs = (props) => {
+  const { data } = props;
+  const status = data.status;
+  return (
+    <View style={styles.status}>
+      <View style={styles.status1}>
+        <Image
+          style={styles.ic}
+          source={status <0 ?require(baseImgPath + 'ic_reload.png'):require(baseImgPath + 'ic_tick.png')}></Image>
+        <View style={styles.status1_text}>
+          <Text style={styles.status1_text__name}>Yêu cầu</Text>
+          <Text style={styles.status1_text_time}>09:25 am</Text>
+        </View>
+      </View>
+      <View style={styles.line1}></View>
+      <View style={styles.status2}>
+        <Image
+          style={styles.ic}
+          source={status <1 ?require(baseImgPath + 'ic_reload.png'):require(baseImgPath + 'ic_tick.png')}></Image>
+        <View style={styles.status1_text}>
+          <Text style={styles.status1_text__name}>
+            Yêu cầu đã được tiếp nhận
+          </Text>
+          <Text style={styles.status1_text_time}>__:__ am</Text>
+        </View>
+      </View>
+      <View style={styles.line2}></View>
+      <View style={styles.status1}>
+        <Image
+          style={styles.ic}
+          source={status <2 ?require(baseImgPath + 'ic_reload.png'):require(baseImgPath + 'ic_tick.png')}></Image>
+        <View style={styles.status1_text}>
+          <Text style={styles.status1_text__name}>
+            Yêu cầu đã được hoàn thành
+          </Text>
+          <Text style={styles.status1_text_time}>__:__ am</Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default ReportD;
 
 const styles = StyleSheet.create({
   container: {
@@ -178,14 +234,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    
   },
   textBtn: {
     fontSize: 12,
     fontWeight: 'bold',
     color: '#FFFFFF',
     fontFamily: 'Poppins',
-
   },
   in4: {
     width: '100%',
