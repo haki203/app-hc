@@ -12,11 +12,12 @@ const Report = (props) => {
   const { id } = params;
   const [isLoading, setisLoading] = useState(false);
   const [data, setdataNe] = useState([]);
+  const [admin, setAdmin] = useState("");
+  const [image, setImage] = useState("http://dummyimage.com/142x100.png/5fa2dd/ffffff");
 
   useEffect(() => {
     const getNews = async () => {
-      // setisLoading(true);
-      console.log(id);
+
       const response = await AxiosIntance().get(`/report/${id}`);
 
       console.log(response.report);
@@ -24,12 +25,19 @@ const Report = (props) => {
         // console.log(respone.report.admin);
         // lay du lieu ok
         setdataNe(response.report);
-        // setisLoading(false);
+        try {
+          setAdmin(response.report.admin.full_name);
+          setImage(response.report.image)
+        } catch (error) {
+          
+        }
+        setisLoading(false);
       }
       else {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
       }
     }
+    setisLoading(true);
     getNews();
 
     return () => {
@@ -48,11 +56,11 @@ const Report = (props) => {
         <Text></Text>
       </View>
       <View style={styles.leader}>
-        <Image style={styles.profile} source={{ uri: data.image }}></Image>
+        <Image style={styles.profile} source={{ uri: image }}></Image>
         <View style={styles.leader2}>
           <Text style={styles.text2}>{data.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}</Text>
           <View style={{ flexDirection: 'row' }}>
-            {/* <Text style={styles.text3}>Người tiếp nhận: {data.admin.full_name}</Text> */}
+            <Text style={styles.text3}>Người tiếp nhận: {admin}</Text>
           </View>
           <View style={styles.leader3}>
             <Text style={styles.text4}>{data.report_date}</Text>
@@ -145,7 +153,7 @@ const Content = (props) => {
         </View>
         <View style={{padding:20,width:'100%',flex:1}}>
           {
-            (status < 1) ?
+            (status <2) ?
               (
                 <View style={{ flexDirection: 'column' }}>
                   <Text>Yêu cầu đã hoàn thành</Text>
