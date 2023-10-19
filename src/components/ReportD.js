@@ -7,6 +7,7 @@ import {
   Image,
   Touchable,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AxiosIntance from '../axios/AxiosIntance';
@@ -24,7 +25,9 @@ const ReportD = props => {
   const [image, setImage] = useState(
     'http://dummyimage.com/142x100.png/5fa2dd/ffffff',
   );
-  const [phone, setPhone] = useState('');
+
+  const statuss = data.status;
+
   useEffect(() => {
     const getNews = async () => {
       // const response = await AxiosIntance().get(`/user/admin/${id}`);
@@ -32,8 +35,6 @@ const ReportD = props => {
 
       console.log(response.report);
       if (response.result == true) {
-        // console.log(respone.report.admin);
-        // lay du lieu ok
         setdataNe(response.report);
         try {
           setAdmin(response.report.admin.full_name);
@@ -63,74 +64,160 @@ const ReportD = props => {
         <Image></Image>
       </View>
       <View style={styles.body}>
-        <View style={styles.in4}>
-          <Text style={styles.in4_text1}>Sự cố về cơ sở vật chất</Text>
-          <Text style={styles.in4_name}>Người tiếp nhận: {admin}</Text>
+        <View>
+          {statuss < 2 ? (
+            <View />
+          ) : (
+            <View style={styles.in4}>
+              <Text style={styles.in4_text1}>Sự cố về cơ sở vật chất</Text>
+              <Text style={styles.in4_name}>Người tiếp nhận: {admin}</Text>
 
-          <View style={styles.in4_chitiet}>
-            <Text style={styles.in4_day}>{data.report_date}</Text>
-            <Text style={styles.in4_time}>{data.time}</Text>
-            <Text style={styles.in4_sdt}>Phòng: {data.room}</Text>
-            <Image
-              style={styles.sticker}
-              source={{uri: image}}
-            />
-            {/* <Image
-              style={styles.sticker}
-              source={require(baseImgPath + 'ic_sticker.png')}
-            /> */}
-          </View>
+              <View style={styles.in4_chitiet}>
+                <Text style={styles.in4_day}>{data.report_date}</Text>
+                <Text style={styles.in4_time}>{data.time}</Text>
+                <Text style={styles.in4_sdt}>Phòng: {data.room}</Text>
+                <Image style={styles.sticker} source={{uri: image}} />
+                {/* <Image
+                  style={styles.sticker}
+                  source={require(baseImgPath + 'ic_sticker.png')}
+                /> */}
+              </View>
+            </View>
+          )}
         </View>
 
         <Text style={styles.text2}>Trạng thái yêu cầu</Text>
         <View>
-          <Processs />
+          <Processs data={data} />
         </View>
       </View>
-      <TouchableOpacity style={styles.btnDanhGia}>
-        <Text style={styles.textBtn}>Phản hồi</Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
-const Processs = (props) => {
-  const { data } = props;
-  const status = data.status;
+const Processs = props => {
+  const {data} = props;
+  const statuss = data.status;
+  // const statuss = 2;
   return (
-    <View style={styles.status}>
+    <View style={styles.statuss}>
       <View style={styles.status1}>
         <Image
           style={styles.ic}
-          source={status <0 ?require(baseImgPath + 'ic_reload.png'):require(baseImgPath + 'ic_tick.png')}></Image>
-        <View style={styles.status1_text}>
-          <Text style={styles.status1_text__name}>Yêu cầu</Text>
-          <Text style={styles.status1_text_time}>09:25 am</Text>
+          source={
+            statuss < 0
+              ? require(baseImgPath + 'ic_reload.png')
+              : require(baseImgPath + 'ic_tick.png')
+          }></Image>
+        <View>
+          {statuss < 0 ? (
+            <View style={styles.status1_text}>
+              <Text style={styles.status1_text__name}>Yêu cầu</Text>
+              <Text style={styles.status1_text_time}>{data.time}</Text>
+            </View>
+          ) : (
+            <View style={styles.status1_text}>
+              <Text style={styles.status1_text__name}>
+                Yêu cầu đang được xử lý
+              </Text>
+              <View>
+                {statuss < 2 ? (
+                  <Text style={styles.status1_text_time}>{data.time}</Text>
+                ) : (
+                  <Text style={styles.status1_text_time}>
+                    {data.report_date} | {data.time}
+                  </Text>
+                )}
+              </View>
+            </View>
+          )}
         </View>
       </View>
+
       <View style={styles.line1}></View>
+
       <View style={styles.status2}>
         <Image
           style={styles.ic}
-          source={status <1 ?require(baseImgPath + 'ic_reload.png'):require(baseImgPath + 'ic_tick.png')}></Image>
-        <View style={styles.status1_text}>
-          <Text style={styles.status1_text__name}>
-            Yêu cầu đã được tiếp nhận
-          </Text>
-          <Text style={styles.status1_text_time}>__:__ am</Text>
+          source={
+            statuss < 1
+              ? require(baseImgPath + 'ic_reload.png')
+              : require(baseImgPath + 'ic_tick.png')
+          }></Image>
+        <View>
+          {statuss < 1 ? (
+            <View style={styles.status1_text}>
+              <Text style={styles.status1_text__name}>
+                Yêu cầu đã được tiếp nhận 123
+              </Text>
+              <Text style={styles.status1_text_time}>__:__ am</Text>
+            </View>
+          ) : (
+            <View style={styles.status1_text}>
+              <Text style={styles.status1_text__name}>
+                Yêu cầu đã được tiếp nhận
+              </Text>
+              <View>
+                {statuss < 2 ? (
+                  <Text style={styles.status1_text_time}>{data.time}</Text>
+                ) : (
+                  <Text style={styles.status1_text_time}>
+                    {data.report_date} | {data.time}
+                  </Text>
+                )}
+              </View>
+            </View>
+          )}
         </View>
       </View>
       <View style={styles.line2}></View>
+
       <View style={styles.status1}>
         <Image
           style={styles.ic}
-          source={status <2 ?require(baseImgPath + 'ic_reload.png'):require(baseImgPath + 'ic_tick.png')}></Image>
-        <View style={styles.status1_text}>
-          <Text style={styles.status1_text__name}>
-            Yêu cầu đã được hoàn thành
-          </Text>
-          <Text style={styles.status1_text_time}>__:__ am</Text>
+          source={
+            statuss < 2
+              ? require(baseImgPath + 'ic_reload.png')
+              : require(baseImgPath + 'ic_tick.png')
+          }></Image>
+        <View>
+          {statuss < 2 ? (
+            <View style={styles.status1_text}>
+              <Text style={styles.status1_text__name}>
+                Yêu cầu đã được hoàn thành
+              </Text>
+              <Text style={styles.status1_text_time}>__:__ am</Text>
+            </View>
+          ) : (
+            <View style={styles.status1_text}>
+              <Text style={styles.status1_text__name}>
+                Yêu cầu đã được hoàn thành
+              </Text>
+              <View>
+                {statuss < 2 ? (
+                  <Text style={styles.status1_text_time}>{data.time}</Text>
+                ) : (
+                  <Text style={styles.status1_text_time}>
+                    {data.report_date} | {data.time}
+                  </Text>
+                )}
+              </View>
+            </View>
+          )}
         </View>
+      </View>
+      <View>
+        {statuss < 2 ? (
+          <TouchableOpacity style={styles.btnDanhGia}>
+            <Text style={styles.textBtn}>Phản hồi</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.danhgia}>
+            <Text style={styles.danhgia_text}>
+              Sự cố này hoàn thành chưa được tốt cần khắc phục
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -175,7 +262,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 20,
   },
-  status: {
+  statuss: {
     flexDirection: 'column',
     justifyContent: 'space-between',
     height: 250,
@@ -226,7 +313,7 @@ const styles = StyleSheet.create({
     height: 48,
   },
   btnDanhGia: {
-    backgroundColor: '#D97245',
+    // backgroundColor: '#D97245',
     borderWidth: 1,
     borderColor: '#D97245',
     width: '100%',
@@ -238,7 +325,7 @@ const styles = StyleSheet.create({
   textBtn: {
     fontSize: 12,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#D97245',
     fontFamily: 'Poppins',
   },
   in4: {
@@ -286,5 +373,19 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     marginTop: -50,
+  },
+  danhgia: {
+    marginTop: 60,
+    width: '100%',
+    height: 80,
+    backgroundColor: '#F1F4F5',
+    borderRadius: 10,
+    padding: 20,
+    borderWidth: 0.4,
+  },
+  danhgia_text: {
+    fontSize: 14,
+    color: '#000000',
+    fontFamily: 'Poppins',
   },
 });
