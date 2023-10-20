@@ -17,7 +17,6 @@ const History = (props) => {
     const getNews = async () => {
       setisLoading(true);
       const respone = await AxiosIntance().get("/report");
-      console.log('reponse ' + respone.report[2].admin.full_name)
       if (respone.result == true) {
 
         // lay du lieu ok

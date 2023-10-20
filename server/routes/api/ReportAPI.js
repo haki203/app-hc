@@ -89,7 +89,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
     try {
-        const report = await reportModel.findById(id);
+        const report = await reportModel.findById(id).populate('admin', 'full_name');;
         res.status(200).json({ report, result: true });
     } catch (error) {
         res.status(400).json({result:false,message:'khong có id này'});

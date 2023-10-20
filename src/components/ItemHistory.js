@@ -1,12 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image } from 'react-native-elements';
 
 const ItemHistory = (props) => {
   const { report } = props;
   const { navigation } = props;
+  const [id, setId] = useState(report._id);
   const clickItem = () => {
-    navigation.navigate('Report', { id: report._id });
+    console.log(id);
+    navigation.navigate('Report',{id:id});
   }
   return (
     <View style={styles.container}>
