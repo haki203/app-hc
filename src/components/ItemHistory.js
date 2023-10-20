@@ -15,7 +15,7 @@ const ItemHistory = (props) => {
           <Text style={styles.text}>
             {report.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}
           </Text>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={styles.text3}>Người tiếp nhận: {report.admin.full_name}</Text>
             <Image source={{ uri: report.image }} style={styles.profile}></Image>
           </View>
@@ -23,6 +23,7 @@ const ItemHistory = (props) => {
             <Text style={styles.text4}>{report.report_date}</Text>
             <Text style={styles.text4}>{report.time}</Text>
             <Text style={styles.text4}>Phòng: {report.room}</Text>
+            <Text></Text>
             <Text></Text>
             <Text></Text>
           </View>
@@ -109,6 +110,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 50,
-
+    marginRight: 35
   }
 })

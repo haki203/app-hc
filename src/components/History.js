@@ -4,7 +4,6 @@ import ItemHistory from './ItemHistory';
 import Icon from "react-native-vector-icons/AntDesign"
 import AxiosIntance from '../axios/AxiosIntance';
 import Loading from './isLoading/Loading';
-
 const bacroundHeight = '#FFF';
 const { width, height } = Dimensions.get('window');
 const baseImgPath = '../assets/images/';
@@ -18,7 +17,7 @@ const History = (props) => {
     const getNews = async () => {
       setisLoading(true);
       const respone = await AxiosIntance().get("/report");
-      console.log('reponse ' + respone.report[1].admin.full_name)
+      console.log('reponse ' + respone.report[2].admin.full_name)
       if (respone.result == true) {
 
         // lay du lieu ok

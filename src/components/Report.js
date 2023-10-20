@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import AxiosIntance from '../axios/AxiosIntance';
 import Loading from './isLoading/Loading';
+import { set } from '../../server/app';
 const baseImgPath = '../assets/images/';
 const Report = (props) => {
   const {navigation} = props
@@ -18,6 +19,7 @@ const Report = (props) => {
   const {params} = route;
   const [type, settype] = useState("");
   const [userId, setuserId] = useState("");
+  const [admin, setadmin] = useState("")
   const [report_date, setreport_date] = useState("");
   const [time, settime] = useState("");
   const [room, setroom] = useState("")
@@ -32,7 +34,7 @@ const Report = (props) => {
         setButtonText('Phản hồi');
         setButtonBackgroundColor('rgba(217, 114, 69, 0.80)');
         setCurrentStep(2);
-        break;
+        break;s
       case 2:
         setImageSource2(require(baseImgPath + 'tick.png'));
         setText3('Yêu cầu đã hoàn thành');
@@ -49,10 +51,12 @@ const Report = (props) => {
       const response = await AxiosIntance().get("/report/" + params.id);
       console.log('reponse' + response)
       console.log('error new detail product: ', response.result)
+      console.log("error reponse " + response.report.admin.full_name)
       if (response.result == true) {
         // lay du lieu ok
         settype(response.report.type);
         setuserId(response.report.userId);
+        setadmin(response.report.admin.full_name);
         setreport_date(response.report.report_date);
         settime(response.report.time);
         setroom(response.report.room);
@@ -82,15 +86,16 @@ const Report = (props) => {
       </View>
       <View style={styles.leader}>
         <View style={styles.leader2}>
-          <Text style={styles.text2}>{type}</Text>
-          <View style={{flexDirection: 'row'}}>
-          <Text style={styles.text3}>Người tiếp nhận: {userId}</Text>
-          <Image style={styles.profile} source={{uri: image}}></Image>
+          <Text style={styles.text2}>{type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text style={styles.text3}>Người tiếp nhận: {admin}</Text>
+          <Image source={{uri: image}} style={styles.profile} ></Image>
           </View>
           <View style={styles.leader3}>
             <Text style={styles.text4}>{report_date}</Text>
             <Text style={styles.text4}>{time}</Text>
             <Text style={styles.text4}>Phòng: {room}</Text>
+            <Text></Text>
             <Text></Text>
             <Text></Text>
             <Text></Text>
@@ -277,6 +282,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 50,
-    marginLeft: 40
+    marginRight: 35
   }
 })
