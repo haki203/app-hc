@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -11,7 +11,9 @@ import {
   FlatList,
   ScrollView,
   Dimensions,
-  PermissionsAndroid
+  PermissionsAndroid,
+  ToastAndroid,
+  ActivityIndicator
 } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { openPicker } from '@baronha/react-native-multiple-image-picker';
@@ -20,55 +22,114 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 const baseImgPath = '../assets/images/';
 const { width, height } = Dimensions.get('window');
 import storage from '@react-native-firebase/storage';
+import AxiosIntance from '../axios/AxiosIntance';
+import Loading from './isLoading/Loading';
 
 const ReportProblem = (props) => {
   const { navigation } = props;
-  const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-  ];
-
-  const [value, setValue] = useState(null);
+  const [img, setImg] = useState("");
+  const [lop, setRoom] = useState("");
+  const [des, setDes] = useState("");
+  // value+description
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [image, setImage] = useState(null);
+  const [value, setValue] = useState("");
+  const [types, setTypes] = useState("");
   const [isFocus, setIsFocus] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
 
+  const sendApi = async () => {
+    setisLoading(true);
+    const getNews = async () => {
+      const type = 2;
+      const room = lop;
+      const description = types + " --" + des;
+      const image = img;
+      if (!room) {
+        ToastAndroid.show("Vui lòng nhập đủ thông tin", ToastAndroid.SHORT);
+
+      } else if (!description) {
+        ToastAndroid.show("Vui lòng nhập đủ thông tin", ToastAndroid.SHORT);
+
+
+      } else if (!image) {
+        ToastAndroid.show("Vui lòng nhập đủ thông tin", ToastAndroid.SHORT);
+
+
+      }
+      else {
+        try {
+          console.log("Type ne: ", type);
+          console.log("Room ne: ", room);
+          console.log("Description ne: ", description);
+          console.log("Image ne: ", image);
+          const response = await AxiosIntance().post(`/report/new`, { type: 2, room: room, description: description, image: image });
+          if (response.result == true) {
+            ToastAndroid.show("Gửi yêu cầu thành công", ToastAndroid.SHORT);
+            setisLoading(false);
+            console.log(response.report);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      // if (response.result == true) {
+
+      // }
+      // else {
+
+      //   ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+      // }
+    }
+    getNews();
+  }
+
+  const data = [
+    { label: 'Về cơ sở vật chất', value: '0' },
+    { label: 'Sự cố về CNTT', value: '1' },
+    { label: 'Sự cố an ninh', value: '2' },
+    { label: 'Khác', value: '3' },
+  ];
   const uploadImage = async (imageUri) => {
+    setisLoading(true);
+
     const reference = storage().ref(`images/${new Date().getTime()}.jpg`);
-    
+    console.log('đang tải ảnh lên');
+
     try {
       // Tải lên tệp ảnh
       await reference.putFile(imageUri);
-  
+
       // Lấy URL của tệp vừa tải lên
       const url = await reference.getDownloadURL();
-      console.log('URL ảnh tải lên:', url);
+      console.log('URL ảnh tải lên ne:', url);
+      setImg(url);
+      setisLoading(false);
+
     } catch (error) {
       console.error('Lỗi khi tải lên ảnh:', error);
     }
   };
-
   const uploadImages = async (imageUris) => {
     const uploadPromises = imageUris.map(async (imageUri) => {
       const reference = storage().ref(`images/${new Date().getTime()}.jpg`);
+      console.log('đang tải ảnh lên');
       try {
         // Tải lên tệp ảnh
         await reference.putFile(imageUri);
-    
+
         // Lấy URL của tệp vừa tải lên
         const url = await reference.getDownloadURL();
-        console.log('URL ảnh tải lên:', url);
+        console.log('URL ảnh tải lêns:', url);
+        setImg(url);
         return url; // Trả về URL của ảnh
       } catch (error) {
         console.error('Lỗi khi tải lên ảnh:', error);
         throw error; // Ném ra lỗi để Promise.all nhận biết lỗi
       }
     });
-  
+
     try {
       const uploadedUrls = await Promise.all(uploadPromises);
       console.log('Tất cả ảnh đã được tải lên:', uploadedUrls);
@@ -76,10 +137,6 @@ const ReportProblem = (props) => {
       console.error('Có lỗi khi tải lên ảnh:', error);
     }
   };
-
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [image, setImage] = useState(null);
-
   const optionsCamera = {
     title: 'Chọn ảnh',
     storageOptions: {
@@ -92,7 +149,6 @@ const ReportProblem = (props) => {
     maxWidth: 800, // Chiều rộng tối đa của ảnh
     maxHeight: 600, // Chiều cao tối đa của ảnh
   };
-
   const pickImage = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -107,14 +163,19 @@ const ReportProblem = (props) => {
           setImage(image);
           console.log(image)
         }
+        // upload image
+        if (image) {
+          uploadImage(image)
+        }
+
+        const paths = selectedImages.map(item => item.realPath);
+        console.log(paths);
+        uploadImages(paths)
       }
     } catch (error) {
       console.error('An error occurred:', error);
     }
   }
-
-
-
   const options = {
     mediaType: 'photo', // Chỉ chọn ảnh, bạn có thể sử dụng 'video' để chọn video.
     includeBase64: false, // True nếu bạn muốn nhận được dữ liệu ảnh dưới dạng Base64.
@@ -127,7 +188,6 @@ const ReportProblem = (props) => {
     cropperCircleOverlay: false, // Hiển thị vùng cắt hình tròn.
     compressImageQuality: 0.8, // Chất lượng ảnh nén (giá trị từ 0 đến 1).
   };
-
   const takeAPicture = async () => {
     try {
       const response = await openPicker(options);
@@ -136,25 +196,9 @@ const ReportProblem = (props) => {
         console.log(response)
       }
     } catch (err) {
-
     }
-    
+
   }
-
-  // const ImageDisplay = ({ selectedImages }) => (
-  //   <FlatList
-  //     data={selectedImages}
-  //     keyExtractor={(item) => item.realPath}
-  //     horizontal
-  //     renderItem={({ item }) => (
-  //       <Image
-  //         source={{ uri: item.path }}
-  //         style={{ width: 100, height: 100, margin: 5 }}
-  //       />
-  //     )}
-  //   />
-  // );
-
   const ImageDisplay = ({ selectedImages }) => (
     <MasonryList
       data={selectedImages}
@@ -174,10 +218,9 @@ const ReportProblem = (props) => {
   );
 
 
-
-
   return (
     <ScrollView>
+      <View>{isLoading ? <View style={{ width: width, height: height, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator size="large" color="black" /></View> : <View></View>}</View>
       <SafeAreaView
         style={{
           flex: 1,
@@ -185,6 +228,8 @@ const ReportProblem = (props) => {
           padding: 15,
           width: '100%',
         }}>
+
+
         <View
           style={{
             flexDirection: 'row',
@@ -192,7 +237,7 @@ const ReportProblem = (props) => {
             width: '100%',
             justifyContent: 'center',
           }}>
-          <TouchableOpacity style={{ position: 'absolute', left: 0, }} onPress={()=>navigation.goBack()}>
+          <TouchableOpacity style={{ position: 'absolute', left: 0, }} onPress={() => navigation.goBack()}>
             <Image
               source={require(baseImgPath + 'icons8-back-50.png')}
               style={{
@@ -217,6 +262,7 @@ const ReportProblem = (props) => {
         </View>
 
         <TextInput
+          onChangeText={(text) => setRoom(text)}
           style={{
             borderColor: 'gray',
             borderWidth: 1,
@@ -249,6 +295,7 @@ const ReportProblem = (props) => {
           onChange={item => {
             setValue(item.value);
             setIsFocus(false);
+            setTypes(item.label)
           }}
         />
 
@@ -264,6 +311,7 @@ const ReportProblem = (props) => {
             backgroundColor: '#F1F4F5',
           }}
           multiline={true}
+          onChangeText={(text) => setDes(text)}
           placeholder="Mô tả sự cố"
         />
 
@@ -334,18 +382,7 @@ const ReportProblem = (props) => {
         )}
 
         <TouchableOpacity
-          onPress={() => 
-            {
-            if (image) {
-              uploadImage(image)
-            }
-            
-            const paths = selectedImages.map(item => item.realPath);
-            console.log(paths);
-            uploadImages(paths)
-          }
-          }
-          
+          onPress={() => sendApi()}
           style={{
             borderColor: 'gray',
             borderWidth: 1,
