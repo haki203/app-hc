@@ -224,9 +224,9 @@ const ReportProblem = (props) => {
       <SafeAreaView
         style={{
           flex: 1,
-          backgroundColor: 'white',
           padding: 15,
           width: '100%',
+          height: '100%',
         }}>
 
 

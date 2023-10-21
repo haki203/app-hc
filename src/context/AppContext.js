@@ -11,9 +11,9 @@ export const AppContextProvider = (props) =>{
     const [data,setdata] = useState("false");
     // them in4 user de them thong tin ng dung luc login
     const [infoUser,setinfoUser] = useState({});
-    const [passwordNe,setpasswordNe] = useState({});
+    const [userProfile, setUserProfile] = useState("");
     return (
-        <AppContext.Provider value={{isLogin,setIsLogin,data,setdata,infoUser,setinfoUser,passwordNe,setpasswordNe,isTabVisible,setIsTabVisible}}>
+        <AppContext.Provider value={{isLogin,setIsLogin,data,setdata,infoUser,setinfoUser,userProfile, setUserProfile,isTabVisible,setIsTabVisible}}>
             {children}
             {/*     // children la man hinh cho kho context
                     // value la du lieu sd chung */}
