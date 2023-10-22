@@ -84,25 +84,25 @@ const Login = () => {
                 alignItems: 'center'
               }} isVisible={isModalVisible}>
                 <View style={styles.modal}>
-                  <Text onPress={() => selectLocation('FPT Polytechnic HO')} style={{ backgroundColor: selectedLocation === 'FPT Polytechnic HO' ? 'orange' : 'transparent', fontSize: 15, margin: 5, width: 210, height: 25, textAlign: 'center',borderRadius:12 }}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic HO')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic HO' ? 'orange' : 'transparent'},styles.fpt]}>
                     FPT Polytechnic HO
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Hà Nội')} style={{ backgroundColor: selectedLocation === 'FPT Polytechnic Hà Nội' ? 'orange' : 'transparent', fontSize: 15, margin: 5, width: 210, height: 25, textAlign: 'center' ,borderRadius:12}}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Hà Nội')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Hà Nội' ? 'orange' : 'transparent'},styles.fpt]}>
                     FPT Polytechnic Hà Nội
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Hồ Chí Minh')} style={{ backgroundColor: selectedLocation === 'FPT Polytechnic Hồ Chí Minh' ? 'orange' : 'transparent', fontSize: 15, margin: 5, width: 210, height: 25, textAlign: 'center',borderRadius:12 }}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Hồ Chí Minh')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Hồ Chí Minh' ? 'orange' : 'transparent'},styles.fpt]}>
                     FPT Polytechnic Hồ Chí Minh
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Đà Nẵng')} style={{ backgroundColor: selectedLocation === 'FPT Polytechnic Đà Nẵng' ? 'orange' : 'transparent', fontSize: 15, margin: 5, width: 210, height: 25, textAlign: 'center',borderRadius:12 }}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Đà Nẵng')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Đà Nẵng' ? 'orange' : 'transparent'},styles.fpt]}>
                     FPT Polytechnic Đà Nẵng
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Cần Thơ')} style={{ backgroundColor: selectedLocation === 'FPT Polytechnic Cần Thơ' ? 'orange' : 'transparent', fontSize: 15, margin: 5, width: 210, height: 25, textAlign: 'center',borderRadius:12 }}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Cần Thơ')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Cần Thơ' ? 'orange' : 'transparent'},styles.fpt]}>
                     FPT Polytechnic Cần Thơ
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Tây Nguyên')} style={{ backgroundColor: selectedLocation === 'FPT Polytechnic Tây Nguyên' ? 'orange' : 'transparent', fontSize: 15, margin: 5, width: 210, height: 25, textAlign: 'center' ,borderRadius:12}}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Tây Nguyên')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Tây Nguyên' ? 'orange' : 'transparent'},styles.fpt]}>
                     FPT Polytechnic Tây Nguyên
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Hải Phòng')} style={{ backgroundColor: selectedLocation === 'FPT Polytechnic Hải Phòng' ? 'orange' : 'transparent', fontSize: 15, margin: 5, width: 210, height: 25, textAlign: 'center',borderRadius:12 }}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Hải Phòng')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Hải Phòng' ? 'orange' : 'transparent'},styles.fpt]}>
                     FPT Polytechnic Hải Phòng
                   </Text>
                   <Pressable style={styles.btnXacNhan} onPress={toggleModal}>
@@ -215,5 +215,7 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     elevation: 3,
     marginTop: 15
+  },fpt:{
+    fontSize: 15, margin: 5, width: 210, height: 25, textAlign: 'center',borderRadius:12
   }
 })
