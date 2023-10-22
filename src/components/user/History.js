@@ -2,13 +2,13 @@ import { StyleSheet, Text, View, Dimensions, Image, FlatList, ActivityIndicator 
 import React, { useEffect, useState, useContext } from 'react'
 import ItemHistory from './ItemHistory';
 import Icon from "react-native-vector-icons/AntDesign"
-import AxiosIntance from '../axios/AxiosIntance';
-import Loading from './isLoading/Loading';
-import { AppContext } from '../context/AppContext';
+import AxiosIntance from '../../axios/AxiosIntance';
+import Loading from '../isLoading/Loading';
+import { AppContext } from '../../context/AppContext';
 
 const bacroundHeight = '#FFF';
 const { width, height } = Dimensions.get('window');
-const baseImgPath = '../assets/images/';
+const baseImgPath = '../../assets/images/';
 
 const History = (props) => {
   const { navigation } = props;

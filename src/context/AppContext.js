@@ -12,8 +12,9 @@ export const AppContextProvider = (props) =>{
     // them in4 user de them thong tin ng dung luc login
     const [infoUser,setinfoUser] = useState({});
     const [userProfile, setUserProfile] = useState("");
+    const [baseImgPath, setBaseImgPath] = useState('../../assets/images/');
     return (
-        <AppContext.Provider value={{isLogin,setIsLogin,data,setdata,infoUser,setinfoUser,userProfile, setUserProfile,isTabVisible,setIsTabVisible}}>
+        <AppContext.Provider value={{isLogin,setIsLogin,userProfile, setUserProfile,isTabVisible,setIsTabVisible,baseImgPath}}>
             {children}
             {/*     // children la man hinh cho kho context
                     // value la du lieu sd chung */}

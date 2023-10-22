@@ -8,17 +8,20 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { AppContext } from '../context/AppContext';
-import HomeScreen from '../components/HomeScreen'
+import HomeScreen from '../components/user/HomeScreen'
 
-import History from '../components/History';
-import Report from '../components/Report';
-import SupportForm from '../components/SupportForm';
-import ReportProblem from '../components/ReportProblem';
-import Login from '../components/Login';
-import Thongbao from '../components/Thongbao';
+import History from '../components/user/History';
+import Report from '../components/user/Report';
+import SupportForm from '../components/user/SupportForm';
+import ReportProblem from '../components/user/ReportProblem';
+import Login from '../components/user/Login';
+import Thongbao from '../components/user/Thongbao';
 import SettingScreen from '../components/SettingScreen';
 import ProfileScreen from '../components/ProfileScreen';
-import ContactScreen from '../components/ContactScreen';
+import ContactScreen from '../components/user/ContactScreen';
+import HomeScreenAdmin from '../components/admin/HomeAdmin';
+import HistoryAdmin from '../components/admin/HistoryAdmin';
+import SettingAdmin from '../components/admin/SettingAdmin';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Users = () => {
@@ -172,6 +175,74 @@ const Home = ({ scrollY }) => {
     )
 
 }
+const HomeAdmin = ({ scrollY }) => {
+
+    const iconView={ flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height:'100%',paddingBottom:10}
+    const textIcon={position:'absolute',bottom:5,color:'black'}
+    return (
+        <Tab.Navigator
+            screenOptions={({ route }) => ({
+                headerShown: false,
+                color: 'red',
+                tabBarActiveTintColor: 'black',
+                tabBarLabelStyle: { display: 'none' },
+                tabBarStyle: { height: 80,backgroundColor:'#F4F5F2' },
+            })}
+        >
+            <Tab.Screen
+                name="Trang chủ"
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <View style={iconView}>
+                            <Ionicons name={'home-outline'} color={color} size={30} />
+                            <Text style={textIcon}>{focused ? 'Trang chủ' :''}</Text>
+                        </View>
+                    ),
+                }}
+            >
+                {() => (
+                    <HomeScreenAdmin />
+                )}
+            </Tab.Screen>
+            <Tab.Screen
+                name="Lich su"
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <View style={iconView}>
+                            <Octicons name="history" color={color} size={28} />
+                            <Text style={textIcon}>{focused ? 'Lịch sử' :''}</Text>
+                        </View>
+                    ),
+                }}
+            >
+                {() => (
+                    <HistoryAdmin />
+                )}
+            </Tab.Screen>
+            <Tab.Screen
+                name="Cài đặt"
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <View style={iconView}>
+                            <AntDesign name="setting" color={color} size={30} />
+                            <Text style={textIcon}>{focused ? 'Cài đặt' :''}</Text>
+                        </View>
+                    ),
+                }}
+            >
+                {() => (
+                    <SettingAdmin />
+                )}
+            </Tab.Screen>
+
+        </Tab.Navigator>
+
+    )
+
+}
 const Play = () => {
     return (
         <Stack.Navigator
@@ -216,7 +287,7 @@ const AppNavigator = () => {
     const { isLogin, setIsLogin } = useContext(AppContext);
     return (
         <>
-            {isLogin == false ? <Users /> : <Home />}
+            <HomeAdmin/>
         </>
     )
 }

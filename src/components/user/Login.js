@@ -1,9 +1,9 @@
 import { Image, Pressable, StyleSheet, Text, View, ToastAndroid, TouchableOpacity,Dimensions,ActivityIndicator } from 'react-native'
 import React, { useContext, useState } from 'react'
-const baseImgPath = '../assets/images/';
-import { AppContext } from '../context/AppContext';
+const baseImgPath = '../../assets/images/';
+import { AppContext } from '../../context/AppContext';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import AxiosIntance from '../axios/AxiosIntance';
+import AxiosIntance from '../../axios/AxiosIntance';
 const { width, height } = Dimensions.get('window');
 
 const Login = () => {

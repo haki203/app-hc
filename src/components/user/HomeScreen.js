@@ -1,9 +1,9 @@
 import { Image, Pressable, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
 import Icon from "react-native-vector-icons/AntDesign"
-import { AppContext } from '../context/AppContext';
+import { AppContext } from '../../context/AppContext';
 
-const baseImgPath = '../assets/images/';
+const baseImgPath = '../../assets/images/';
 const Home = (props) => {
     const { userProfile } = useContext(AppContext);
     const { navigation } = props;

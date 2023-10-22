@@ -17,7 +17,7 @@ import MasonryList from '@react-native-seoul/masonry-list';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 const { width, height } = Dimensions.get('window');
-const baseImgPath = '../assets/images/';
+const baseImgPath = '../../assets/images/';
 const SupportForm = (props) => {
   
   const { navigation } = props;

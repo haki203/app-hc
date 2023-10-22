@@ -19,11 +19,11 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { openPicker } from '@baronha/react-native-multiple-image-picker';
 import MasonryList from '@react-native-seoul/masonry-list';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-const baseImgPath = '../assets/images/';
+const baseImgPath = '../../assets/images/';
 const { width, height } = Dimensions.get('window');
 import storage from '@react-native-firebase/storage';
-import AxiosIntance from '../axios/AxiosIntance';
-import Loading from './isLoading/Loading';
+import AxiosIntance from '../../axios/AxiosIntance';
+import Loading from '../isLoading/Loading';
 
 const ReportProblem = (props) => {
   const { navigation } = props;
