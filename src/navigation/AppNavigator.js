@@ -42,7 +42,7 @@ const Mains = () => {
             <Stack.Screen name="Notification" component={Thongbao} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="Setting" component={SettingScreen} />
-            
+
         </Stack.Navigator>
 
     )
@@ -51,7 +51,7 @@ const Settings = () => {
     return (
         <Stack.Navigator initialRouteName='Setting' screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Setting" component={SettingScreen} />
-            <Stack.Screen name="Profile" component={ProfileScreen} />       
+            <Stack.Screen name="Profile" component={ProfileScreen} />
         </Stack.Navigator>
 
     )
@@ -60,8 +60,8 @@ const Histories = () => {
     return (
         <Stack.Navigator initialRouteName='History' screenOptions={{ headerShown: false }}>
             <Stack.Screen name="History" component={History} />
-            <Stack.Screen name="Notification" component={Thongbao} />       
-            <Stack.Screen name="Report" component={Report} />       
+            <Stack.Screen name="Notification" component={Thongbao} />
+            <Stack.Screen name="Report" component={Report} />
         </Stack.Navigator>
 
     )
@@ -92,8 +92,8 @@ const Home = ({ scrollY }) => {
     //         setDisplay('none');
     //     }
     // }, [isTabVisible]);
-    const iconView={ flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height:'100%',paddingBottom:10}
-    const textIcon={position:'absolute',bottom:5,color:'black'}
+    const iconView = { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', paddingBottom: 10 }
+    const textIcon = { position: 'absolute', bottom: 5, color: 'black' }
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -101,7 +101,7 @@ const Home = ({ scrollY }) => {
                 color: 'red',
                 tabBarActiveTintColor: 'black',
                 tabBarLabelStyle: { display: 'none' },
-                tabBarStyle: { height: 80,backgroundColor:'#F4F5F2' },
+                tabBarStyle: { height: 80, backgroundColor: '#F4F5F2' },
             })}
         >
             <Tab.Screen
@@ -111,7 +111,7 @@ const Home = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <Ionicons name={'home-outline'} color={color} size={30} />
-                            <Text style={textIcon}>{focused ? 'Trang chủ' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Trang chủ' : ''}</Text>
                         </View>
                     ),
                 }}
@@ -127,7 +127,7 @@ const Home = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <Octicons name="history" color={color} size={28} />
-                            <Text style={textIcon}>{focused ? 'Lịch sử' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Lịch sử' : ''}</Text>
                         </View>
                     ),
                 }}
@@ -143,7 +143,7 @@ const Home = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <Ionicons name="call-outline" color={color} size={30} />
-                            <Text style={textIcon}>{focused ? 'Hỗ trợ' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Hỗ trợ' : ''}</Text>
                         </View>
                     ),
                 }}
@@ -160,7 +160,7 @@ const Home = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <AntDesign name="setting" color={color} size={30} />
-                            <Text style={textIcon}>{focused ? 'Cài đặt' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Cài đặt' : ''}</Text>
                         </View>
                     ),
                 }}
@@ -177,8 +177,8 @@ const Home = ({ scrollY }) => {
 }
 const HomeAdmin = ({ scrollY }) => {
 
-    const iconView={ flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height:'100%',paddingBottom:10}
-    const textIcon={position:'absolute',bottom:5,color:'black'}
+    const iconView = { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', paddingBottom: 10 }
+    const textIcon = { position: 'absolute', bottom: 5, color: 'black' }
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -186,7 +186,7 @@ const HomeAdmin = ({ scrollY }) => {
                 color: 'red',
                 tabBarActiveTintColor: 'black',
                 tabBarLabelStyle: { display: 'none' },
-                tabBarStyle: { height: 80,backgroundColor:'#F4F5F2' },
+                tabBarStyle: { height: 80, backgroundColor: '#F4F5F2' },
             })}
         >
             <Tab.Screen
@@ -196,7 +196,7 @@ const HomeAdmin = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <Ionicons name={'home-outline'} color={color} size={30} />
-                            <Text style={textIcon}>{focused ? 'Trang chủ' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Trang chủ' : ''}</Text>
                         </View>
                     ),
                 }}
@@ -212,7 +212,7 @@ const HomeAdmin = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <Octicons name="history" color={color} size={28} />
-                            <Text style={textIcon}>{focused ? 'Lịch sử' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Lịch sử' : ''}</Text>
                         </View>
                     ),
                 }}
@@ -228,7 +228,7 @@ const HomeAdmin = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <AntDesign name="setting" color={color} size={30} />
-                            <Text style={textIcon}>{focused ? 'Cài đặt' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Cài đặt' : ''}</Text>
                         </View>
                     ),
                 }}
@@ -287,7 +287,7 @@ const AppNavigator = () => {
     const { isLogin, setIsLogin } = useContext(AppContext);
     return (
         <>
-            <HomeAdmin/>
+            {isLogin == false ? <Users /> : <HomeAdmin/>}
         </>
     )
 }
