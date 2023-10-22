@@ -15,7 +15,7 @@ const Login = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
-    
+
   };
 
   const selectLocation = (location) => {
@@ -34,35 +34,39 @@ const Login = () => {
 
     try {
       console.log("login");
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
+      if (selectedLocation) {
+        await GoogleSignin.hasPlayServices();
+        const userInfo = await GoogleSignin.signIn();
 
-      setisLoading(true);
-      const res = await AxiosIntance().post("/user/login", { email: userInfo.user.email });
-      const userProfile =
-      {
-        email: userInfo.user.email,
-        phone: res.user.phone,
-        avt: userInfo.user.photo,
-        name: userInfo.user.name,
-        role: res.user.role
-      }
-      setUserProfile(userProfile)
-      console.log(res);
-      if (res.result == true) {
-        setisLoading(false);
-        if (selectedLocation) {
-          setIsLogin(true);
-          ToastAndroid.show("Đăng Nhập thành côngg", ToastAndroid.SHORT);
+        console.log(userInfo);
+        setisLoading(true);
+
+        const res = await AxiosIntance().post("/user/login", { email: userInfo.user.email });
+        const userProfile =
+        {
+          email: userInfo.user.email,
+          phone: res.user.phone,
+          avt: userInfo.user.photo,
+          name: userInfo.user.name,
+          role: res.user.role
         }
-        else{    
-        ToastAndroid.show("vui lòng chọn cơ sở ", ToastAndroid.SHORT);       
-        }     
+        setUserProfile(userProfile)
+        console.log(res);
+        if (res.result == true) {
+          setisLoading(false);
+          {
+            setIsLogin(true);
+            ToastAndroid.show("Đăng Nhập thành côngg", ToastAndroid.SHORT);
+          }
+
+        } else {
+          ToastAndroid.show("Đăng nhập thất bại " + res.message, ToastAndroid.SHORT);
+        }
       }
       else {
-        ToastAndroid.show("Đăng nhập thất bại " + res.message, ToastAndroid.SHORT);
+        ToastAndroid.show("vui lòng chọn cơ sở", ToastAndroid.SHORT);
       }
+
 
 
     }
@@ -84,25 +88,25 @@ const Login = () => {
                 alignItems: 'center'
               }} isVisible={isModalVisible}>
                 <View style={styles.modal}>
-                  <Text onPress={() => selectLocation('FPT Polytechnic HO')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic HO' ? 'orange' : 'transparent'},styles.fpt]}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic HO')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic HO' ? 'orange' : 'transparent' }, styles.fpt]}>
                     FPT Polytechnic HO
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Hà Nội')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Hà Nội' ? 'orange' : 'transparent'},styles.fpt]}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Hà Nội')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Hà Nội' ? 'orange' : 'transparent' }, styles.fpt]}>
                     FPT Polytechnic Hà Nội
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Hồ Chí Minh')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Hồ Chí Minh' ? 'orange' : 'transparent'},styles.fpt]}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Hồ Chí Minh')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Hồ Chí Minh' ? 'orange' : 'transparent' }, styles.fpt]}>
                     FPT Polytechnic Hồ Chí Minh
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Đà Nẵng')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Đà Nẵng' ? 'orange' : 'transparent'},styles.fpt]}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Đà Nẵng')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Đà Nẵng' ? 'orange' : 'transparent' }, styles.fpt]}>
                     FPT Polytechnic Đà Nẵng
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Cần Thơ')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Cần Thơ' ? 'orange' : 'transparent'},styles.fpt]}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Cần Thơ')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Cần Thơ' ? 'orange' : 'transparent' }, styles.fpt]}>
                     FPT Polytechnic Cần Thơ
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Tây Nguyên')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Tây Nguyên' ? 'orange' : 'transparent'},styles.fpt]}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Tây Nguyên')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Tây Nguyên' ? 'orange' : 'transparent' }, styles.fpt]}>
                     FPT Polytechnic Tây Nguyên
                   </Text>
-                  <Text onPress={() => selectLocation('FPT Polytechnic Hải Phòng')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Hải Phòng' ? 'orange' : 'transparent'},styles.fpt]}>
+                  <Text onPress={() => selectLocation('FPT Polytechnic Hải Phòng')} style={[{ backgroundColor: selectedLocation === 'FPT Polytechnic Hải Phòng' ? 'orange' : 'transparent' }, styles.fpt]}>
                     FPT Polytechnic Hải Phòng
                   </Text>
                   <Pressable style={styles.btnXacNhan} onPress={toggleModal}>
@@ -112,7 +116,7 @@ const Login = () => {
               </Modal>
             </View>
             <TouchableOpacity title="Show modal" onPress={toggleModal} style={styles.btncoso}>
-            <Text style={{ textAlign: 'center', fontSize: 12 }}>
+              <Text style={{ textAlign: 'center', fontSize: 12 }}>
                 {selectedLocation ? selectedLocation : 'Lựa chọn cơ sở'}
               </Text>
             </TouchableOpacity>
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDEDED',
     borderRadius: 6,
     elevation: 3,
-    marginBottom:40
+    marginBottom: 40
 
   }, btngg: {
     width: '100%',
@@ -215,7 +219,7 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     elevation: 3,
     marginTop: 15
-  },fpt:{
-    fontSize: 15, margin: 5, width: 210, height: 25, textAlign: 'center',borderRadius:12
+  }, fpt: {
+    fontSize: 15, margin: 5, width: 210, height: 25, textAlign: 'center', borderRadius: 12
   }
 })
