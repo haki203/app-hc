@@ -7,6 +7,7 @@ export const AppContext = createContext();
 export const AppContextProvider = (props) =>{
     const {children} = props;
     const [isLogin,setIsLogin] = useState(false);
+    const [isLoginAdmin,setIsLoginAdmin] = useState(false);
     const [isTabVisible, setIsTabVisible] = useState(true);
     const [data,setdata] = useState("false");
     // them in4 user de them thong tin ng dung luc login
@@ -14,7 +15,7 @@ export const AppContextProvider = (props) =>{
     const [userProfile, setUserProfile] = useState("");
     const [baseImgPath, setBaseImgPath] = useState('../../assets/images/');
     return (
-        <AppContext.Provider value={{isLogin,setIsLogin,userProfile, setUserProfile,isTabVisible,setIsTabVisible,baseImgPath}}>
+        <AppContext.Provider value={{isLogin,setIsLogin,userProfile, setUserProfile,isTabVisible,setIsTabVisible,baseImgPath,isLoginAdmin,setIsLoginAdmin}}>
             {children}
             {/*     // children la man hinh cho kho context
                     // value la du lieu sd chung */}

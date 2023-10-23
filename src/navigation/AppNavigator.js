@@ -284,12 +284,15 @@ const Play = () => {
     );
 };
 const AppNavigator = () => {
-    const { isLogin, setIsLogin } = useContext(AppContext);
-    return (
-        <>
-            <HomeAdmin/>
-        </>
-    )
+    const { isLogin, isLoginAdmin } = useContext(AppContext);
+
+    if (isLoginAdmin) {
+        return <HomeAdmin />;
+    } else if (isLogin) {
+        return <Home />;
+    } else {
+        return <Users />;
+    }
 }
 
 export default AppNavigator;
