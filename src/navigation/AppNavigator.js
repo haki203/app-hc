@@ -22,6 +22,7 @@ import ContactScreen from '../components/user/ContactScreen';
 import HomeScreenAdmin from '../components/admin/HomeAdmin';
 import HistoryAdmin from '../components/admin/HistoryAdmin';
 import SettingAdmin from '../components/admin/SettingAdmin';
+import ProblemDetail from '../components/admin/ProblemDetail';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Users = () => {
