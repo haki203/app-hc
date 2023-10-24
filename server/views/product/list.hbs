@@ -211,43 +211,17 @@
             <li class="nav-item">
                 <a href="/cpanel/product" class="nav-link collapsed" href="pages-contact.html">
                     <i class="bi bi-book"></i>
-                    <span>Product</span>
-                </a>
-            </li><!-- End Contact Page Nav -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="pages-contact.html">
-                    <i class="bi bi-envelope"></i>
-                    <span>Contact</span>
+                    <span>Reports</span>
                 </a>
             </li><!-- End Contact Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="pages-register.html">
-                    <i class="bi bi-card-list"></i>
-                    <span>Register</span>
-                </a>
-            </li><!-- End Register Page Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="/api/user/logout">
+                <a class="nav-link collapsed" href="/logout">
                     <i class="bi bi-box-arrow-in-right"></i>
                     <span>Logout</span>
                 </a>
             </li><!-- End Login Page Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="pages-error-404.html">
-                    <i class="bi bi-dash-circle"></i>
-                    <span>Error 404</span>
-                </a>
-            </li><!-- End Error 404 Page Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="pages-blank.html">
-                    <i class="bi bi-file-earmark"></i>
-                    <span>Blank</span>
-                </a>
-            </li><!-- End Blank Page Nav -->
 
         </ul>
 
@@ -299,7 +273,7 @@
                                     <th scope="col">Type</th>
                                     <th scope="col">Admin</th>
                                     <th scope="col">Description</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Trạng thái</th>
                                 </tr>
                             </thead>
 
@@ -307,28 +281,59 @@
                                 {{#each reports}}
                                 <tr>
                                     <td>
-                                        <img style="width: 80px; height: 120px;" src="{{this.image}}">
+                                        <img style="width:150px; height: 180px;" src="{{this.image}}">
                                     </td>
                                     <td>{{this.room}}</td>
                                     <td>{{this.report_date}}</td>
-                                    <td>{{this.userId}}</td>
-                                    <td>{{this.type}}</td>
+                                    <td>{{this.userId.full_name}}</td>
+                                    <td class="types">{{this.type}}</td>
 
-
-                                    <td>{{this.admin}}</td>
-                                    
-
-                                    
-
-
+                                    <td>
+                                        {{#if this.admin.full_name}}
+                                        {{this.admin.full_name}}
+                                        {{else}}
+                                        Chưa có ai tiếp nhận
+                                        {{/if}}
+                                    </td>
 
                                     <td class="limited-lines">{{this.description}}</td>
-                                    <td>
-                                        <a onclick="confirmDelete('{{this._id}}');" class="btn btn-danger">Delete</a>
-                                    </td>
+                                    <td class="status">{{this.status}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>
+                            <script>
+                                // Lấy tất cả các dòng có class "types"
+                                const typeCells = document.querySelectorAll('.types');
+                                // Lặp qua từng dòng và kiểm tra giá trị của "this.type"
+                                typeCells.forEach((cell) => {
+
+                                    const typeValue = cell.textContent.trim(); // Lấy giá trị của "this.type" và loại bỏ khoảng trắng
+                                    if (typeValue === '1') {
+                                        cell.textContent = 'Sự cố về CNTT';
+                                    } else if (typeValue === '2') {
+                                        cell.textContent = 'Sự cố về cơ sở vật chất';
+                                    }
+                                });
+
+
+                                const typeCells2 = document.querySelectorAll('.status');
+                                // Lặp qua từng dòng và kiểm tra giá trị của "this.type"
+                                typeCells2.forEach((cell) => {
+                                    const typeValue2 = cell.textContent.trim(); // Lấy giá trị của "this.type" và loại bỏ khoảng trắng
+
+                                    if (typeValue2 == 0 || typeValue2 == '0') {
+                                        cell.textContent = 'Gửi yêu cầu';
+                                    }
+                                    else if (typeValue2 == 1 || typeValue2 == '1') {
+                                        cell.textContent = 'Đã tiếp nhận';
+                                    } else if (typeValue2 == 2 || typeValue2 == '2') {
+                                        cell.textContent = 'Đã hoàn thành';
+                                    } else {
+                                        cell.textContent = typeValue2;
+                                    }
+                                });
+                            </script>
+
                             <!-- End Default Table Example -->
                         </table>
                     </div>
