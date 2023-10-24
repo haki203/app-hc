@@ -1,7 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View, FlatList } from 'react-native'
 import React,{useContext,useEffect} from 'react'
 import Icon from "react-native-vector-icons/AntDesign"
-import { AppContext } from '../context/AppContext'
+import { AppContext } from '../../assets/images/'
 
 const Thongbao = (props) => {
     const { navigation } = props;
