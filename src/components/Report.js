@@ -1,8 +1,8 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions ,ActivityIndicator} from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import AxiosIntance from '../../axios/AxiosIntance';
-import Loading from '../isLoading/Loading';
-const baseImgPath = '../../assets/images/';
+import AxiosIntance from '../axios/AxiosIntance';
+import Loading from './isLoading/Loading';
+const baseImgPath = '../assets/images/';
 
 const { width, height } = Dimensions.get('window');
 const Report = (props) => {
@@ -46,7 +46,7 @@ const Report = (props) => {
 
   return (
     <View style={styles.container}>
-            <View>{isLoading ? <View style={{ width: width, height: height, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator size="large" color="black" /></View> : <View></View>}</View>
+      <View>{isLoading ? <Loading /> : <View></View>}</View>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
           <Image style={styles.back} source={require(baseImgPath + 'back.png')}></Image>

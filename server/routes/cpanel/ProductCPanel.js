@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const productController = require('../../components/products/ProductController');
-const reportModel = require('../../components/report/ReportModel');
 
 
 
@@ -26,39 +25,32 @@ async function uploadFiles(path, filename) {
 
 //localhost:3000/cpanel/product
 router.get('/', async (req, res, next) => {
-
     //hien thi trang danh sach sp
-    const reports = await reportModel.find({}).populate('userId', 'full_name').populate('admin', 'full_name');
-    let modifiedReports = [];
-
-    for (let i = 0; i < reports.length; i++) {
-        let report = reports[i];
-        
-        if (report.admin == null) {
-            console.log("admin null roi ong gia",i);
-            report.admin = { full_name: "Chưa có ai tiếp nhận" };
-        }
-        
-        modifiedReports.push(report);
-    }
-    
-    console.log("new mang ne: ",modifiedReports);
-    res.render('product/list', { reports });
-
+    const products = await productController.getAllProducts();
+    res.render('product/list', { products });
+    //     const users = await userController.getAllUsers();
+    // res.render('product/list', { users });
 });
+//localhost:3000/cpanel/product
+// router.get('/details', async (req, res, next) => {
+//     //hien thi trang danh sach sp
+//     const detail = await productController.getAllDetails();
+//     res.render('product/list', { detail });
+//     //     const users = await userController.getAllUsers();
+//     // res.render('product/list', { users });
+// });
+// router.get('/:id/delete', async (req, res, next) => {
+//     // hien thi trang danh sach sp
+//     try {
+//         const { id } = req.params;
+//         await productController.deleteProductById(id);
+//         return res.json({ status: true })
+//     }
+//     catch (error) {
+//         return res.json({ status: false })
+//     }
 
-router.get('/:id/delete', async (req, res, next) => {
-    // hien thi trang danh sach sp
-    try {
-        const { id } = req.params;
-        await reportModel.findByIdAndDelete(id);
-        return res.json({ status: true })
-    }
-    catch (error) {
-        return res.json({ status: false })
-    }
-
-});
+// });
 // // router.get('/new', async (req, res, next) => {
 // //     // hien thi add sp
 // //     const categories = await categoryController.getAllCategories();

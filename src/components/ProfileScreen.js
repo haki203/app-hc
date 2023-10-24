@@ -5,7 +5,7 @@ const baseImgPath = '../assets/images/';
 const ProfileScreen = (props) => {
     const {navigation}=props;
     const {isTabVisible, setIsTabVisible} = useContext(AppContext);
-    const { userProfile } = useContext(AppContext);
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -14,17 +14,18 @@ const ProfileScreen = (props) => {
                     <Text style={styles.textback}> Trở về</Text>
                 </TouchableOpacity >
                 <View style={styles.centerHeader}>
-                    <Image style={{width:60,height:60,marginBottom:10,borderRadius:20}} source={{ uri: userProfile.avt }} />
-                    <Text style={{ color: 'white', fontSize: 25, fontWeight: 500 }}>{userProfile.name}</Text>
-                    <Text style={{ color: 'white', fontSize: 15, fontWeight: 400 }}>{userProfile.role === 1 ? 'Nhân Viên' : 'Sinh Viên'}</Text>
+                    <Image style={styles.icarrowleft} source={require(baseImgPath+'avavtarChibi.png')} />
+                    <Text style={{ color: 'white', fontSize: 25, fontWeight: 500 }}>Nguyễn Trung Hải </Text>
+                    <Text style={{ color: 'white', fontSize: 15, fontWeight: 400 }}>Trưởng phòng IT </Text>
                 </View>
             </View>
             <View style={styles.bodycontainer} >
                 <View style={styles.body} >
                     <View style={styles.textcontact}>
                         <Text style={{ color: '#d9d9d9', fontSize: 20, fontWeight: 500 }}>Số điện thoại </Text>
-                        <Text style={{ color: 'black', fontSize: 18, fontWeight: 400,paddingTop:10 }}>0{userProfile.phone}</Text>
+                        <Text style={{ color: 'black', fontSize: 18, fontWeight: 400,paddingTop:10 }}>012345678 </Text>
                     </View >
+                   <Image style={{  marginTop: 40 }} source={require(baseImgPath+'icContact.png')} />
                     
                     
                 </View>
