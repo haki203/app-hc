@@ -273,24 +273,67 @@
                                     <th scope="col">Type</th>
                                     <th scope="col">Admin</th>
                                     <th scope="col">Description</th>
+                                    <th scope="col">Trạng thái</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                {{#each reports}} 
+                                {{#each reports}}
                                 <tr>
                                     <td>
                                         <img style="width:150px; height: 180px;" src="{{this.image}}">
                                     </td>
                                     <td>{{this.room}}</td>
                                     <td>{{this.report_date}}</td>
-                                    <td>{{this.userId}}</td>
-                                    <td>{{this.type}}</td>
-                                    <td>{{this.admin}}</td>
+                                    <td>{{this.userId.full_name}}</td>
+                                    <td class="types">{{this.type}}</td>
+
+                                    <td>
+                                        {{#if this.admin.full_name}}
+                                        {{this.admin.full_name}}
+                                        {{else}}
+                                        Chưa có ai tiếp nhận
+                                        {{/if}}
+                                    </td>
+
                                     <td class="limited-lines">{{this.description}}</td>
+                                    <td class="status">{{this.status}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>
+                            <script>
+                                // Lấy tất cả các dòng có class "types"
+                                const typeCells = document.querySelectorAll('.types');
+                                // Lặp qua từng dòng và kiểm tra giá trị của "this.type"
+                                typeCells.forEach((cell) => {
+
+                                    const typeValue = cell.textContent.trim(); // Lấy giá trị của "this.type" và loại bỏ khoảng trắng
+                                    if (typeValue === '1') {
+                                        cell.textContent = 'Sự cố về CNTT';
+                                    } else if (typeValue === '2') {
+                                        cell.textContent = 'Sự cố về cơ sở vật chất';
+                                    }
+                                });
+
+
+                                const typeCells2 = document.querySelectorAll('.status');
+                                // Lặp qua từng dòng và kiểm tra giá trị của "this.type"
+                                typeCells2.forEach((cell) => {
+                                    const typeValue2 = cell.textContent.trim(); // Lấy giá trị của "this.type" và loại bỏ khoảng trắng
+
+                                    if (typeValue2 == 0 || typeValue2 == '0') {
+                                        cell.textContent = 'Gửi yêu cầu';
+                                    }
+                                    else if (typeValue2 == 1 || typeValue2 == '1') {
+                                        cell.textContent = 'Đã tiếp nhận';
+                                    } else if (typeValue2 == 2 || typeValue2 == '2') {
+                                        cell.textContent = 'Đã hoàn thành';
+                                    } else {
+                                        cell.textContent = typeValue2;
+                                    }
+                                });
+                            </script>
+
                             <!-- End Default Table Example -->
                         </table>
                     </div>

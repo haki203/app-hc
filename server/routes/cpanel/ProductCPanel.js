@@ -26,9 +26,23 @@ async function uploadFiles(path, filename) {
 
 //localhost:3000/cpanel/product
 router.get('/', async (req, res, next) => {
+
     //hien thi trang danh sach sp
-    const reports = await reportModel.find({});
-    console.log(reports);
+    const reports = await reportModel.find({}).populate('userId', 'full_name').populate('admin', 'full_name');
+    let modifiedReports = [];
+
+    for (let i = 0; i < reports.length; i++) {
+        let report = reports[i];
+        
+        if (report.admin == null) {
+            console.log("admin null roi ong gia",i);
+            report.admin = { full_name: "Chưa có ai tiếp nhận" };
+        }
+        
+        modifiedReports.push(report);
+    }
+    
+    console.log("new mang ne: ",modifiedReports);
     res.render('product/list', { reports });
 
 });
