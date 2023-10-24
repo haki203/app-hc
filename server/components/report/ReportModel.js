@@ -9,7 +9,7 @@ const schema = new Schema({
     room: { type: String },
     image: { type: String },
     time: { type: String },
-    admin: {  type: ObjectId, ref: 'admins'  },
+    admin: {  type: ObjectId, ref: 'users'  },
     accept: { type: String },
     done: { type: String },
     description: { type: String },
