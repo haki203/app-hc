@@ -1,31 +1,7 @@
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import AxiosIntance from '../axios/AxiosIntance';
-import ItemContact from './ItemContact';
-
-
+import React from 'react'
 const baseImgPath = '../assets/images/';
-const ContactScreen = ( props) => {
-    const { navigation } = props;
-    const [dataNe, setdataNe] = useState([]);
-    useEffect(() => {
-        const getNews = async () => {
-         
-          const respone = await AxiosIntance().get("/user/admin");
-          if (respone.result == true) {
-
-            setdataNe(respone.admin);
-            console.log("du lieu" + respone.admin);
-          }
-          else {
-            ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
-          }
-        }
-        getNews();
-    
-        return () => {
-        }
-      }, []);
+const ContactScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -46,22 +22,48 @@ const ContactScreen = ( props) => {
                 <View style={styles.topbody} >
                     <Text style={{fontWeight: 'bold',marginBottom:20,marginTop:20 }}> Phòng kỹ thuật</Text>
 
-                   
                     <FlatList
-                    data={dataNe}
-                    renderItem={({ item }) => <ItemContact admin={item} navigation={navigation} />}
-                    keyExtractor={item => item._id}
-                    showsVerticalScrollIndicator={false}
-                  />
-                    
+                        data={dataPhongKyThuat}
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={styles.topbody}>
+                                    <View style={styles.item}>
+                                        <View style={styles.itemin}>
+                                            <Image source={item.image} />
+                                            <View style={styles.in4contact}>
+                                                <Text style={styles.name}>{item.name}</Text>
+                                                <Text style={styles.department}>{item.department}</Text>
+                                            </View>
+                                            <Image source={require(baseImgPath+'chevron-right.png')} />
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                        }}
+                        keyExtractor={(item) => item.id}
+                    />
                 </View>
                 <View style={styles.topbody}>
                 <Text style={{fontWeight: 'bold',marginBottom:20,marginTop:20 }}> Phòng Hành Chính</Text>
-                <FlatList
-                    data={dataNe}
-                    renderItem={({ item }) => <ItemContact admin={item} navigation={navigation} />}
-                    keyExtractor={item => item._id}
-                    showsVerticalScrollIndicator={false}
+                    <FlatList
+                        data={dataPhongKyThuat}
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={styles.topbody}>
+                                    <View style={styles.item}>
+                                        <View style={styles.itemin}>
+                                            <Image source={item.image} />
+                                            <View style={styles.in4contact}>
+                                                <Text style={styles.name}>{item.name}</Text>
+                                                <Text style={styles.department}>{item.department}</Text>
+                                            </View>
+                                            <Image source={require(baseImgPath+'chevron-right.png')} />
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                        }}
+                        keyExtractor={(item) => item.id}
                     />
 
                 </View>
@@ -113,9 +115,34 @@ const styles = StyleSheet.create({
     bottombody: {
 
     },
-    name:{
-        color: '#000000',
-        fontSize:15,
-       
-    }
+
+
+
+
+
+
+
+
+
 })
+const dataPhongKyThuat = [
+    {
+        id: '1',
+        name: 'Nguyễn Văn A',
+        image: require(baseImgPath+'avavtarChibi.png'),
+        department: 'Trưởng Phòng IT'
+    },
+    {
+        id: '2',
+        name: 'Trần Thị B',
+        image: require(baseImgPath+'avavtarChibi.png'),
+        department: 'Trưởng Phòng IT'
+    },
+    {
+        id: '3',
+        name: 'Lê Văn C',
+        image: require(baseImgPath+'avavtarChibi.png'),
+        department: 'Trưởng Phòng IT'
+    }
+
+]
