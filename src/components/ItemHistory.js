@@ -27,6 +27,7 @@ const ItemHistory = (props) => {
             <Text style={styles.text4}>Phòng: {report.room}</Text>
             <Text></Text>
             <Text></Text>
+            <Text></Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -111,6 +112,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 50,
-
+    marginRight: 35
   }
 })

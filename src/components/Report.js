@@ -69,6 +69,7 @@ const Report = (props) => {
             <Text></Text>
             <Text></Text>
             <Text></Text>
+            <Text></Text>
           </View>
         </View>
       </View>
