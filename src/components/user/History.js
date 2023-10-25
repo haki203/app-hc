@@ -1,18 +1,20 @@
 import { StyleSheet, Text, View, Dimensions, Image, FlatList, ActivityIndicator } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import ItemHistory from './ItemHistory';
 import Icon from "react-native-vector-icons/AntDesign"
-import AxiosIntance from '../axios/AxiosIntance';
-import Loading from './isLoading/Loading';
+import AxiosIntance from '../../axios/AxiosIntance';
+import Loading from '../isLoading/Loading';
+import { AppContext } from '../../context/AppContext';
 
 const bacroundHeight = '#FFF';
 const { width, height } = Dimensions.get('window');
-const baseImgPath = '../assets/images/';
+const baseImgPath = '../../assets/images/';
 
 const History = (props) => {
   const { navigation } = props;
   const [dataNe, setdataNe] = useState([]);
   const [isLoading, setisLoading] = useState(false);
+  const { userProfile } = useContext(AppContext);
 
   useEffect(() => {
     const getNews = async () => {
@@ -40,21 +42,24 @@ const History = (props) => {
       <View style={styles.header}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1, padding: 20, marginTop: 35 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
-            <Image style={styles.profile} source={require(baseImgPath + 'profile.png')}></Image>
-            <Text style={styles.text1}>Nguyễn Trung Hải</Text>
+            <Image style={styles.profile} source={{ uri: userProfile.avt }}></Image>
+            <Text style={styles.text1}>{userProfile.name}</Text>
           </View>
           <Icon onPress={() => navigation.navigate('Notification')} style={styles.iconmenu} name='bells' size={20} color="#FFFFFF" />
         </View>
       </View>
       <View style={styles.leader}>
         <Text style={styles.text2}>Lịch sử</Text>
-        <View>{isLoading ? <Loading /> : 
-        <FlatList
-          data={dataNe}
-          renderItem={({ item }) => <ItemHistory report={item} navigation={navigation} />}
-          keyExtractor={item => item._id}
-          showsVerticalScrollIndicator={false}
-        />}</View>
+        <View >{isLoading ? <Loading /> :
+          <View style={{width:width}}>
+            <FlatList
+              data={dataNe}
+              renderItem={({ item }) => <ItemHistory report={item} navigation={navigation} />}
+              keyExtractor={item => item._id}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        }</View>
 
       </View>
     </View>
@@ -126,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D97245'
   },
   header: {
-    height: height * 0.15,
+    height: height * 0.157,
 
   },
   leader: {
@@ -135,10 +140,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     alignItems: 'center',
-
+    width: '100%',
   },
   text1: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#FEFEFE',
     fontStyle: 'normal',
     fontWeight: '700',
@@ -151,7 +156,8 @@ const styles = StyleSheet.create({
   },
   profile: {
     width: 55,
-    height: 55
+    height: 55,
+    borderRadius: 30
   },
   text2: {
     color: 'rgba(0, 0, 0, 0.87)',

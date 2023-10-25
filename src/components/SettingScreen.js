@@ -1,15 +1,29 @@
 import { StyleSheet, Text, View, Image, Switch, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
+import { AppContext } from '../context/AppContext';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 const baseImgPath = '../assets/images/';
 const SettingScreen = (props) => {
     const { navigation } = props;
     const [isEnabled, setIsEnabled] = useState(false);
+    const { userProfile } = useContext(AppContext);
+    const { setIsLogin } = useContext(AppContext);
+    const handleSignOut = async () => {
+        try {
+          await GoogleSignin.revokeAccess();
+          await GoogleSignin.signOut();
+          setIsLogin(false);
+          // Đăng xuất thành công, bạn có thể thực hiện các hành động sau khi đăng xuất ở đây
+        } catch (error) {
+          console.error('Lỗi đăng xuất:', error);
+        }
+      };
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Image style={{}} source={require(baseImgPath + 'avavtarChibi.png')} />
-                <Text style={{ color: 'white', fontSize: 25, fontWeight: 500 }}>Nguyễn Trung Hải </Text>
-                <Text style={{ color: 'white', fontSize: 18, fontWeight: 400 }}>012346789 </Text>
+                <Image style={{width:60,height:60,marginBottom:10,borderRadius:20}} source={{ uri: userProfile.avt }} />
+                <Text style={{ color: 'white', fontSize: 25, fontWeight: 500 }}>{userProfile.name}</Text>
+                <Text style={{ color: 'white', fontSize: 18, fontWeight: 400 }}>0{userProfile.phone}</Text>
             </View>
             <View style={styles.bodycontainer} >
                 <View style={styles.body} >
@@ -24,7 +38,7 @@ const SettingScreen = (props) => {
                         <Text style={styles.textItem}> Tắt thông báo </Text>
                         <Switch style={styles.switch} trackColor={styles.trackColor} thumbColor={styles.thumbColor(isEnabled)} onValueChange={setIsEnabled} value={isEnabled} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.itembody} >
+                    <TouchableOpacity style={styles.itembody} onPress={()=>handleSignOut()}>
                         <Image source={require(baseImgPath + 'icexit.png')} />
                         <Text style={styles.textItem} > Đăng xuất </Text>
                     </TouchableOpacity>
