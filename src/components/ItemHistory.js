@@ -4,32 +4,22 @@ import { Image } from 'react-native-elements';
 
 const ItemHistory = (props) => {
   const { report } = props;
-  const [fullName, setFullName] = useState("Chưa có");
-
   const { navigation } = props;
   const [id, setId] = useState(report._id);
-  useEffect(() => {
-    try {
-      setFullName(report.admin.full_name);
-    } catch (error) {
-      
-    }
- 
-  }, []);
   const clickItem = () => {
     console.log(id);
-    navigation.navigate('Report', { id: id });
+    navigation.navigate('Report',{id:id});
   }
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.leader} onPress={clickItem}>
-
-        <View style={{width:'85%'}}>
+        <View style={styles.leader2}>
           <Text style={styles.text}>
             {report.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}
           </Text>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.text3}>Người tiếp nhận: {fullName}</Text>
+            <Text style={styles.text3}>Người tiếp nhận: {report.admin.full_name}</Text>
+            <Image source={{ uri: report.image }} style={styles.profile}></Image>
           </View>
           <View style={styles.leader3}>
             <Text style={styles.text4}>{report.report_date}</Text>
@@ -40,7 +30,6 @@ const ItemHistory = (props) => {
             <Text></Text>
           </View>
         </View>
-        <Image source={{ uri: report.image }} style={styles.profile}></Image>
       </TouchableOpacity>
     </View>
   )
@@ -51,17 +40,13 @@ export default ItemHistory
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    
+    backgroundColor: '#FFFFFF'
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    padding: 24
   },
   back: {
     width: 24,
@@ -79,11 +64,11 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderStyle: 'solid',
     borderColor: 'rgba(0, 0, 0, 0.05)',
-    padding: 20,
-    width: '90%',
-    flexDirection: 'row',
-    alignItems:'center',
-    elevation:4
+    width: 375,
+    height: 101,
+    flexShrink: 0,
+    marginHorizontal: 17,
+    marginTop: 17
   },
   text2: {
     color: '#000',
@@ -95,14 +80,14 @@ const styles = StyleSheet.create({
   },
   text3: {
     color: '#000',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '500',
     fontStyle: 'normal',
     paddingTop: 13,
-    fontFamily: 'Poppins',
-    marginBottom:10
+    fontFamily: 'Poppins'
   },
   leader2: {
+    paddingLeft: 18,
   },
   leader3: {
     flexDirection: 'row',

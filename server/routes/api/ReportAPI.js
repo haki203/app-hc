@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 var express = require('express');
 var router = express.Router();
 const reportModel = require('../../components/report/ReportModel');
@@ -30,60 +31,34 @@ router.post('/new', async (req, res) => {
             // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
             time = moment().format('hh:mm A');
         }
-        if (!image) {
-            // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
-            res.status(400).json({ result: false, message: 'missing image' });
-            return;
-        }
-        if (!room) {
-            // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
-            res.status(400).json({ result: false, message: 'missing room' });
-            return;
-        }
-        if (!description) {
-            // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
-            res.status(400).json({ result: false, message: 'missing description' });
-            return;
-        }
-
         // Kiểm tra và đặt các trường là chuỗi rỗng nếu chúng là null hoặc undefined
-        const adminValue = admin || null;
-        const userIdValue = userId || '652bc5771e8e20f18f052a65';
+        const adminValue = admin || '';
         const imageValue = image || 'http://dummyimage.com/142x100.png/5fa2dd/ffffff';
-        const acceptValue = accept || null;
-        const doneValue = done || null;
-        const descriptionValue = description || "khong co mo ta";
-        const status = 0;
+        const acceptValue = accept || '';
+        const doneValue = done || '';
+        const descriptionValue = description || '';
+        const status =0;
         // Tạo một bản ghi report mới
-        const newReport = {
+        const newReport = new reportModel({
             report_date,
-            userId: userIdValue,
+            userId,
             type,
             room,
-            image: imageValue,
+            image:imageValue,
             time,
             admin: adminValue,
             accept: acceptValue,
             done: doneValue,
             description: descriptionValue,
-            status: status
-        };
-        //Lưu bản ghi report vào cơ sở dữ liệu
-        let newResult="";
-        try {
-            newResult = await reportModel.create(newReport);
-        } catch (error) {
-            console.log(error);
-        }
-        if (newResult) {
-            res.status(201).json({ result: true, message: 'Báo cáo đã được thêm thành công.' ,report:newResult});
-            return;
-        } else {
-            res.status(400).json({ result: false, message: 'Thêm báo cáo thất bại' });
-            return;
-        }
+            status:status
+        });
+
+        // Lưu bản ghi report vào cơ sở dữ liệu
+        await newReport.save();
+
+        res.status(201).json({ result: true, message: 'Báo cáo đã được thêm thành công.' });
     } catch (error) {
-        res.status(400).json({ result: false, message: 'Lỗi khi thêm báo cáo.' + error });
+        res.status(400).json({ result: false, message: 'Lỗi khi thêm báo cáo.'+error });
     }
 });
 // get category
@@ -118,8 +93,8 @@ router.get('/:id', async (req, res, next) => {
         const report = await reportModel.findById(id).populate('admin', 'full_name');;
         res.status(200).json({ report, result: true });
     } catch (error) {
-        res.status(400).json({ result: false, message: 'khong có id này' });
-    } false
+        res.status(400).json({result:false,message:'khong có id này'});
+    }false
 });
 
 // get user by id
