@@ -1253,15 +1253,9 @@
     "safe-json-stringify" "~1"
 
 "@expo/cli@0.10.13":
-<<<<<<< HEAD
   version "0.10.13"
   resolved "https://registry.npmjs.org/@expo/cli/-/cli-0.10.13.tgz"
   integrity sha512-8ciyz+yIDih6zCNMWK0IyEv411W7vej/TaWIFGarogPVbFokXrUKr0aKoQG1RU1SLlY4eUpHakbIzqog+rhJdQ==
-=======
-  "integrity" "sha512-8ciyz+yIDih6zCNMWK0IyEv411W7vej/TaWIFGarogPVbFokXrUKr0aKoQG1RU1SLlY4eUpHakbIzqog+rhJdQ=="
-  "resolved" "https://registry.npmjs.org/@expo/cli/-/cli-0.10.13.tgz"
-  "version" "0.10.13"
->>>>>>> parent of 8c37668 (.admin)
   dependencies:
     "@babel/runtime" "^7.20.0"
     "@expo/code-signing-certificates" "0.0.5"
