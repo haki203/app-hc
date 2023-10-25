@@ -21,7 +21,7 @@ const Login = () => {
   const selectLocation = (location) => {
     setSelectedLocation(location);
   };
-  const { setinfoUser, setIsLogin } = useContext(AppContext);
+  const { setIsLoginAdmin, setIsLogin } = useContext(AppContext);
   const { userProfile, setUserProfile } = useContext(AppContext);
   const [isLoading, setisLoading] = useState(false);
 
@@ -34,7 +34,7 @@ const Login = () => {
 
     try {
       console.log("login");
-      if (selectedLocation) {
+      if (selectedLocation == 'FPT Polytechnic Hồ Chí Minh') {
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
 
@@ -55,8 +55,13 @@ const Login = () => {
         if (res.result == true) {
           setisLoading(false);
           {
-            setIsLogin(true);
-            ToastAndroid.show("Đăng Nhập thành côngg", ToastAndroid.SHORT);
+            if (res.user.role == 100) {
+              setIsLoginAdmin(true)
+              ToastAndroid.show("Đăng nhập với tư cách Admin", ToastAndroid.SHORT);
+            } {
+              setIsLogin(true)
+              ToastAndroid.show("Đăng Nhập thành công", ToastAndroid.SHORT);
+            }
           }
 
         } else {
@@ -64,7 +69,7 @@ const Login = () => {
         }
       }
       else {
-        ToastAndroid.show("vui lòng chọn cơ sở", ToastAndroid.SHORT);
+        ToastAndroid.show("vui lòng chọn đúng cơ sở", ToastAndroid.SHORT);
       }
 
 
