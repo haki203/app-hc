@@ -1,34 +1,38 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React, { useState,useContext } from 'react'
-const baseImgPath = '../assets/images/';
+import { StyleSheet, Text, View, Image,TouchableOpacity } from 'react-native'
+import React from 'react'
 const SettingAdmin = () => {
-    
-    return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Image style={{width:60,height:60,marginBottom:10,borderRadius:20}} source={require(baseImgPath + 'avavtarChibi.png')} />
-                <Text style={{ color: 'white', fontSize: 25, fontWeight: 500 }}>Nguyen Trung Hai</Text>
-                <Text style={{ color: 'white', fontSize: 18, fontWeight: 400 }}>0123456789</Text>
+  return (
+    <View style={styles.container}>
+       <View style={styles.header}>
+                <TouchableOpacity style={styles.leftHeader} >
+                    <Image style={styles.icarrowleft}  source={require('../../assets/images/ic_back_white.png')} />
+                
+                </TouchableOpacity >
+                <View style={styles.centerHeader}>
+                    <Image style={{width:60,height:60,marginBottom:10,borderRadius:20}}  source={require('../../assets/images/icprofile.png')} />
+                    <Text style={{ color: 'white', fontSize: 25, fontWeight: 500 }}>Nguyen Trung Hai</Text>
+                    <Text style={{ color: 'white', fontSize: 15, fontWeight: 400 }}>0123456789</Text>
+                </View>
             </View>
             <View style={styles.bodycontainer} >
-                <View style={styles.body} >
-                    <TouchableOpacity style={styles.itembody}>
-                        <Image source={require(baseImgPath + 'icprofile.png')} />
+            <View style={styles.body} >
+                    <TouchableOpacity style={styles.itembody} >
+                        <Image source={require('../../assets/images/icprofile.png')} />
                         <Text style={styles.textItem}> Chỉnh sửa tài khoản </Text>
-                        <Image source={require(baseImgPath + 'chevron-right.png')} />
+                        <Image source={require('../../assets/images/chevron-right.png')} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.itembody}>
-                        <Image source={require(baseImgPath + 'icexit.png')} />
+                    <TouchableOpacity style={styles.itembody} >
+                        <Image source={require('../../assets/images/icexit.png')} />
                         <Text style={styles.textItem} > Đăng xuất </Text>
                     </TouchableOpacity>
 
 
                 </View>
-
+                
             </View>
-        </View>
-    )
+    </View>
+  )
 }
 
 export default SettingAdmin
@@ -36,50 +40,50 @@ export default SettingAdmin
 const styles = StyleSheet.create({
     header: {
         width: '100%',
-        flexDirection:'column',
-        justifyContent:'center',
-        alignItems:'center',
+        height: 'auto',
         color: 'white',
-        height:'40%'
     },
     leftHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingTop: 40,
-        paddingLeft: 40,
-        backgroundColor: 'green',
+        padding: 20
+
 
     },
 
     container: {
-        flex:1,
+        width: '100%',
+        height: '100%',
         backgroundColor: '#D97245'
     },
-
+    textback: {
+        color: 'white',
+        fontSize: 18,
+        paddingLeft: 20
+    },
     centerHeader: {
         flexDirection: 'column',
         paddingTop: 50,
         paddingBottom: 30,
         alignItems: 'center'
     },
-    bodycontainer: {
+    bodycontainer:{
         width: '100%',
         height: '100%',
-        backgroundColor: 'white',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-
-
+        backgroundColor:'white',
+        borderTopLeftRadius:30,
+        borderTopRightRadius:30,
+    
+        
     },
-    textcontact: {
-        paddingTop: 30
-    },
-    body: {
+   
+    body:{
         padding:30,
         flexDirection: 'column',
         justifyContent:'center',
         alignItems:'center'
     },
+   
     itembody: {
         width: '100%',
         flexDirection: 'row',
@@ -87,18 +91,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom:10,
         height:80,
-    },
-    trackColor: {
-        false: '#d9d9d9',
-        true: '#d9d9d9',
-    },
-    thumbColor: isEnabled => isEnabled ? '#D97245' : '#D97245',
-
-
-    icarrowleft: {
-        position: 'absolute',
-        top:15,
-        start:15,
     },
     textItem:{
         position:'absolute',
@@ -108,5 +100,6 @@ const styles = StyleSheet.create({
         fontWeight:'500',
         fontFamily:'Poppins'
     }
+
 
 })
