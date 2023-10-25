@@ -37,7 +37,11 @@ router.post('/new', async (req, res) => {
         const acceptValue = accept || '';
         const doneValue = done || '';
         const descriptionValue = description || '';
+<<<<<<< HEAD
         const status =0;
+=======
+
+>>>>>>> parent of 85e9485 (Merge branch 'main' into bao)
         // Tạo một bản ghi report mới
         const newReport = new reportModel({
             report_date,
@@ -50,7 +54,10 @@ router.post('/new', async (req, res) => {
             accept: acceptValue,
             done: doneValue,
             description: descriptionValue,
+<<<<<<< HEAD
             status:status
+=======
+>>>>>>> parent of 85e9485 (Merge branch 'main' into bao)
         });
 
         // Lưu bản ghi report vào cơ sở dữ liệu
@@ -90,11 +97,16 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
     try {
-        const report = await reportModel.findById(id).populate('admin', 'full_name');;
+        const report = await reportModel.findById(id);
         res.status(200).json({ report, result: true });
     } catch (error) {
+<<<<<<< HEAD
         res.status(400).json({result:false,message:'khong có id này'});
     }false
+=======
+        res.status(400).json({});
+    }
+>>>>>>> parent of 85e9485 (Merge branch 'main' into bao)
 });
 
 // get user by id

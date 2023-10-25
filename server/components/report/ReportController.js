@@ -60,4 +60,4 @@ const search = async (keyword)=>{
          
     }
 }
-module.exports={getAllServices, getAllDetails, getAllServices, getProductById, search, updateProduct, addNewProduct, deleteProductById};
+module.exports={getAllServices};

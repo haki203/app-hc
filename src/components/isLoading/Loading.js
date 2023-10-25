@@ -12,7 +12,7 @@ const Loading = () => {
 const styles = StyleSheet.create({
   container: {
     width:width,
-    height:height/1.5,
+    height:height,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor:'#F4F5F2',

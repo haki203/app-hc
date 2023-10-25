@@ -3,8 +3,7 @@ const getAllServices = async (size, page) => {
     // lay toan bo sp trong database
     // size =20 , page =4 ==> 61-80
     try {
-        const reports =await reportModel.find()
-        .populate('admin', 'full_name');
+        const reports = await reportModel.find({});
         return  reports ;
     } catch (error) {
         console.log("getAllServices error: " + error);
