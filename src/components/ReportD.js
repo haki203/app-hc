@@ -7,6 +7,7 @@ import {
   Image,
   Touchable,
   TouchableOpacity,
+<<<<<<< HEAD
   ToastAndroid,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
@@ -60,10 +61,23 @@ const ReportD = props => {
             source={require(baseImgPath + 'ic_backReport.png')}></Image>
         </TouchableOpacity>
 
+=======
+} from 'react-native';
+import React from 'react';
+
+const ReportB = () => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Image
+          style={styles.ic_back}
+          source={require(baseImgPath+'ic_backReport.png')}></Image>
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
         <Text style={styles.text1}>Yêu cầu hỗ trợ sự cố</Text>
         <Image></Image>
       </View>
       <View style={styles.body}>
+<<<<<<< HEAD
         <View>
           {statuss < 2 ? (
             <View />
@@ -153,10 +167,44 @@ const Processs = props => {
               <Text style={styles.status1_text_time}>__:__ am</Text>
             </View>
           ) : (
+=======
+        <View style={styles.in4}>
+          <Text style={styles.in4_text1}>Sự cố về cơ sở vật chất</Text>
+          <Text style={styles.in4_name}>Người tiếp nhận:Nguyễn Trung Hải</Text>
+
+          <View style={styles.in4_chitiet}>
+            <Text style={styles.in4_day}>8-2-2023</Text>
+            <Text style={styles.in4_time}>09:05 am</Text>
+            <Text style={styles.in4_sdt}>SĐT: 0942144169</Text>
+            <Image
+              style={styles.sticker}
+              source={require(baseImgPath+'ic_sticker.png')}
+            />
+          </View>
+        </View>
+
+        <Text style={styles.text2}>Trạng thái yêu cầu</Text>
+        <View style={styles.status}>
+          <View style={styles.status1}>
+            <Image
+              style={styles.ic}
+              source={require(baseImgPath+'ic_tick.png')}></Image>
+            <View style={styles.status1_text}>
+              <Text style={styles.status1_text__name}>Yêu cầu</Text>
+              <Text style={styles.status1_text_time}>09:25 am</Text>
+            </View>
+          </View>
+          <View style={styles.line1}></View>
+          <View style={styles.status2}>
+            <Image
+              style={styles.ic}
+              source={require(baseImgPath+'ic_reload.png')}></Image>
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
             <View style={styles.status1_text}>
               <Text style={styles.status1_text__name}>
                 Yêu cầu đã được tiếp nhận
               </Text>
+<<<<<<< HEAD
               <View>
                 {statuss < 2 ? (
                   <Text style={styles.status1_text_time}>{data.time}</Text>
@@ -182,12 +230,23 @@ const Processs = props => {
           }></Image>
         <View>
           {statuss < 2 ? (
+=======
+              <Text style={styles.status1_text_time}>__:__ am</Text>
+            </View>
+          </View>
+          <View style={styles.line2}></View>
+          <View style={styles.status1}>
+            <Image
+              style={styles.ic}
+              source={require(baseImgPath+'ic_reload.png')}></Image>
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
             <View style={styles.status1_text}>
               <Text style={styles.status1_text__name}>
                 Yêu cầu đã được hoàn thành
               </Text>
               <Text style={styles.status1_text_time}>__:__ am</Text>
             </View>
+<<<<<<< HEAD
           ) : (
             <View style={styles.status1_text}>
               <Text style={styles.status1_text__name}>
@@ -219,11 +278,23 @@ const Processs = props => {
           </View>
         )}
       </View>
+=======
+          </View>
+        </View>
+      </View>
+      <TouchableOpacity style={styles.btnDanhGia}>
+        <Text style={styles.textBtn}>Phản hồi</Text>
+      </TouchableOpacity>
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
     </View>
   );
 };
 
+<<<<<<< HEAD
 export default ReportD;
+=======
+export default ReportB;
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
 
 const styles = StyleSheet.create({
   container: {
@@ -262,7 +333,11 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 20,
   },
+<<<<<<< HEAD
   statuss: {
+=======
+  status: {
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
     flexDirection: 'column',
     justifyContent: 'space-between',
     height: 250,
@@ -313,7 +388,11 @@ const styles = StyleSheet.create({
     height: 48,
   },
   btnDanhGia: {
+<<<<<<< HEAD
     // backgroundColor: '#D97245',
+=======
+    backgroundColor: '#D97245',
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
     borderWidth: 1,
     borderColor: '#D97245',
     width: '100%',
@@ -321,12 +400,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+<<<<<<< HEAD
+=======
+    
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   },
   textBtn: {
     fontSize: 12,
     fontWeight: 'bold',
+<<<<<<< HEAD
     color: '#D97245',
     fontFamily: 'Poppins',
+=======
+    color: '#FFFFFF',
+    fontFamily: 'Poppins',
+
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   },
   in4: {
     width: '100%',
@@ -374,6 +463,7 @@ const styles = StyleSheet.create({
     height: 48,
     marginTop: -50,
   },
+<<<<<<< HEAD
   danhgia: {
     marginTop: 60,
     width: '100%',
@@ -388,4 +478,6 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontFamily: 'Poppins',
   },
+=======
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
 });

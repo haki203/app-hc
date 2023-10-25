@@ -1,7 +1,37 @@
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
+<<<<<<< HEAD
 import React from 'react'
 const baseImgPath = '../assets/images/';
 const ContactScreen = () => {
+=======
+import React, { useEffect, useState } from 'react'
+import AxiosIntance from '../axios/AxiosIntance';
+import ItemContact from './ItemContact';
+
+
+const baseImgPath = '../assets/images/';
+const ContactScreen = ( props) => {
+    const { navigation } = props;
+    const [dataNe, setdataNe] = useState([]);
+    useEffect(() => {
+        const getNews = async () => {
+         
+          const respone = await AxiosIntance().get("/user/admin");
+          if (respone.result == true) {
+
+            setdataNe(respone.admin);
+            console.log("du lieu" + respone.admin);
+          }
+          else {
+            ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+          }
+        }
+        getNews();
+    
+        return () => {
+        }
+      }, []);
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -22,6 +52,7 @@ const ContactScreen = () => {
                 <View style={styles.topbody} >
                     <Text style={{fontWeight: 'bold',marginBottom:20,marginTop:20 }}> Phòng kỹ thuật</Text>
 
+<<<<<<< HEAD
                     <FlatList
                         data={dataPhongKyThuat}
                         renderItem={({ item }) => {
@@ -64,6 +95,24 @@ const ContactScreen = () => {
                             )
                         }}
                         keyExtractor={(item) => item.id}
+=======
+                   
+                    <FlatList
+                    data={dataNe}
+                    renderItem={({ item }) => <ItemContact admin={item} navigation={navigation} />}
+                    keyExtractor={item => item._id}
+                    showsVerticalScrollIndicator={false}
+                  />
+                    
+                </View>
+                <View style={styles.topbody}>
+                <Text style={{fontWeight: 'bold',marginBottom:20,marginTop:20 }}> Phòng Hành Chính</Text>
+                <FlatList
+                    data={dataNe}
+                    renderItem={({ item }) => <ItemContact admin={item} navigation={navigation} />}
+                    keyExtractor={item => item._id}
+                    showsVerticalScrollIndicator={false}
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
                     />
 
                 </View>
@@ -115,6 +164,7 @@ const styles = StyleSheet.create({
     bottombody: {
 
     },
+<<<<<<< HEAD
 
 
 
@@ -146,3 +196,11 @@ const dataPhongKyThuat = [
     }
 
 ]
+=======
+    name:{
+        color: '#000000',
+        fontSize:15,
+       
+    }
+})
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)

@@ -23,6 +23,13 @@ import MasonryList from '@react-native-seoul/masonry-list';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 const baseImgPath = '../assets/images/';
 const { width, height } = Dimensions.get('window');
+<<<<<<< HEAD
+=======
+import storage from '@react-native-firebase/storage';
+import AxiosIntance from '../axios/AxiosIntance';
+import Loading from './isLoading/Loading';
+
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
 const ReportProblem = (props) => {
   const { navigation } = props;
   const data = [
@@ -166,7 +173,10 @@ const ReportProblem = (props) => {
           backgroundColor: 'white',
           padding: 15,
           width: '100%',
+<<<<<<< HEAD
           height: height
+=======
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
         }}>
         <View
           style={{

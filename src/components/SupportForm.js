@@ -128,7 +128,10 @@ const SupportForm = (props) => {
           backgroundColor: 'white',
           padding: 15,
           width: '100%',
+<<<<<<< HEAD
           height: height
+=======
+>>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
         }}>
         <View
           style={{
