@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
 import React from 'react'
-const baseImgPath = '../assets/images/';
+const baseImgPath = '../../assets/images/';
 const ContactScreen = () => {
     return (
         <View style={styles.container}>

@@ -1,26 +1,30 @@
 import { Image, Pressable, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import Icon from "react-native-vector-icons/AntDesign"
+import { AppContext } from '../../context/AppContext';
 
-const baseImgPath = '../assets/images/';
+const baseImgPath = '../../assets/images/';
 const Home = (props) => {
-    const{navigation}=props;
+    const { userProfile } = useContext(AppContext);
+    const { navigation } = props;
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Image style={{ marginBottom: -10 }} source={require(baseImgPath + 'avt.png')} />
-                <Text style={styles.title}>
-                    Việt PS24653
-                </Text>
-                <Icon onPress={()=>navigation.navigate('Notification')} style={styles.iconmenu} name='bells' size={20} color="#FFFFFF" />
+                <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',height:45}}>
+                    <Image style={{marginRight:10,width:50,height:50,borderRadius:30}} source={{uri:userProfile.avt}} />
+                    <Text style={styles.title}>
+                        {userProfile.name}
+                    </Text>
+                </View>
+                <Icon onPress={() => navigation.navigate('Notification')} style={{paddingBottom:12}} name='bells' size={20} color="#FFFFFF" />
             </View>
             <View style={styles.body}>
-                <Text style={{ textAlign: 'center', fontSize: 18, color: '#000000', fontWeight: '700', padding: 25,}}>Dịch vụ trực tuyến</Text>
-                <TouchableOpacity style={styles.bodyItem} onPress={()=>navigation.navigate('Report')}>
+                <Text style={{ textAlign: 'center', fontSize: 18, color: '#000000', fontWeight: '700', padding: 25, }}>Dịch vụ trực tuyến</Text>
+                <TouchableOpacity style={styles.bodyItem} onPress={() => navigation.navigate('Report')}>
                     <Image style={styles.imgBodyItem} source={require(baseImgPath + 'bc.png')} />
                     <Text style={styles.textBodyItem}>Báo cáo sự cố</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bodyItem} onPress={()=>navigation.navigate('Help')}>
+                <TouchableOpacity style={styles.bodyItem} onPress={() => navigation.navigate('Help')}>
                     <Image style={styles.imgBodyItem} source={require(baseImgPath + 'yc.png')} />
                     <Text style={styles.textBodyItem}>Yêu cầu hỗ trợ CNTT</Text>
                 </TouchableOpacity>
@@ -48,14 +52,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-end',
         paddingBottom: 50,
-        padding: 20,
+        padding: 30,
     }, title: {
         color: '#FFFFFF',
         fontSize: 18,
         fontWeight: '700',
         fontStyle: 'normal',
-        marginTop: -3,
-        marginRight: 150
+
     }, body: {
         width: '100%',
         backgroundColor: '#FFFFFF',
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: -25,
     }, bodyItem: {
-        width:'80%',
+        width: '80%',
         height: 86,
         backgroundColor: '#F1F4F5',
         borderRadius: 10,
@@ -75,23 +78,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        padding:20,
-        margin:10,
-        elevation:8
+        padding: 20,
+        margin: 10,
+        elevation: 8
     },
     textBodyItem:
     {
         width: 230, fontSize: 17, fontWeight: '500', color: '#000000',
-        height:'50%',
-        position:'absolute',
-        start:'35%'
+        height: '50%',
+        position: 'absolute',
+        start: '35%'
 
     },
-    imgBodyItem:{
-        height:32,
-        width:32,
-        position:'absolute',
-        start:'10%'
+    imgBodyItem: {
+        height: 32,
+        width: 32,
+        position: 'absolute',
+        start: '10%'
     }
 
 
