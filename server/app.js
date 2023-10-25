@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -41,7 +42,6 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }
 }));
-//
 mongoose.connect('mongodb+srv://xuong:844666@cluster0.0urhouz.mongodb.net/xuong', {
   useNewUrlParser: true,
   useUnifiedTopology: true
