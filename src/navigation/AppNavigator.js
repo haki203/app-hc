@@ -8,17 +8,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { AppContext } from '../context/AppContext';
-import HomeScreen from '../components/HomeScreen'
+import HomeScreen from '../components/user/HomeScreen'
 
-import History from '../components/History';
-import Report from '../components/Report';
-import SupportForm from '../components/SupportForm';
-import ReportProblem from '../components/ReportProblem';
-import Login from '../components/Login';
-import Thongbao from '../components/Thongbao';
+import History from '../components/user/History';
+import Report from '../components/user/Report';
+import SupportForm from '../components/user/SupportForm';
+import ReportProblem from '../components/user/ReportProblem';
+import Login from '../components/user/Login';
+import Thongbao from '../components/user/Thongbao';
 import SettingScreen from '../components/SettingScreen';
 import ProfileScreen from '../components/ProfileScreen';
-import ContactScreen from '../components/ContactScreen';
+import ContactScreen from '../components/user/ContactScreen';
+import HomeScreenAdmin from '../components/admin/HomeAdmin';
+import HistoryAdmin from '../components/admin/HistoryAdmin';
+import SettingAdmin from '../components/admin/SettingAdmin';
+import ProblemDetail from '../components/admin/ProblemDetail';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Users = () => {
@@ -39,7 +43,7 @@ const Mains = () => {
             <Stack.Screen name="Notification" component={Thongbao} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="Setting" component={SettingScreen} />
-            
+
         </Stack.Navigator>
 
     )
@@ -48,7 +52,7 @@ const Settings = () => {
     return (
         <Stack.Navigator initialRouteName='Setting' screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Setting" component={SettingScreen} />
-            <Stack.Screen name="Profile" component={ProfileScreen} />       
+            <Stack.Screen name="Profile" component={ProfileScreen} />
         </Stack.Navigator>
 
     )
@@ -57,8 +61,8 @@ const Histories = () => {
     return (
         <Stack.Navigator initialRouteName='History' screenOptions={{ headerShown: false }}>
             <Stack.Screen name="History" component={History} />
-            <Stack.Screen name="Notification" component={Thongbao} />       
-            <Stack.Screen name="Report" component={Report} />       
+            <Stack.Screen name="Notification" component={Thongbao} />
+            <Stack.Screen name="Report" component={Report} />
         </Stack.Navigator>
 
     )
@@ -89,8 +93,8 @@ const Home = ({ scrollY }) => {
     //         setDisplay('none');
     //     }
     // }, [isTabVisible]);
-    const iconView={ flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height:'100%',paddingBottom:10}
-    const textIcon={position:'absolute',bottom:5,color:'black'}
+    const iconView = { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', paddingBottom: 10 }
+    const textIcon = { position: 'absolute', bottom: 5, color: 'black' }
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -98,7 +102,7 @@ const Home = ({ scrollY }) => {
                 color: 'red',
                 tabBarActiveTintColor: 'black',
                 tabBarLabelStyle: { display: 'none' },
-                tabBarStyle: { height: 80,backgroundColor:'#F4F5F2' },
+                tabBarStyle: { height: 80, backgroundColor: '#F4F5F2' },
             })}
         >
             <Tab.Screen
@@ -108,7 +112,7 @@ const Home = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <Ionicons name={'home-outline'} color={color} size={30} />
-                            <Text style={textIcon}>{focused ? 'Trang chủ' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Trang chủ' : ''}</Text>
                         </View>
                     ),
                 }}
@@ -124,7 +128,7 @@ const Home = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <Octicons name="history" color={color} size={28} />
-                            <Text style={textIcon}>{focused ? 'Lịch sử' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Lịch sử' : ''}</Text>
                         </View>
                     ),
                 }}
@@ -140,7 +144,7 @@ const Home = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <Ionicons name="call-outline" color={color} size={30} />
-                            <Text style={textIcon}>{focused ? 'Hỗ trợ' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Hỗ trợ' : ''}</Text>
                         </View>
                     ),
                 }}
@@ -157,13 +161,81 @@ const Home = ({ scrollY }) => {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={iconView}>
                             <AntDesign name="setting" color={color} size={30} />
-                            <Text style={textIcon}>{focused ? 'Cài đặt' :''}</Text>
+                            <Text style={textIcon}>{focused ? 'Cài đặt' : ''}</Text>
                         </View>
                     ),
                 }}
             >
                 {() => (
                     <Settings />
+                )}
+            </Tab.Screen>
+
+        </Tab.Navigator>
+
+    )
+
+}
+const HomeAdmin = ({ scrollY }) => {
+
+    const iconView = { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', paddingBottom: 10 }
+    const textIcon = { position: 'absolute', bottom: 5, color: 'black' }
+    return (
+        <Tab.Navigator
+            screenOptions={({ route }) => ({
+                headerShown: false,
+                color: 'red',
+                tabBarActiveTintColor: 'black',
+                tabBarLabelStyle: { display: 'none' },
+                tabBarStyle: { height: 80, backgroundColor: '#F4F5F2' },
+            })}
+        >
+            <Tab.Screen
+                name="Trang chủ"
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <View style={iconView}>
+                            <Ionicons name={'home-outline'} color={color} size={30} />
+                            <Text style={textIcon}>{focused ? 'Trang chủ' : ''}</Text>
+                        </View>
+                    ),
+                }}
+            >
+                {() => (
+                    <HomeScreenAdmin />
+                )}
+            </Tab.Screen>
+            <Tab.Screen
+                name="Lich su"
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <View style={iconView}>
+                            <Octicons name="history" color={color} size={28} />
+                            <Text style={textIcon}>{focused ? 'Lịch sử' : ''}</Text>
+                        </View>
+                    ),
+                }}
+            >
+                {() => (
+                    <HistoryAdmin />
+                )}
+            </Tab.Screen>
+            <Tab.Screen
+                name="Cài đặt"
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <View style={iconView}>
+                            <AntDesign name="setting" color={color} size={30} />
+                            <Text style={textIcon}>{focused ? 'Cài đặt' : ''}</Text>
+                        </View>
+                    ),
+                }}
+            >
+                {() => (
+                    <SettingAdmin />
                 )}
             </Tab.Screen>
 
@@ -213,12 +285,15 @@ const Play = () => {
     );
 };
 const AppNavigator = () => {
-    const { isLogin, setIsLogin } = useContext(AppContext);
-    return (
-        <>
-            {isLogin == false ? <Users /> : <Home />}
-        </>
-    )
+    const { isLogin, isLoginAdmin } = useContext(AppContext);
+
+    if (isLoginAdmin) {
+        return <HomeAdmin />;
+    } else if (isLogin) {
+        return <Home />;
+    } else {
+        return <Users />;
+    }
 }
 
 export default AppNavigator;
