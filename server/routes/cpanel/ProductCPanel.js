@@ -26,14 +26,8 @@ async function uploadFiles(path, filename) {
 //localhost:3000/cpanel/product
 router.get('/', async (req, res, next) => {
     //hien thi trang danh sach sp
-<<<<<<< HEAD
     const products = await productController.getAllProducts();
     res.render('product/list', { products });
-=======
-    const reports = await reportModel.find({});
-    console.log(reports);
-    res.render('product/list', { reports });
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
     //     const users = await userController.getAllUsers();
     // res.render('product/list', { users });
 });
@@ -45,7 +39,6 @@ router.get('/', async (req, res, next) => {
 //     //     const users = await userController.getAllUsers();
 //     // res.render('product/list', { users });
 // });
-<<<<<<< HEAD
 // router.get('/:id/delete', async (req, res, next) => {
 //     // hien thi trang danh sach sp
 //     try {
@@ -58,20 +51,6 @@ router.get('/', async (req, res, next) => {
 //     }
 
 // });
-=======
-router.get('/:id/delete', async (req, res, next) => {
-    // hien thi trang danh sach sp
-    try {
-        const { id } = req.params;
-        await reportModel.findByIdAndDelete(id);
-        return res.json({ status: true })
-    }
-    catch (error) {
-        return res.json({ status: false })
-    }
-
-});
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
 // // router.get('/new', async (req, res, next) => {
 // //     // hien thi add sp
 // //     const categories = await categoryController.getAllCategories();

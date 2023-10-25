@@ -10,12 +10,8 @@ import {
   View,
   FlatList,
   ScrollView,
-<<<<<<< HEAD
   Dimensions,
   PermissionsAndroid
-=======
-  Dimensions
->>>>>>> parent of 85e9485 (Merge branch 'main' into bao)
 } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { openPicker } from '@baronha/react-native-multiple-image-picker';
@@ -23,13 +19,6 @@ import MasonryList from '@react-native-seoul/masonry-list';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 const baseImgPath = '../assets/images/';
 const { width, height } = Dimensions.get('window');
-<<<<<<< HEAD
-=======
-import storage from '@react-native-firebase/storage';
-import AxiosIntance from '../axios/AxiosIntance';
-import Loading from './isLoading/Loading';
-
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
 const ReportProblem = (props) => {
   const { navigation } = props;
   const data = [
@@ -63,7 +52,6 @@ const ReportProblem = (props) => {
   };
 
   const pickImage = async () => {
-<<<<<<< HEAD
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA
@@ -80,15 +68,6 @@ const ReportProblem = (props) => {
       }
     } catch (error) {
       console.error('An error occurred:', error);
-=======
-    const result = await launchCamera(optionsCamera);
-    const image = result.assets[0].uri
-    console.log(result)
-    if (result) {
-      console.log(result.assets[0].uri)
-      setImage(image);
-      console.log(image)
->>>>>>> parent of 85e9485 (Merge branch 'main' into bao)
     }
   }
 
@@ -106,7 +85,6 @@ const ReportProblem = (props) => {
     cropperCircleOverlay: false, // Hiển thị vùng cắt hình tròn.
     compressImageQuality: 0.8, // Chất lượng ảnh nén (giá trị từ 0 đến 1).
   };
-<<<<<<< HEAD
 
   const takeAPicture = async () => {
     try {
@@ -119,15 +97,6 @@ const ReportProblem = (props) => {
 
     }
     
-=======
-
-  const takeAPicture = async () => {
-    const response = await openPicker(options);
-    if (response && response.length > 0) {
-      setSelectedImages(response);
-      console.log(response)
-    }
->>>>>>> parent of 85e9485 (Merge branch 'main' into bao)
   }
 
   // const ImageDisplay = ({ selectedImages }) => (
@@ -173,10 +142,6 @@ const ReportProblem = (props) => {
           backgroundColor: 'white',
           padding: 15,
           width: '100%',
-<<<<<<< HEAD
-          height: height
-=======
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
         }}>
         <View
           style={{

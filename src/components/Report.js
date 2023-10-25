@@ -1,40 +1,3 @@
-<<<<<<< HEAD
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
-const baseImgPath = '../assets/images/';
-const Report = (props) => {
-  const {navigation} = props
-  const [currentStep, setCurrentStep] = useState(1);
-  const [imageSource1, setImageSource1] = useState(require(baseImgPath + 'resum.png'));
-  const [imageSource2, setImageSource2] = useState(require(baseImgPath + 'resum.png'));
-  const [text1, setText1] = useState('Yêu cầu đã được tiếp nhận');
-  const [text2, setText2] = useState('__:__ am');
-  const [text3, setText3] = useState('Yêu cầu đã hoàn thành');
-  const [text4, setText4] = useState('__:__ am');
-  const [buttonText, setButtonText] = useState('Phản hồi');
-  const [buttonBackgroundColor, setButtonBackgroundColor] = useState('rgba(217, 114, 69, 0.80)');
-  const handleButtonClick = () => {
-    switch (currentStep) {
-      case 1:
-        setImageSource1(require(baseImgPath + 'tick.png'));
-        setText1('Yêu cầu đã được tiếp nhận');
-        setText2('10:00 am');
-        setButtonText('Phản hồi');
-        setButtonBackgroundColor('rgba(217, 114, 69, 0.80)');
-        setCurrentStep(2);
-        break;
-      case 2:
-        setImageSource2(require(baseImgPath + 'tick.png'));
-        setText3('Yêu cầu đã hoàn thành');
-        setButtonText('Đánh giá');
-        setText4('12:00 pm');
-        setButtonBackgroundColor('#D97245');
-        setCurrentStep(3);
-    }
-  };
-  return (
-    <View style={styles.container}>
-=======
 import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import AxiosIntance from '../axios/AxiosIntance';
@@ -84,7 +47,6 @@ const Report = (props) => {
   return (
     <View style={styles.container}>
       <View>{isLoading ? <Loading /> : <View></View>}</View>
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
           <Image style={styles.back} source={require(baseImgPath + 'back.png')}></Image>
@@ -94,15 +56,6 @@ const Report = (props) => {
         <Text></Text>
       </View>
       <View style={styles.leader}>
-<<<<<<< HEAD
-        <View style={styles.leader2}>
-          <Text style={styles.text2}>Sự cố về cơ sở vật chất</Text>
-          <Text style={styles.text3}>Người tiếp nhận: Nguyễn Trung Hải</Text>
-          <View style={styles.leader3}>
-            <Text style={styles.text4}>8-2-2023</Text>
-            <Text style={styles.text4}>09:05 am</Text>
-            <Text style={styles.text4}>SĐT: 0797151033</Text>
-=======
         <Image style={styles.profile} source={{ uri: image }}></Image>
         <View style={styles.leader2}>
           <Text style={styles.text2}>{data.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}</Text>
@@ -113,7 +66,6 @@ const Report = (props) => {
             <Text style={styles.text4}>{data.report_date}</Text>
             <Text style={styles.text4}>{data.time}</Text>
             <Text style={styles.text4}>Phòng: {data.room}</Text>
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
             <Text></Text>
             <Text></Text>
             <Text></Text>
@@ -121,55 +73,11 @@ const Report = (props) => {
         </View>
       </View>
       <Text style={styles.text5}>Trạng Thái yêu cầu</Text>
-<<<<<<< HEAD
-      <View>
-        <View style={{ flexDirection: 'row', paddingLeft: 16 }}>
-          <View style={{ alignItems: 'center' }}>
-            <Image source={require(baseImgPath + 'tick.png')}></Image>
-            <View style={{
-              backgroundColor: '#D9D9D9',
-              width: 4,
-              height: 52
-            }}></View>
-          </View>
-          <View style={{ alignContent: 'center', marginLeft: 36 }}>
-            <Text style={styles.text6}>Yêu cầu</Text>
-            <Text style={styles.text7}>09:25 am</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', paddingLeft: 16 }}>
-          <View style={{ alignItems: 'center' }}>
-            <Image source={imageSource1}></Image>
-            <View style={{
-              backgroundColor: '#D9D9D9',
-              width: 4,
-              height: 52
-            }}></View>
-          </View>
-          <View style={{ alignContent: 'center', marginLeft: 36 }}>
-            <Text style={styles.text6}>{text1}</Text>
-            <Text style={styles.text7}>{text2}</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', paddingLeft: 16 }}>
-          <View style={{ alignItems: 'center' }}>
-            <Image source={imageSource2}></Image>
-          </View>
-          <View style={{ alignContent: 'center', marginLeft: 36 }}>
-            <Text style={styles.text6}>{text3}</Text>
-            <Text style={styles.text7}>{text4}</Text>
-          </View>
-        </View>
-      </View>
-      <View style={{ alignItems: 'center', marginTop: 64 }}>
-        <TouchableOpacity onPress={handleButtonClick} style={{
-=======
       <View style={{ height: '56%', width: '100%', padding: 20, paddingBottom: 15 }}>
         <Content data={data} />
       </View>
       <View style={{ alignItems: 'center', }}>
         <TouchableOpacity style={{
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
           display: 'flex',
           width: 343,
           height: 40,
@@ -177,17 +85,10 @@ const Report = (props) => {
           alignItems: 'center',
           flexShrink: 0,
           gap: 10,
-<<<<<<< HEAD
-          backgroundColor: buttonBackgroundColor,
-          borderWidth: 1,
-          borderColor: 'rgba(217, 114, 69, 0.80)',
-          borderStyle: 'solid',
-=======
           borderWidth: 1,
           borderColor: 'rgba(217, 114, 69, 0.80)',
           borderStyle: 'solid',
           backgroundColor: '#D97245',
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
           borderRadius: 8,
           paddingVertical: 10, // Padding theo chiều dọc (top và bottom)
           paddingHorizontal: 33, // Padding theo chiều ngang (left và right),
@@ -197,19 +98,12 @@ const Report = (props) => {
             fontSize: 12,
             fontWeight: '700',
             fontStyle: 'normal',
-<<<<<<< HEAD
-          }}>{buttonText}</Text>
-=======
           }}>{data.status === 2 ? 'Đánh giá' : 'Phản hồi'}</Text>
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
         </TouchableOpacity>
       </View>
     </View>
   )
 }
-<<<<<<< HEAD
-
-=======
 const Content = (props) => {
   const { data } = props;
   const status = data.status;
@@ -278,7 +172,6 @@ const Content = (props) => {
     </View>
   )
 }
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
 export default Report
 
 const styles = StyleSheet.create({
@@ -299,14 +192,9 @@ const styles = StyleSheet.create({
   text: {
     color: 'rgba(0, 0, 0, 0.87)',
     fontSize: 18,
-<<<<<<< HEAD
-    fontWeight: '700',
-    fontStyle: 'normal',
-=======
     fontWeight: '800',
     fontStyle: 'normal',
     fontFamily: 'Poppins'
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   },
   leader: {
     backgroundColor: '#F1F4F5',
@@ -323,30 +211,18 @@ const styles = StyleSheet.create({
   text2: {
     color: '#000',
     fontSize: 14,
-<<<<<<< HEAD
-    fontWeight: '600',
-    fontStyle: 'normal',
-    paddingTop: 17
-=======
     fontWeight: '700',
     fontStyle: 'normal',
     paddingTop: 17,
     fontFamily: 'Poppins'
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   },
   text3: {
     color: '#000',
     fontSize: 12,
-<<<<<<< HEAD
-    fontWeight: '400',
-    fontStyle: 'normal',
-    paddingTop: 13
-=======
     fontWeight: '500',
     fontStyle: 'normal',
     paddingTop: 13,
     fontFamily: 'Poppins'
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   },
   leader2: {
     paddingLeft: 18
@@ -354,65 +230,38 @@ const styles = StyleSheet.create({
   leader3: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-<<<<<<< HEAD
-    paddingTop: 5
-=======
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   },
   text4: {
     color: '#000',
     fontSize: 12,
-<<<<<<< HEAD
-    fontWeight: '400',
-    fontStyle: 'normal',
-=======
     fontWeight: '500',
     fontStyle: 'normal',
     fontFamily: 'Poppins'
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   },
   text5: {
     color: '#000',
     fontSize: 15,
-<<<<<<< HEAD
-    fontWeight: '700',
-    fontStyle: 'normal',
-    padding: 17
-=======
     fontWeight: '800',
     fontStyle: 'normal',
     padding: 17,
     fontFamily: 'Poppins',
     paddingBottom: 5
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   },
   text6: {
     color: '#000',
     fontSize: 14,
-<<<<<<< HEAD
-    fontWeight: '600',
-    fontStyle: 'normal',
-    marginTop: 2
-=======
     fontWeight: '700',
     fontStyle: 'normal',
     marginTop: 2,
     fontFamily: 'Poppins'
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   },
   text7: {
     color: '#000',
     fontSize: 12,
-<<<<<<< HEAD
-    fontWeight: '400',
-    fontStyle: 'normal',
-    marginTop: 4
-=======
     fontWeight: '500',
     fontStyle: 'normal',
     marginTop: 4,
     fontFamily: 'Poppins'
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   },
   button: {
     display: 'flex',
@@ -430,8 +279,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10, // Padding theo chiều dọc (top và bottom)
     paddingHorizontal: 33, // Padding theo chiều ngang (left và right),
 
-<<<<<<< HEAD
-=======
   },
   profile: {
     width: 50,
@@ -441,6 +288,5 @@ const styles = StyleSheet.create({
     end: 10,
     top: '25%',
 
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
   }
 })

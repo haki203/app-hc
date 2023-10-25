@@ -310,26 +310,9 @@
                                     max-height: 350px;
                                 }
                             </style>
-<<<<<<< HEAD
-=======
-                            <thead>
-                                <tr>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Room</th>
-                                    <th scope="col">Report Date</th>
-                                    <th scope="col">User</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Admin</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
                             <tbody>
                                 {{#each products}}
                                 <tr>
-<<<<<<< HEAD
                                     <td>{{this.title}}</td>
                                     <td>{{this.authorId}}</td>
                                     <td class="limited-lines">{{this.description}}</td>
@@ -339,26 +322,6 @@
                                     <td>{{this.categoryId}}</td>
                                     <td>
                                         <a href="/cpanel/product/{{this._id}}/edit" class="btn btn-primary">Edit</a>
-=======
-                                    <td>
-                                        <img style="width: 80px; height: 120px;" src="{{this.image}}">
-                                    </td>
-                                    <td>{{this.room}}</td>
-                                    <td>{{this.report_date}}</td>
-                                    <td>{{this.userId}}</td>
-                                    <td>{{this.type}}</td>
-
-
-                                    <td>{{this.admin}}</td>
-                                    
-
-                                    
-
-
-
-                                    <td class="limited-lines">{{this.description}}</td>
-                                    <td>
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
                                         <a onclick="confirmDelete('{{this._id}}');" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>

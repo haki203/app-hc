@@ -1,43 +1,7 @@
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
-<<<<<<< HEAD
-<<<<<<< HEAD
 import React from 'react'
 const baseImgPath = '../assets/images/';
 const ContactScreen = () => {
-=======
-import React, { useEffect, useState } from 'react'
-import AxiosIntance from '../axios/AxiosIntance';
-import ItemContact from './ItemContact';
-
-
-const baseImgPath = '../assets/images/';
-const ContactScreen = ( props) => {
-    const { navigation } = props;
-    const [dataNe, setdataNe] = useState([]);
-    useEffect(() => {
-        const getNews = async () => {
-         
-          const respone = await AxiosIntance().get("/user/admin");
-          if (respone.result == true) {
-
-            setdataNe(respone.admin);
-            console.log("du lieu" + respone.admin);
-          }
-          else {
-            ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
-          }
-        }
-        getNews();
-    
-        return () => {
-        }
-      }, []);
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
-=======
-import React from 'react'
-const baseImgPath = '../assets/images/';
-const ContactScreen = () => {
->>>>>>> parent of fafc85f (Merge branch 'bao')
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -58,8 +22,6 @@ const ContactScreen = () => {
                 <View style={styles.topbody} >
                     <Text style={{fontWeight: 'bold',marginBottom:20,marginTop:20 }}> Phòng kỹ thuật</Text>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
                     <FlatList
                         data={dataPhongKyThuat}
                         renderItem={({ item }) => {
@@ -102,61 +64,6 @@ const ContactScreen = () => {
                             )
                         }}
                         keyExtractor={(item) => item.id}
-=======
-                   
-=======
->>>>>>> parent of fafc85f (Merge branch 'bao')
-                    <FlatList
-                        data={dataPhongKyThuat}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={styles.topbody}>
-                                    <View style={styles.item}>
-                                        <View style={styles.itemin}>
-                                            <Image source={item.image} />
-                                            <View style={styles.in4contact}>
-                                                <Text style={styles.name}>{item.name}</Text>
-                                                <Text style={styles.department}>{item.department}</Text>
-                                            </View>
-                                            <Image source={require(baseImgPath+'chevron-right.png')} />
-                                        </View>
-                                    </View>
-                                </View>
-                            )
-                        }}
-                        keyExtractor={(item) => item.id}
-                    />
-                </View>
-                <View style={styles.topbody}>
-                <Text style={{fontWeight: 'bold',marginBottom:20,marginTop:20 }}> Phòng Hành Chính</Text>
-<<<<<<< HEAD
-                <FlatList
-                    data={dataNe}
-                    renderItem={({ item }) => <ItemContact admin={item} navigation={navigation} />}
-                    keyExtractor={item => item._id}
-                    showsVerticalScrollIndicator={false}
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
-=======
-                    <FlatList
-                        data={dataPhongKyThuat}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={styles.topbody}>
-                                    <View style={styles.item}>
-                                        <View style={styles.itemin}>
-                                            <Image source={item.image} />
-                                            <View style={styles.in4contact}>
-                                                <Text style={styles.name}>{item.name}</Text>
-                                                <Text style={styles.department}>{item.department}</Text>
-                                            </View>
-                                            <Image source={require(baseImgPath+'chevron-right.png')} />
-                                        </View>
-                                    </View>
-                                </View>
-                            )
-                        }}
-                        keyExtractor={(item) => item.id}
->>>>>>> parent of fafc85f (Merge branch 'bao')
                     />
 
                 </View>
@@ -208,10 +115,6 @@ const styles = StyleSheet.create({
     bottombody: {
 
     },
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of fafc85f (Merge branch 'bao')
 
 
 
@@ -240,20 +143,6 @@ const dataPhongKyThuat = [
         name: 'Lê Văn C',
         image: require(baseImgPath+'avavtarChibi.png'),
         department: 'Trưởng Phòng IT'
-<<<<<<< HEAD
     }
 
 ]
-=======
-    name:{
-        color: '#000000',
-        fontSize:15,
-       
-    }
-})
->>>>>>> parent of aa22b2a (Merge branch 'main' into bao)
-=======
-    }
-
-]
->>>>>>> parent of fafc85f (Merge branch 'bao')
