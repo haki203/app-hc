@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20
 
-
     },
 
     container: {
@@ -56,11 +55,7 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: '#D97245'
     },
-    textback: {
-        color: 'white',
-        fontSize: 18,
-        paddingLeft: 20
-    },
+   
     centerHeader: {
         flexDirection: 'column',
         paddingTop: 50,
