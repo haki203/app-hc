@@ -9,7 +9,7 @@ import AppNavigator from './src/navigation/AppNavigator'
 const App = () => {
   return (
     <AppContextProvider >
-      <NavigationContainer >
+      <NavigationContainer > 
         <AppNavigator />
       </NavigationContainer>
     </AppContextProvider>

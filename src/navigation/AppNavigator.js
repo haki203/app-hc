@@ -9,7 +9,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { AppContext } from '../context/AppContext';
 import HomeScreen from '../components/user/HomeScreen'
-
+import HomeAdmin from '../components/admin/HomeAdmin';
 import History from '../components/user/History';
 import Report from '../components/user/Report';
 import SupportForm from '../components/user/SupportForm';
@@ -176,7 +176,7 @@ const Home = ({ scrollY }) => {
     )
 
 }
-const HomeAdmin = ({ scrollY }) => {
+const HomeAdmins = ({ scrollY }) => {
 
     const iconView = { flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', paddingBottom: 10 }
     const textIcon = { position: 'absolute', bottom: 5, color: 'black' }
@@ -203,7 +203,7 @@ const HomeAdmin = ({ scrollY }) => {
                 }}
             >
                 {() => (
-                    <HomeScreenAdmin />
+                    <HomeAdmin />
                 )}
             </Tab.Screen>
             <Tab.Screen
@@ -285,15 +285,16 @@ const Play = () => {
     );
 };
 const AppNavigator = () => {
-    const { isLogin, isLoginAdmin } = useContext(AppContext);
+    // const { isLogin, isLoginAdmin } = useContext(AppContext);
 
-    if (isLoginAdmin) {
-        return <HomeAdmin />;
-    } else if (isLogin) {
-        return <Home />;
-    } else {
-        return <Users />;
-    }
+    // if (isLoginAdmin) {
+    //     return <HomeAdmin />;
+    // } else if (isLogin) {
+    //     return <Home />;
+    // } else {
+    //     return <Users />;
+    // }
+    return <HomeAdmins/>
 }
 
 export default AppNavigator;
