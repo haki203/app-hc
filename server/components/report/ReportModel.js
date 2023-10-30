@@ -3,15 +3,13 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const schema = new Schema({
-    report_date: { type: String}, 
-    userId: { type: ObjectId, ref: 'users' }, 
-    type: { type: Number}, 
+    id: { type: ObjectId }, 
     room: { type: String },
-    image: { type: String },
-    time: { type: String },
-    admin: {  type: ObjectId, ref: 'admins'  },
-    accept: { type: String },
-    done: { type: String },
+    image: [{ type: String }],
+    option: { type: String},
+    createAt: { type: Date },
     description: { type: String },
+    userId: { type: ObjectId, ref: 'users' }, 
+    typeId: { type: ObjectId, ref: 'types' },
 });
 module.exports = mongoose.model('report', schema, 'reports');
