@@ -22,5 +22,5 @@ const AxiosIntance = (contentType = 'application/json') => {
     ); // callback
     return axiosInstance;
 }
-
+//cc
 export default AxiosIntance;
