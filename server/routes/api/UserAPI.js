@@ -109,26 +109,20 @@ router.post('/changepass/', async (req, res, next) => {
         return res.status(400).json({ result: false, messenger: "Ko doi duoc mat khau" });
     }
 });
-router.post('/findUser', async (req, res, next) => {
+router.get('/findUser/:id', async (req, res, next) => {
     try {
-        const { email } = req.body;
-        const kq = await userController.findUser(email);
-        let data = {
-            error: false,
-            responeTimestamp: new Date(),
-            statusCode: 200,
-            kq,
-        }
-        if (kq == null) {
+        const { id } = req.params;
+        const user = await userModel.findById(id);
+        if (user == null) {
             return res.status(200).json({ result: false });
         }
         else {
-            return res.status(200).json({ result: true, data });
+            return res.status(200).json({ result: true, user });
         }
     } catch (error) {
         console.log(error);
         //next error; Chi chay web
-        return res.status(400).json({ result: false, messenger: "Ko doi duoc mat khau" });
+        return res.status(400).json({ result: false});
     }
 });
 // get all admin
