@@ -16,7 +16,7 @@ const ProfileScreen = (props) => {
                 <View style={styles.centerHeader}>
                     <Image style={{width:60,height:60,marginBottom:10,borderRadius:20}} source={{ uri: userProfile.avt }} />
                     <Text style={{ color: 'white', fontSize: 25, fontWeight: 500 }}>{userProfile.name}</Text>
-                    <Text style={{ color: 'white', fontSize: 15, fontWeight: 400 }}>{userProfile.role === 1 ? 'Nhân Viên' : 'Sinh Viên'}</Text>
+                    <Text style={{ color: 'white', fontSize: 15, fontWeight: 400 }}>{userProfile.role == 1 ? 'Sinh Viên' : 'Nhân Viên'}</Text>
                 </View>
             </View>
             <View style={styles.bodycontainer} >

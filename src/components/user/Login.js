@@ -60,7 +60,6 @@ const Login = () => {
               ToastAndroid.show("Đăng nhập với tư cách Admin", ToastAndroid.SHORT);
             } {
               setIsLogin(true)
-              ToastAndroid.show("Đăng Nhập thành công", ToastAndroid.SHORT);
             }
           }
 

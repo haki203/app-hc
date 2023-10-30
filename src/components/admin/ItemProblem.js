@@ -1,10 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View,TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Image} from 'react-native-elements';
 
-export const ItemProblem = () => {
+export const ItemProblem = ({navigation}) => {
     return (
-        <View
+        <TouchableOpacity onPress={()=>navigation.navigate('Detail')}
         style={{
           padding: 15,
           width: '100%',
@@ -112,6 +112,6 @@ export const ItemProblem = () => {
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
 }

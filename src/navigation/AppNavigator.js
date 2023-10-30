@@ -17,12 +17,14 @@ import ReportProblem from '../components/user/ReportProblem';
 import Login from '../components/user/Login';
 import Thongbao from '../components/user/Thongbao';
 import SettingScreen from '../components/SettingScreen';
+import CheckAdmin from '../components/admin/CheckAdmin';
 import ProfileScreen from '../components/ProfileScreen';
 import ContactScreen from '../components/user/ContactScreen';
-import HomeScreenAdmin from '../components/admin/HomeAdmin';
+import HomeScreenAdmin from '../components/admin/HomeScreenAdmin';
 import HistoryAdmin from '../components/admin/HistoryAdmin';
-import SettingAdmin from '../components/admin/SettingAdmin';
 import ProblemDetail from '../components/admin/ProblemDetail';
+import SettingAdminScreen from '../components/admin/SettingAdminScreen';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Users = () => {
@@ -48,6 +50,28 @@ const Mains = () => {
 
     )
 }
+const Admin = () => {
+    return (
+        <Stack.Navigator initialRouteName='Home' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={HomeScreenAdmin} />
+            <Stack.Screen name="Check" component={CheckAdmin} />
+            <Stack.Screen name="Help" component={HomeAdmin} />
+            <Stack.Screen name="Detail" component={ProblemDetail} />
+
+        </Stack.Navigator>
+
+    )
+}
+const ProfileAdmin = () => {
+    return (
+        <Stack.Navigator initialRouteName='Setting' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Setting" component={SettingAdminScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+        </Stack.Navigator>
+
+    )
+}
+
 const Settings = () => {
     return (
         <Stack.Navigator initialRouteName='Setting' screenOptions={{ headerShown: false }}>
@@ -203,7 +227,7 @@ const HomeAdmins = ({ scrollY }) => {
                 }}
             >
                 {() => (
-                    <HomeAdmin />
+                    <Admin />
                 )}
             </Tab.Screen>
             <Tab.Screen
@@ -235,7 +259,7 @@ const HomeAdmins = ({ scrollY }) => {
                 }}
             >
                 {() => (
-                    <SettingAdmin />
+                    <ProfileAdmin />
                 )}
             </Tab.Screen>
 
@@ -244,57 +268,18 @@ const HomeAdmins = ({ scrollY }) => {
     )
 
 }
-const Play = () => {
-    return (
-        <Stack.Navigator
-            screenOptions={{
-                headerShown: false,
-                ...TransitionPresets.ModalSlideFromBottomIOS, // Sử dụng animation slide-up
-            }}
-        >
-            <Stack.Screen name="Home">
-                {(props) => (
-                    <Mains />
-                )}
-            </Stack.Screen>
-            <Stack.Screen name="Detail">
-                {(props) => (
-                    <DetailScreen navigation={props.navigation} />
-                )}
-            </Stack.Screen>
-            <Stack.Screen name="Search">
-                {(props) => (
-                    <SearchScreen navigation={props.navigation} />
-                )}
-            </Stack.Screen>
-            <Stack.Screen name="Hot">
-                {(props) => (
-                    <ScreenWrapper>
-                        <HotScreen navigation={props.navigation} />
-                    </ScreenWrapper>
-                )}
-            </Stack.Screen>
-            <Stack.Screen name="SignUp">
-                {(props) => (
-                    <ScreenWrapper>
-                        <SignUpScreen navigation={props.navigation} />
-                    </ScreenWrapper>
-                )}
-            </Stack.Screen>
-        </Stack.Navigator>
-    );
-};
-const AppNavigator = () => {
-    // const { isLogin, isLoginAdmin } = useContext(AppContext);
 
-    // if (isLoginAdmin) {
-    //     return <HomeAdmin />;
-    // } else if (isLogin) {
-    //     return <Home />;
-    // } else {
-    //     return <Users />;
-    // }
-    return <HomeAdmins/>
+const AppNavigator = () => {
+    const { isLogin, isLoginAdmin } = useContext(AppContext);
+
+    if (isLoginAdmin) {
+        return <HomeAdmins />;
+    } else if (isLogin) {
+        return <Home />;
+    } else {
+        return <Users />;
+    }
+
 }
 
 export default AppNavigator;

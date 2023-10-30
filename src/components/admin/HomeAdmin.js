@@ -1,14 +1,14 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Image} from 'react-native-elements';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image } from 'react-native-elements';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import CurrentReport from './CurrentReport';
 import HandlingReport from './HandlingReprot';
 
 const Tab = createMaterialTopTabNavigator();
 
-const HomeAdmin = ({navigation}) => {
+const HomeAdmin = ({ navigation }) => {
   return (
     <SafeAreaView
       style={{
@@ -25,7 +25,7 @@ const HomeAdmin = ({navigation}) => {
           paddingTop: 15,
           paddingHorizontal: 15,
         }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../assets/images/icons8-back-50.png')}
             style={{
@@ -37,7 +37,7 @@ const HomeAdmin = ({navigation}) => {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('ProblemDetail')}
+          onPress={() => navigation.navigate('Detail')}
         >
           <Image
             source={require('../../assets/images/notifications.png')}
@@ -65,7 +65,7 @@ const HomeAdmin = ({navigation}) => {
               fontWeight: 500,
               textTransform: 'none',
             },
-            tabBarItemStyle: {width: 200},
+            tabBarItemStyle: { width: 200 },
             tabBarStyle: {
               backgroundColor: 'white',
               borderTopLeftRadius: 20,
@@ -76,9 +76,14 @@ const HomeAdmin = ({navigation}) => {
             tabBarActiveTintColor: '#D97245', // Màu văn bản khi focus
             tabBarActiveBackgroundColor: '#D97245',
           }}
-          >
-          <Tab.Screen name="Sự cố hiện có" component={CurrentReport} />
-          <Tab.Screen name="Đang tiếp nhận" component={HandlingReport} />
+        >
+          <Tab.Screen name="Sự cố hiện có">
+            {({ navigation }) => <CurrentReport navigation={navigation} />}
+          </Tab.Screen>
+          <Tab.Screen name="Đang tiếp nhận">
+            {({ navigation }) => <HandlingReport navigation={navigation} />}
+          </Tab.Screen>
+
         </Tab.Navigator>
       </View>
     </SafeAreaView>

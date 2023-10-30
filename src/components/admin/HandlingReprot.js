@@ -4,7 +4,7 @@ import {Image} from 'react-native-elements';
 import {ItemProblem} from './ItemProblem';
 import {FlatList} from 'react-native-gesture-handler';
 
-const HandlingReport = () => {
+const HandlingReport = ({navigation}) => {
   return (
     <View
       style={{
@@ -18,7 +18,7 @@ const HandlingReport = () => {
         keyExtractor={item => item.id.toString()}
       /> */}
 
-      <ItemProblem></ItemProblem>
+      <ItemProblem navigation={navigation}/>
     </View>
   )
 }

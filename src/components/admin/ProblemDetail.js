@@ -3,7 +3,7 @@ import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Image} from 'react-native-elements';
 
-export default ProblemDetail = () => {
+export default ProblemDetail = ({navigation}) => {
   return (
     <SafeAreaView
       style={{
