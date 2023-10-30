@@ -25,6 +25,9 @@ import HistoryAdmin from '../components/admin/HistoryAdmin';
 import ProblemDetail from '../components/admin/ProblemDetail';
 import SettingAdminScreen from '../components/admin/SettingAdminScreen';
 import HistoryAdminDetail from '../components/admin/HistoryAdminDetail';
+import ListFloor_F from '../components/admin/ListFloor_F';
+import ListFloor_P from '../components/admin/ListFloor_P';
+import ListFloor_T from '../components/admin/ListFloor_T';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -55,11 +58,31 @@ const Admin = () => {
     return (
         <Stack.Navigator initialRouteName='Home' screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Home" component={HomeScreenAdmin} />
-            <Stack.Screen name="Check" component={CheckAdmin} />
+            <Stack.Screen name="Check" component={CheckRoom} />
             <Stack.Screen name="Help" component={HomeAdmin} />
             <Stack.Screen name="Detail" component={ProblemDetail} />
-            <Stack.Screen name="HistoryAdmin" component={HistoryAdmin} />
-            <Stack.Screen name="ReportAdmin" component={HistoryAdminDetail} />
+            <Stack.Screen name="ToaF" component={ListFloor_F} />
+            <Stack.Screen name="ToaP" component={ListFloor_P} />
+            <Stack.Screen name="ToaT" component={ListFloor_T} />
+        </Stack.Navigator>
+
+    )
+}
+const CheckRoom=()=>{
+    return(
+        <Stack.Navigator initialRouteName='Home' screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={CheckAdmin} />
+        <Stack.Screen name="ToaF" component={ListFloor_F} />
+        <Stack.Screen name="ToaP" component={ListFloor_P} />
+        <Stack.Screen name="ToaT" component={ListFloor_T} />
+    </Stack.Navigator>
+    )
+}
+const StackHistory=()=>{
+    return (
+        <Stack.Navigator initialRouteName='History' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="History" component={HistoryAdmin} />
+            <Stack.Screen name="Detail" component={HistoryAdminDetail} />
         </Stack.Navigator>
 
     )
@@ -245,7 +268,7 @@ const HomeAdmins = ({ scrollY }) => {
                 }}
             >
                 {() => (
-                    <HistoryAdmin />
+                    <StackHistory />
                 )}
             </Tab.Screen>
             <Tab.Screen

@@ -6,14 +6,16 @@ import { AppContext } from '../../context/AppContext';
 const baseImgPath = '../../assets/images/';
 const HomeScreenAdmin = (props) => {
     const {navigation}= props;
+    const { userProfile } = useContext(AppContext);
+
     return (
 
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 45 }}>
-                    <Image style={{ marginRight: 10, width: 50, height: 50, borderRadius: 30 }} source={require(baseImgPath + 'avt.png')} />
+                    <Image style={{ marginRight: 10, width: 50, height: 50, borderRadius: 30 }} source={{uri:userProfile.avt}} />
                     <Text style={styles.title}>
-                        Nguyễn Văn Be
+                    {userProfile.name}
                     </Text>
                 </View>
                 <Icon style={{ paddingBottom: 12 }} name='bells' size={20} color="#FFFFFF" />

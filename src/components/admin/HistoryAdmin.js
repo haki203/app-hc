@@ -9,6 +9,8 @@ const { width, height } = Dimensions.get('window');
 const bacroundHeight = '#FFF';
 const HistoryAdmin = (props) => {
   const { navigation } = props;
+  const { userProfile } = useContext(AppContext);
+
   const [dataNe, setdataNe] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   useEffect(() => {
@@ -42,8 +44,8 @@ const HistoryAdmin = (props) => {
           marginTop: 35
         }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
-            <Image source={require('../../assets/images/profile.png')} style={styles.profile}></Image>
-            <Text style={styles.text1}>Nguyen Trung Hai</Text>
+            <Image source={{uri:userProfile.avt}} style={styles.profile}></Image>
+            <Text style={styles.text1}>{userProfile.name}</Text>
           </View>
           <Icon style={styles.iconmenu} name='bells' size={20} color="#FFFFFF" />
         </View>
@@ -55,6 +57,7 @@ const HistoryAdmin = (props) => {
             data={dataNe}
             renderItem={({ item }) => <ItemHistoryAdmin report={item} navigation={navigation} />}
             keyExtractor={item => item._id}
+            initialNumToRender={3}
             showsVerticalScrollIndicator={false}
           />
         </View>

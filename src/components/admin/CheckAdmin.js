@@ -19,7 +19,7 @@ const CheckAdmin = ({navigation}) => {
             </View >
 
             
-                <TouchableOpacity style={styles.item1}  >
+                <TouchableOpacity style={styles.item1} onPress={()=>navigation.navigate('ToaF')}  >
 
                     <View style={styles.itemin}>
                         <View style={styles.in4item}>
@@ -35,7 +35,7 @@ const CheckAdmin = ({navigation}) => {
                         <Image style={styles.icon} source={require('../../assets/images/chevron-right-white.png')}/>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.item2}  >
+                <TouchableOpacity style={styles.item2}  onPress={()=>navigation.navigate('ToaT')}>
 
                     <View style={styles.itemin}>
                         <View style={styles.in4item}>
@@ -51,7 +51,7 @@ const CheckAdmin = ({navigation}) => {
                         <Image style={styles.icon} source={require('../../assets/images/chevron-right-white.png')}/>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.item3}  >
+                <TouchableOpacity style={styles.item3} onPress={()=>navigation.navigate('ToaP')} >
 
                     <View style={styles.itemin}>
                         <View style={styles.in4item}>

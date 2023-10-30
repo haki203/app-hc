@@ -7,7 +7,7 @@ const ItemHistoryAdmin = (props) => {
   const [id, setId] = useState(report._id);
   const clickItemAdmin = () => {
     console.log(id);
-    navigation.navigate('ReportAdmin', { id: id });
+    navigation.navigate('Detail', { id: id });
   }
   return (
     <View style={styles.container}>

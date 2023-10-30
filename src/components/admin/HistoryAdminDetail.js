@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/AntDesign"
 import AxiosIntance from '../../axios/AxiosIntance';
 const baseImgPath = '../../assets/images/';
 const HistoryAdminDetail = (props) => {
+    const {navigation}= props;
     const [isLoading, setisLoading] = useState(false);
     const [data, setdataNe] = useState("");
     useEffect(() => {
@@ -30,7 +31,7 @@ const HistoryAdminDetail = (props) => {
     return (
         <View>
             <View style={styles.header}>
-                <Icon style={styles.icon} name='left' size={20} color="#000000" />
+                <Icon style={styles.icon} onPress={()=>navigation.goBack()} name='left' size={20} color="#000000" />
                 <Text style={styles.text}>Sự cố về cơ sở vật chất</Text>
                 <Text></Text>
             </View>

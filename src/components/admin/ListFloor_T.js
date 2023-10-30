@@ -1,16 +1,16 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, Image, FlatList} from 'react-native';
-import React, {useState} from 'react';
+import { StyleSheet, Text, View, Image, FlatList,TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 
-const renderItem = ({item}) => {
+const renderItem = ({ item }) => {
   return (
     <View
       style={{
         margin: 10,
       }}>
-      <View style={[styles.itemm, {backgroundColor: item.color}]}>
+      <View style={[styles.itemm, { backgroundColor: item.color }]}>
         <View style={styles.info}>
-          <View style={{padding: 6.5, paddingLeft: 4}}>
+          <View style={{ padding: 6.5, paddingLeft: 4 }}>
             <Image style={styles.building} source={item.icon} />
           </View>
 
@@ -22,14 +22,16 @@ const renderItem = ({item}) => {
   );
 };
 
-const ListFloor_T = () => {
+const ListFloor_T = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
-          style={styles.logo}
-          source={require('../../assets/images/icons8-back-50.png')}
-        />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={styles.logo}
+            source={require('../../assets/images/icons8-back-50.png')}
+          />
+        </TouchableOpacity>
         <Text style={styles.header_name}>Tòa T</Text>
         <Image
           style={styles.logo}
@@ -113,14 +115,14 @@ const data = [
   {
     id: 1,
     floor: 'Tầng 1',
-    room: '17 phòng',
+    room: '5 phòng',
     color: '#f4eaff',
     icon: require('../../assets/images/ic_building1.png'),
   },
   {
     id: 2,
     floor: 'Tầng 2',
-    room: '17 phòng',
+    room: '3 phòng',
     color: '#FFFADD',
     icon: require('../../assets/images/ic_building2.png'),
   },
@@ -142,7 +144,7 @@ const data = [
   {
     id: 5,
     floor: 'Tầng 10',
-    room: '17 phòng',
+    room: '5 phòng',
     color: '#FFFADD',
     icon: require('../../assets/images/ic_building2.png'),
   },
@@ -150,7 +152,7 @@ const data = [
   {
     id: 6,
     floor: 'Tầng 11',
-    room: '17 phòng',
+    room: '7 phòng',
     color: '#FFD5D5',
     icon: require('../../assets/images/ic_building.png'),
   },
