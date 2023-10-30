@@ -1,11 +1,36 @@
 import { StyleSheet, Text, View, Dimensions, Image, FlatList, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Icon from "react-native-vector-icons/AntDesign"
 import ItemHistoryAdmin from './ItemHistoryAdmin';
+import AxiosIntance from '../../axios/AxiosIntance';
+import Loading from '../isLoading/Loading';
+import { AppContext } from '../../context/AppContext';
 const { width, height } = Dimensions.get('window');
 const bacroundHeight = '#FFF';
 const HistoryAdmin = (props) => {
   const { navigation } = props;
+  const [dataNe, setdataNe] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
+  useEffect(() => {
+    const getNews = async () => {
+      setisLoading(true);
+      const respone = await AxiosIntance().get("/report");
+      if (respone.result == true) {
+
+        // lay du lieu ok
+        setdataNe(respone.report);
+        console.log("du lieu" + respone.report);
+        setisLoading(false);
+      }
+      else {
+        ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+      }
+    }
+    getNews();
+
+    return () => {
+    }
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -18,7 +43,7 @@ const HistoryAdmin = (props) => {
         }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
             <Image source={require('../../assets/images/profile.png')} style={styles.profile}></Image>
-            <Text style={styles.text1}>Nguyễn Trung Hải </Text>
+            <Text style={styles.text1}>Nguyen Trung Hai</Text>
           </View>
           <Icon style={styles.iconmenu} name='bells' size={20} color="#FFFFFF" />
         </View>
@@ -43,7 +68,7 @@ export default HistoryAdmin
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000'
+    backgroundColor: '#D97245'
   },
   header: {
     height: height * 0.15,

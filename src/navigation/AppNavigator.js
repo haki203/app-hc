@@ -24,6 +24,7 @@ import HomeScreenAdmin from '../components/admin/HomeScreenAdmin';
 import HistoryAdmin from '../components/admin/HistoryAdmin';
 import ProblemDetail from '../components/admin/ProblemDetail';
 import SettingAdminScreen from '../components/admin/SettingAdminScreen';
+import HistoryAdminDetail from '../components/admin/HistoryAdminDetail';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,7 +58,8 @@ const Admin = () => {
             <Stack.Screen name="Check" component={CheckAdmin} />
             <Stack.Screen name="Help" component={HomeAdmin} />
             <Stack.Screen name="Detail" component={ProblemDetail} />
-
+            <Stack.Screen name="HistoryAdmin" component={HistoryAdmin} />
+            <Stack.Screen name="ReportAdmin" component={HistoryAdminDetail} />
         </Stack.Navigator>
 
     )

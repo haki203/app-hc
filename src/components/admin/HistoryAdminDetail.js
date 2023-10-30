@@ -1,9 +1,32 @@
-import { StyleSheet, Text, View, Dropdown, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, View, Dropdown, TextInput, TouchableOpacity, Image } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import Icon from "react-native-vector-icons/AntDesign"
-import { Image } from 'react-native-elements'
+import AxiosIntance from '../../axios/AxiosIntance';
 const baseImgPath = '../../assets/images/';
-const HistoryAdminDetail = () => {
+const HistoryAdminDetail = (props) => {
+    const [isLoading, setisLoading] = useState(false);
+    const [data, setdataNe] = useState("");
+    useEffect(() => {
+        const getNews = async () => {
+            const response = await AxiosIntance().get(`/report/`);
+            console.log(response.report);
+            if (response.result == true) {
+                // console.log(respone.report.admin);
+                // lay du lieu ok
+                setdataNe(response.report);
+                console.log("data " + data.room)
+                setisLoading(false);
+            }
+            else {
+                ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+            }
+        }
+        setisLoading(true);
+        getNews();
+
+        return () => {
+        }
+    }, []);
     return (
         <View>
             <View style={styles.header}>
@@ -14,7 +37,7 @@ const HistoryAdminDetail = () => {
             <View>
                 <Text style={styles.text1}>Tên người yêu cầu:</Text>
                 <View style={styles.leader1}>
-                    <Image style={styles.image} source={require('../../assets//images/profile.png')}></Image>
+                    <Image style={styles.image} source={{ uri: data.image }}></Image>
                     <View style={styles.leader2}>
                         <Text style={styles.text2}>Lê Văn Hiếu</Text>
                         <Text style={styles.text3}>0123456789</Text>
@@ -191,7 +214,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontStyle: 'normal'
     },
-    text8:{
+    text8: {
         color: '#000',
         fontFamily: 'Poppins',
         fontSize: 14,
