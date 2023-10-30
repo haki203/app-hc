@@ -7,15 +7,17 @@ const SettingAdminScreen = (props) => {
     const { navigation } = props;
     const [isEnabled, setIsEnabled] = useState(false);
     const { userProfile } = useContext(AppContext);
-    const { setIsLogin } = useContext(AppContext);
+    const { setIsLogin,setIsLoginAdmin } = useContext(AppContext);
     const handleSignOut = async () => {
         try {
           await GoogleSignin.revokeAccess();
           await GoogleSignin.signOut();
           setIsLogin(false);
+          setIsLoginAdmin(false);
+          await GoogleSignin.revokeAccess();
+          await GoogleSignin.signOut();
           // Đăng xuất thành công, bạn có thể thực hiện các hành động sau khi đăng xuất ở đây
         } catch (error) {
-          console.error('Lỗi đăng xuất:', error);
         }
       };
     return (

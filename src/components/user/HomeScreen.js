@@ -10,8 +10,8 @@ const Home = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',height:45}}>
-                    <Image style={{marginRight:10,width:50,height:50,borderRadius:30}} source={{uri:userProfile.avt}} />
+                <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',height:45}}>
+                    <Image style={{marginRight:5,width:50,height:50,borderRadius:30}} source={{uri:userProfile.avt}} />
                     <Text style={styles.title}>
                         {userProfile.name}
                     </Text>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-end',
         paddingBottom: 50,
-        padding: 30,
+        padding: 20,
     }, title: {
         color: '#FFFFFF',
         fontSize: 18,

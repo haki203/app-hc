@@ -39,21 +39,20 @@ const ReportProblem = (props) => {
   const [isLoading, setisLoading] = useState(false);
 
   const sendApi = async () => {
-    setisLoading(true);
     const getNews = async () => {
       const type = 2;
       const room = lop;
       const description = types + " --" + des;
       const image = img;
       if (!room) {
-        ToastAndroid.show("Vui lòng nhập đủ thông tin", ToastAndroid.SHORT);
+        ToastAndroid.show("Vui lòng phòng học", ToastAndroid.SHORT);
 
       } else if (!description) {
-        ToastAndroid.show("Vui lòng nhập đủ thông tin", ToastAndroid.SHORT);
+        ToastAndroid.show("Vui lòng nhập mô tả", ToastAndroid.SHORT);
 
 
       } else if (!image) {
-        ToastAndroid.show("Vui lòng nhập đủ thông tin", ToastAndroid.SHORT);
+        ToastAndroid.show("Vui lòng chọn hình", ToastAndroid.SHORT);
 
 
       }
@@ -63,6 +62,8 @@ const ReportProblem = (props) => {
           console.log("Room ne: ", room);
           console.log("Description ne: ", description);
           console.log("Image ne: ", image);
+          setisLoading(true);
+
           const response = await AxiosIntance().post(`/report/new`, { type: 2, room: room, description: description, image: image });
           if (response.result == true) {
             ToastAndroid.show("Gửi yêu cầu thành công", ToastAndroid.SHORT);
@@ -220,7 +221,7 @@ const ReportProblem = (props) => {
 
   return (
     <ScrollView>
-      <View>{isLoading ? <View style={{ width: width, height: height, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator size="large" color="black" /></View> : <View></View>}</View>
+      <View>{isLoading ? <View style={{ width: width, height: height, alignItems: 'center', justifyContent: 'center',position:'absolute' }}><ActivityIndicator size="large" color="black" /></View> : <View></View>}</View>
       <SafeAreaView
         style={{
           flex: 1,

@@ -42,10 +42,16 @@ const Login = () => {
         setisLoading(true);
 
         const res = await AxiosIntance().post("/user/login", { email: userInfo.user.email });
+        let phone="";
+        try {
+          phone=res.user.phone;
+        } catch (error) {
+          phone='0126678952';
+        }
         const userProfile =
         {
           email: userInfo.user.email,
-          phone: res.user.phone,
+          phone: phone,
           avt: userInfo.user.photo,
           name: userInfo.user.name,
           role: res.user.role
@@ -75,7 +81,7 @@ const Login = () => {
 
     }
     catch (error) {
-      console.error(error);
+      console.error("Lỗi rồi: ",error);
     }
   }
   return (

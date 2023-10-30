@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, Switch, TouchableOpacity } from 'react-native'
-import React, { useState,useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { AppContext } from '../context/AppContext';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 const baseImgPath = '../assets/images/';
@@ -7,38 +7,39 @@ const SettingScreen = (props) => {
     const { navigation } = props;
     const [isEnabled, setIsEnabled] = useState(false);
     const { userProfile } = useContext(AppContext);
-    const { setIsLogin } = useContext(AppContext);
+    const { setIsLogin, setIsLoginAdmin } = useContext(AppContext);
     const handleSignOut = async () => {
         try {
-          await GoogleSignin.revokeAccess();
-          await GoogleSignin.signOut();
-          setIsLogin(false);
-          // Đăng xuất thành công, bạn có thể thực hiện các hành động sau khi đăng xuất ở đây
+            setIsLogin(false);
+            setIsLoginAdmin(false);
+            await GoogleSignin.revokeAccess();
+            await GoogleSignin.signOut();
+
+            // Đăng xuất thành công, bạn có thể thực hiện các hành động sau khi đăng xuất ở đây
         } catch (error) {
-          console.error('Lỗi đăng xuất:', error);
         }
-      };
+    };
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Image style={{width:60,height:60,marginBottom:10,borderRadius:20}} source={{ uri: userProfile.avt }} />
+                <Image style={{ width: 60, height: 60, marginBottom: 10, borderRadius: 20 }} source={{ uri: userProfile.avt }} />
                 <Text style={{ color: 'white', fontSize: 25, fontWeight: 500 }}>{userProfile.name}</Text>
                 <Text style={{ color: 'white', fontSize: 18, fontWeight: 400 }}>0{userProfile.phone}</Text>
             </View>
             <View style={styles.bodycontainer} >
                 <View style={styles.body} >
-                    <TouchableOpacity style={styles.itembody} onPress={()=>navigation.navigate('Profile')}>
+                    <TouchableOpacity style={styles.itembody} onPress={() => navigation.navigate('Profile')}>
                         <Image source={require(baseImgPath + 'icprofile.png')} />
                         <Text style={styles.textItem}> Chỉnh sửa tài khoản </Text>
                         <Image source={require(baseImgPath + 'chevron-right.png')} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={()=>setIsEnabled(!isEnabled)} style={styles.itembody} >
+                    <TouchableOpacity onPress={() => setIsEnabled(!isEnabled)} style={styles.itembody} >
                         <Image source={require(baseImgPath + 'icalert.png')} />
                         <Text style={styles.textItem}> Tắt thông báo </Text>
                         <Switch style={styles.switch} trackColor={styles.trackColor} thumbColor={styles.thumbColor(isEnabled)} onValueChange={setIsEnabled} value={isEnabled} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.itembody} onPress={()=>handleSignOut()}>
+                    <TouchableOpacity style={styles.itembody} onPress={() => handleSignOut()}>
                         <Image source={require(baseImgPath + 'icexit.png')} />
                         <Text style={styles.textItem} > Đăng xuất </Text>
                     </TouchableOpacity>
@@ -56,11 +57,11 @@ export default SettingScreen
 const styles = StyleSheet.create({
     header: {
         width: '100%',
-        flexDirection:'column',
-        justifyContent:'center',
-        alignItems:'center',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
         color: 'white',
-        height:'40%'
+        height: '40%'
     },
     leftHeader: {
         flexDirection: 'row',
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     },
 
     container: {
-        flex:1,
+        flex: 1,
         backgroundColor: '#D97245'
     },
 
@@ -95,18 +96,18 @@ const styles = StyleSheet.create({
         paddingTop: 30
     },
     body: {
-        padding:30,
+        padding: 30,
         flexDirection: 'column',
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     itembody: {
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom:10,
-        height:80,
+        marginBottom: 10,
+        height: 80,
     },
     trackColor: {
         false: '#d9d9d9',
@@ -117,16 +118,16 @@ const styles = StyleSheet.create({
 
     icarrowleft: {
         position: 'absolute',
-        top:15,
-        start:15,
+        top: 15,
+        start: 15,
     },
-    textItem:{
-        position:'absolute',
-        start:'30%',
-        fontSize:16,
-        color:'#000000',
-        fontWeight:'500',
-        fontFamily:'Poppins'
+    textItem: {
+        position: 'absolute',
+        start: '30%',
+        fontSize: 16,
+        color: '#000000',
+        fontWeight: '500',
+        fontFamily: 'Poppins'
     }
 
 })
