@@ -42,7 +42,7 @@ const ReportProblem = (props) => {
     const getNews = async () => {
       const type = 2;
       const room = lop;
-      const description = types + " --" + des;
+      const description = types + " " + des;
       const image = img;
       if (!room) {
         ToastAndroid.show("Vui lòng phòng học", ToastAndroid.SHORT);

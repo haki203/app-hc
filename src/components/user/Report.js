@@ -12,7 +12,7 @@ const Report = (props) => {
   const { id } = params;
   const [isLoading, setisLoading] = useState(false);
   const [data, setdataNe] = useState([]);
-  const [admin, setAdmin] = useState("");
+  const [admin, setAdmin] = useState("Chưa có");
   const [image, setImage] = useState("http://dummyimage.com/142x100.png/5fa2dd/ffffff");
 
   useEffect(() => {
@@ -20,16 +20,17 @@ const Report = (props) => {
 
       const response = await AxiosIntance().get(`/report/${id}`);
 
-      console.log(response.report);
+      console.log(response);
       if (response.result == true) {
         // console.log(respone.report.admin);
         // lay du lieu ok
         setdataNe(response.report);
         try {
-          setAdmin(response.report.admin.full_name);
+          //setAdmin(response.report.admin.full_name);
+          console.log(response.report.image);
           setImage(response.report.image)
         } catch (error) {
-          
+          console.log(error);
         }
         setisLoading(false);
       }

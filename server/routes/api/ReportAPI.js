@@ -66,7 +66,7 @@ router.post('/new', async (req, res) => {
             accept: acceptValue,
             done: doneValue,
             description: descriptionValue,
-            status: status
+            status: 0
         };
         //Lưu bản ghi report vào cơ sở dữ liệu
         let newResult="";
@@ -116,10 +116,19 @@ router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
     try {
         const report = await reportModel.findById(id).populate('admin', 'full_name');;
-        res.status(200).json({ report, result: true });
+        res.status(200).json({  result: true,report:report });
     } catch (error) {
         res.status(400).json({ result: false, message: 'khong có id này' });
     } false
+});
+router.post('/accept', async (req, res, next) => {
+    const { id } = req.body;
+    try {
+        const report = await reportModel.findById(id).populate('admin', 'full_name');
+        res.status(200).json({ report, result: true });
+    } catch (error) {
+        res.status(400).json({ result: false, message: 'khong có id này' });
+    } 
 });
 
 // get user by id
