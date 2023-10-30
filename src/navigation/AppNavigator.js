@@ -116,15 +116,6 @@ const Histories = () => {
 
     )
 }
-const HistoriesAdmin = () => {
-    return (
-        <Stack.Navigator initialRouteName='HistoryAdmin' screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="HistoryAdmin" component={HistoryAdmin} />
-            <Stack.Screen name="ReportAdmin" component={HistoryAdminDetail} />
-        </Stack.Navigator>
-
-    )
-}
 const ManChao = () => {
     return (
         <Stack.Navigator initialRouteName='Sign' screenOptions={{ headerShown: false }}>
