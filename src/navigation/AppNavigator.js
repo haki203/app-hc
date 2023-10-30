@@ -25,6 +25,7 @@ import HistoryAdmin from '../components/admin/HistoryAdmin';
 import ProblemDetail from '../components/admin/ProblemDetail';
 import SettingAdminScreen from '../components/admin/SettingAdminScreen';
 import HistoryAdminDetail from '../components/admin/HistoryAdminDetail';
+import ReportAdmin from '../components/admin/ReportAdmin';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -89,6 +90,15 @@ const Histories = () => {
             <Stack.Screen name="History" component={History} />
             <Stack.Screen name="Notification" component={Thongbao} />
             <Stack.Screen name="Report" component={Report} />
+        </Stack.Navigator>
+
+    )
+}
+const HistoriesAdmin = () => {
+    return (
+        <Stack.Navigator initialRouteName='HistoryAdmin' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="HistoryAdmin" component={HistoryAdmin} />
+            <Stack.Screen name="ReportAdmin" component={HistoryAdminDetail} />
         </Stack.Navigator>
 
     )
@@ -245,7 +255,7 @@ const HomeAdmins = ({ scrollY }) => {
                 }}
             >
                 {() => (
-                    <HistoryAdmin />
+                    <HistoriesAdmin />
                 )}
             </Tab.Screen>
             <Tab.Screen

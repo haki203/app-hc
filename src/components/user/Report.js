@@ -17,9 +17,7 @@ const Report = (props) => {
 
   useEffect(() => {
     const getNews = async () => {
-
       const response = await AxiosIntance().get(`/report/${id}`);
-
       console.log(response.report);
       if (response.result == true) {
         // console.log(respone.report.admin);
@@ -51,7 +49,6 @@ const Report = (props) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
           <Image style={styles.back} source={require(baseImgPath + 'back.png')}></Image>
         </TouchableOpacity>
-
         <Text style={styles.text}>Yêu cầu hỗ trợ CNTT</Text>
         <Text></Text>
       </View>
