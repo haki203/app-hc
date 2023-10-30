@@ -20,6 +20,11 @@ const { width, height } = Dimensions.get('window');
 const baseImgPath = '../../assets/images/';
 const SupportForm = (props) => {
   
+  const handleReloadPage = () => {
+    navigation.goBack(); // Quay lại màn hình trước đó
+    navigation.navigate('Help'); // Điều hướng đến lại trang "ReportProblem"
+  };
+
   const { navigation } = props;
   const data = [
     { label: 'Item 1', value: '1' },
@@ -294,6 +299,7 @@ const SupportForm = (props) => {
         )}
 
         <TouchableOpacity
+        onPress={() => {handleReloadPage()}}
           style={{
             borderColor: 'gray',
             borderWidth: 1,

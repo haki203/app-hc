@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -26,6 +26,20 @@ import AxiosIntance from '../../axios/AxiosIntance';
 import Loading from '../isLoading/Loading';
 
 const ReportProblem = (props) => {
+
+  const handleReloadPage = () => {
+    navigation.goBack(); // Quay lại màn hình trước đó
+    navigation.navigate('Report'); // Điều hướng đến lại trang "ReportProblem"
+  };
+
+  const textInputRef = useRef(null); // Tạo một tham chiếu cho TextInput
+
+  const handleClearText = () => {
+    if (textInputRef.current) {
+      textInputRef.current.clear(); // Gọi phương thức clear() của TextInput
+    }
+  };
+
   const { navigation } = props;
   const [img, setImg] = useState("");
   const [lop, setRoom] = useState("");
@@ -64,6 +78,8 @@ const ReportProblem = (props) => {
           console.log("Image ne: ", image);
           setisLoading(true);
 
+          
+
           const response = await AxiosIntance().post(`/report/new`, { type: 2, room: room, description: description, image: image });
           if (response.result == true) {
             ToastAndroid.show("Gửi yêu cầu thành công", ToastAndroid.SHORT);
@@ -100,44 +116,53 @@ const ReportProblem = (props) => {
 
     try {
       // Tải lên tệp ảnh
-      await reference.putFile(imageUri);
+      if (imageUri) {
+        await reference.putFile(imageUri);
 
       // Lấy URL của tệp vừa tải lên
       const url = await reference.getDownloadURL();
       console.log('URL ảnh tải lên ne:', url);
       setImg(url);
       setisLoading(false);
-
+      } else {
+      console.log('Khg có image');
+      }
+      
     } catch (error) {
       console.error('Lỗi khi tải lên ảnh:', error);
     }
   };
   const uploadImages = async (imageUris) => {
-    const uploadPromises = imageUris.map(async (imageUri) => {
+      setisLoading(true);
+    const uploadPromises = imageUris.map(async (imageData) => {
+      const imageUri = imageData.realPath; // Lấy đường dẫn tệp ảnh từ realPath
       const reference = storage().ref(`images/${new Date().getTime()}.jpg`);
       console.log('đang tải ảnh lên');
       try {
         // Tải lên tệp ảnh
         await reference.putFile(imageUri);
-
+  
         // Lấy URL của tệp vừa tải lên
         const url = await reference.getDownloadURL();
-        console.log('URL ảnh tải lêns:', url);
-        setImg(url);
+        console.log('URL ảnh tải lên:', url);
+  
         return url; // Trả về URL của ảnh
       } catch (error) {
         console.error('Lỗi khi tải lên ảnh:', error);
         throw error; // Ném ra lỗi để Promise.all nhận biết lỗi
       }
     });
-
+  
     try {
       const uploadedUrls = await Promise.all(uploadPromises);
+  
       console.log('Tất cả ảnh đã được tải lên:', uploadedUrls);
+      setisLoading(false)
+      setImg(uploadedUrls);
     } catch (error) {
       console.error('Có lỗi khi tải lên ảnh:', error);
     }
-  };
+  }
   const optionsCamera = {
     title: 'Chọn ảnh',
     storageOptions: {
@@ -165,13 +190,13 @@ const ReportProblem = (props) => {
           console.log(image)
         }
         // upload image
-        if (image) {
-          uploadImage(image)
-        }
+        // if (image) {
+        //   uploadImage(image)
+        // }
 
-        const paths = selectedImages.map(item => item.realPath);
-        console.log(paths);
-        uploadImages(paths)
+        // const paths = selectedImages.map(item => item.realPath);
+        // console.log(paths);
+        // uploadImages(paths)
       }
     } catch (error) {
       console.error('An error occurred:', error);
@@ -218,6 +243,10 @@ const ReportProblem = (props) => {
     />
   );
 
+  if (isLoading) {
+    return <Loading/>
+  }
+
 
   return (
     <ScrollView>
@@ -263,6 +292,7 @@ const ReportProblem = (props) => {
         </View>
 
         <TextInput
+        ref={textInputRef}
           onChangeText={(text) => setRoom(text)}
           style={{
             borderColor: 'gray',
@@ -301,6 +331,7 @@ const ReportProblem = (props) => {
         />
 
         <TextInput
+        ref={textInputRef}
           style={{
             borderColor: 'gray',
             borderWidth: 1,
@@ -383,7 +414,12 @@ const ReportProblem = (props) => {
         )}
 
         <TouchableOpacity
-          onPress={() => sendApi()}
+          onPress={() => {
+            uploadImage(image)
+            uploadImages(selectedImages)
+            handleReloadPage()
+            handleClearText()
+          }}
           style={{
             borderColor: 'gray',
             borderWidth: 1,
