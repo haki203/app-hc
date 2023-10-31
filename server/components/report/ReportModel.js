@@ -3,11 +3,15 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const schema = new Schema({
-    id: { type: ObjectId }, 
+    report_date: { type: String}, 
+    userId: { type: ObjectId, ref: 'users' }, 
+    type: { type: Number}, 
     room: { type: String },
-    image: [{ type: String }],
-    option: { type: String},
-    createAt: { type: Date },
+    image: { type: String },
+    time: { type: String },
+    admin: {  type: ObjectId, ref: 'admins'  },
+    accept: { type: String },
+    done: { type: String },
     description: { type: String },
     status: { type: Number },
 
