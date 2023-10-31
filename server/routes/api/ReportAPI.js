@@ -16,10 +16,78 @@ const upload = multer({ storage: multer.memoryStorage() });
 //http://localhost:3000/api/report/list
 router.get('/list', async (req, res, next) => {
     try {
-        const reports = await reportController.getAllReport();
-        console.log("reports :" ,reports)
-        if (reports) {
-            return res.status(200).json({ result: true, reports: reports });
+        let {
+            report_date,
+            userId,
+            type,
+            room,
+            image,
+            time,
+            admin,
+            accept,
+            done,
+            description,
+        } = req.body; // Lấy dữ liệu từ yêu cầu POST
+
+        if (!report_date) {
+            // Sử dụng hàm new Date() để lấy ngày hiện tại và chuyển định dạng thành chuỗi
+            report_date = moment().format('DD/MM/YYYY');
+        }
+        if (!time) {
+            // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
+            time = moment().format('hh:mm A');
+        }
+        if (!image) {
+            // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
+            res.status(400).json({ result: false, message: 'missing image' });
+            return;
+        }
+        if (!room) {
+            // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
+            res.status(400).json({ result: false, message: 'missing room' });
+            return;
+        }
+        if (!description) {
+            // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
+            res.status(400).json({ result: false, message: 'missing description' });
+            return;
+        }
+
+        // Kiểm tra và đặt các trường là chuỗi rỗng nếu chúng là null hoặc undefined
+        const adminValue = admin || null;
+        const userIdValue = userId || '652bc5771e8e20f18f052a65';
+        const imageValue = image || 'http://dummyimage.com/142x100.png/5fa2dd/ffffff';
+        const acceptValue = accept || null;
+        const doneValue = done || null;
+        const descriptionValue = description || "khong co mo ta";
+        const status = 0;
+        // Tạo một bản ghi report mới
+        const newReport = {
+            report_date,
+            userId: userIdValue,
+            type,
+            room,
+            image: imageValue,
+            time,
+            admin: adminValue,
+            accept: acceptValue,
+            done: doneValue,
+            description: descriptionValue,
+            status: 0
+        };
+        //Lưu bản ghi report vào cơ sở dữ liệu
+        let newResult="";
+        try {
+            newResult = await reportModel.create(newReport);
+        } catch (error) {
+            console.log(error);
+        }
+        if (newResult) {
+            res.status(201).json({ result: true, message: 'Báo cáo đã được thêm thành công.' ,report:newResult});
+            return;
+        } else {
+            res.status(400).json({ result: false, message: 'Thêm báo cáo thất bại' });
+            return;
         }
     } catch (error) {
         console.log("API:" + error)
@@ -98,5 +166,40 @@ router.post("/upload", upload.array("filename"), async (req, res) => {
         return res.status(400).send(error.message);
       }
 });
+router.get('/:id', async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const report = await reportModel.findById(id).populate('admin', 'full_name');;
+        res.status(200).json({  result: true,report:report });
+    } catch (error) {
+        res.status(400).json({ result: false, message: 'khong có id này' });
+    } false
+});
+router.post('/accept', async (req, res, next) => {
+    const { id } = req.body;
+    try {
+        const report = await reportModel.findById(id).populate('admin', 'full_name');
+        res.status(200).json({ report, result: true });
+    } catch (error) {
+        res.status(400).json({ result: false, message: 'khong có id này' });
+    } 
+});
+
+// get user by id
+router.get('/user/:id', async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const user = await userModel.findById(id);
+        if (user) {
+            res.status(200).json({ user, result: true });
+        }
+        else {
+            res.status(400).json({ result: false });
+        }
+    } catch (error) {
+        res.status(400).json({});
+    }
+});
+
 
 module.exports = router;

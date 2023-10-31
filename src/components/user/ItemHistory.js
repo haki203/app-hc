@@ -12,7 +12,7 @@ const ItemHistory = (props) => {
     try {
       setFullName(report.admin.full_name);
     } catch (error) {
-      
+      setFullName("Chưa có");
     }
  
   }, []);

@@ -9,7 +9,7 @@ const schema = new Schema({
     option: { type: String},
     createAt: { type: Date },
     description: { type: String },
-    userId: { type: ObjectId, ref: 'users' }, 
-    typeId: { type: ObjectId, ref: 'types' },
+    status: { type: Number },
+
 });
 module.exports = mongoose.model('report', schema, 'reports');

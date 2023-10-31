@@ -51,7 +51,7 @@ const History = (props) => {
       <View style={styles.leader}>
         <Text style={styles.text2}>Lịch sử</Text>
         <View >{isLoading ? <Loading /> :
-          <View style={{width:width}}>
+          <View style={{width:width,paddingBottom:160}}>
             <FlatList
               data={dataNe}
               renderItem={({ item }) => <ItemHistory report={item} navigation={navigation} />}
