@@ -305,7 +305,7 @@ const AppNavigator = () => {
     //     return <Users />;
     // }
 
-    return <Home />;
+    return <HomeAdmins />;
 
 }
 
