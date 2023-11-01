@@ -103,7 +103,7 @@ router.get('/category', async (req, res, next) => {
 });
 
 
-//api/product
+
 router.get('/', async (req, res, next) => {
     try {
         const report = await reportController.getAllServices();

@@ -26,7 +26,7 @@ const ItemHistory = (props) => {
 
         <View style={{width:'85%'}}>
           <Text style={styles.text}>
-            {report.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}
+            {report.description.includes("--") ? report.description.split("--")[0] : report.description}
           </Text>
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.text3}>Người tiếp nhận: {fullName}</Text>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+    padding: 10,paddingBottom:5,
     
   },
   header: {
