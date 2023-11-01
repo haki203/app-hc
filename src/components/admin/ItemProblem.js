@@ -2,7 +2,13 @@ import {StyleSheet, Text, View,TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Image} from 'react-native-elements';
 
-export const ItemProblem = ({navigation}) => {
+export const ItemProblem = (props) => {
+  try {
+    const { problem } = props;
+  console.log("problem: " ,problem)
+  
+
+  const { navigation } = props;
     return (
         <TouchableOpacity onPress={()=>navigation.navigate('Detail')}
         style={{
@@ -28,7 +34,7 @@ export const ItemProblem = ({navigation}) => {
               color: 'black',
               fontWeight: 500,
             }}>
-            Sự cố máy chiếu hỏng
+            {problem.description}
           </Text>
           <Text
             style={{
@@ -36,7 +42,7 @@ export const ItemProblem = ({navigation}) => {
               color: '#29D13A',
               fontWeight: 500,
             }}>
-            10:02 am
+            {problem.time}
           </Text>
         </View>
         <View
@@ -47,7 +53,7 @@ export const ItemProblem = ({navigation}) => {
           }}>
           <Image
             source={{
-              uri: 'https://www.oca.edu.vn/uploads/images/info/meo-trong-tieng-anh-la-gi.png',
+              uri: problem.image,
             }}
             style={{
               width: 60,
@@ -64,7 +70,7 @@ export const ItemProblem = ({navigation}) => {
                 color: 'black',
                 fontWeight: 500,
               }}>
-              Lê Văn Hiếu
+              {problem.userId.full_name}
             </Text>
             <View
               style={{
@@ -88,7 +94,7 @@ export const ItemProblem = ({navigation}) => {
                   fontWeight: 500,
                   marginRight: 10,
                 }}>
-                Phòng T1022
+                {problem.room}
               </Text>
 
               <Text
@@ -98,7 +104,7 @@ export const ItemProblem = ({navigation}) => {
                   fontWeight: 500,
                   marginRight: 10,
                 }}>
-                9h45
+                {problem.accept}
               </Text>
               <Text
                 style={{
@@ -107,11 +113,15 @@ export const ItemProblem = ({navigation}) => {
                   fontWeight: 500,
                   marginRight: 10,
                 }}>
-                17/02/2023
+                {problem.report_date}
               </Text>
             </View>
           </View>
         </View>
       </TouchableOpacity>
     )
+  } catch (err) {
+
+  }
+  
 }

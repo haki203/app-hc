@@ -109,6 +109,7 @@ router.get('/', async (req, res, next) => {
         const report = await reportController.getAllServices();
         res.status(200).json({ report, result: true });
     } catch (error) {
+        console.log(error);
         res.status(400).json({ result: false });
     }
 });

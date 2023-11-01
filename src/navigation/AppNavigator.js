@@ -29,6 +29,7 @@ import ListFloor_F from '../components/admin/ListFloor_F';
 import ListFloor_P from '../components/admin/ListFloor_P';
 import ListFloor_T from '../components/admin/ListFloor_T';
 
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Users = () => {
@@ -49,7 +50,6 @@ const Mains = () => {
             <Stack.Screen name="Notification" component={Thongbao} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="Setting" component={SettingScreen} />
-
         </Stack.Navigator>
 
     )
@@ -297,13 +297,15 @@ const HomeAdmins = ({ scrollY }) => {
 const AppNavigator = () => {
     const { isLogin, isLoginAdmin } = useContext(AppContext);
 
-    if (isLoginAdmin) {
-        return <HomeAdmins />;
-    } else if (isLogin) {
-        return <Home />;
-    } else {
-        return <Users />;
-    }
+    // if (isLoginAdmin) {
+    //     return <HomeAdmins />;
+    // } else if (isLogin) {
+    //     return <Home />;
+    // } else {
+    //     return <Users />;
+    // }
+
+    return <HomeAdmins />;
 
 }
 
