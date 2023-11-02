@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, ActivityIndicator,Dimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AxiosIntance from '../../axios/AxiosIntance';
 import ItemContact from '../ItemContact';
+import Loading from '../isLoading/Loading';
+const { width, height } = Dimensions.get('window');
 
 
 const baseImgPath = '../../assets/images/';
@@ -10,14 +12,16 @@ const ContactScreen = (props) => {
     const [dataNe, setdataNe] = useState([]);
     const [data1, setdata1] = useState([]);
     const [data2, setdata2] = useState([]);
+    const [isLoading, setIsLoading] = useState([]);
     useEffect(() => {
         const getNews = async () => {
             const respone = await AxiosIntance().get("/user/admin");
+            setIsLoading(true);
             console.log(respone);
             if (respone.result == true) {
                 setdata1(respone.admin.filter(item => item.type === 1));
                 setdata2(respone.admin.filter(item => item.type === 2));
-                console.log("du lieu" + respone.admin);
+                setIsLoading(false);
             }
             else {
                 ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
@@ -33,7 +37,7 @@ const ContactScreen = (props) => {
             <View style={styles.header}>
                 <View style={styles.contentHeader}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Image style={styles.icarrowleft}  source={require(baseImgPath + 'chevron-left.png')} />
+                        <Image style={styles.icarrowleft} source={require(baseImgPath + 'chevron-left.png')} />
                     </TouchableOpacity>
                     <Text style={{
                         alignItems: 'center',
@@ -68,7 +72,9 @@ const ContactScreen = (props) => {
 
                 </View>
             </View>
-
+            {
+                (isLoading) ? <View style={{position:'absolute',width:width,height:height,justifyContent:'center',alignItems:'center',backgroundColor:'white'}}><ActivityIndicator size="large" color="#d6d6d6" /></View> : <View></View>
+            }
         </View>
     )
 }

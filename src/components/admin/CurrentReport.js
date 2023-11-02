@@ -48,6 +48,7 @@ const CurrentReport = ({navigation}) => {
       }}>
       <FlatList
         data={data}
+
         renderItem={({item}) => <ItemProblem problem={item} navigation={navigation}/>}
         keyExtractor={item => item._id.toString()}
         showsVerticalScrollIndicator={false}

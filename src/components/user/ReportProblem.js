@@ -53,21 +53,21 @@ const ReportProblem = (props) => {
   const [isLoading, setisLoading] = useState(false);
 
   const sendApi = async () => {
+    uploadImage(image)
+    uploadImages(selectedImages)
+
     const getNews = async () => {
       const type = 2;
       const room = lop;
       const description = types + "--" + des;
       const image = img;
       if (!room) {
-        ToastAndroid.show("Vui lòng phòng học", ToastAndroid.SHORT);
-
+        ToastAndroid.show("Vui lòng nhap phòng học", ToastAndroid.SHORT);
       } else if (!description) {
         ToastAndroid.show("Vui lòng nhập mô tả", ToastAndroid.SHORT);
-
-
       } else if (!image) {
         ToastAndroid.show("Vui lòng chọn hình", ToastAndroid.SHORT);
-
+      }else if(isLoading==true){
 
       }
       else {
@@ -83,6 +83,10 @@ const ReportProblem = (props) => {
           const response = await AxiosIntance().post(`/report/new`, { type: 2, room: room, description: description, image: image });
           if (response.result == true) {
             ToastAndroid.show("Gửi yêu cầu thành công", ToastAndroid.SHORT);
+
+            // reload
+            handleReloadPage()
+            handleClearText()
             setisLoading(false);
             console.log(response.report);
           }
@@ -415,10 +419,8 @@ const ReportProblem = (props) => {
 
         <TouchableOpacity
           onPress={() => {
-            uploadImage(image)
-            uploadImages(selectedImages)
-            handleReloadPage()
-            handleClearText()
+            sendApi()
+
           }}
           style={{
             borderColor: 'gray',

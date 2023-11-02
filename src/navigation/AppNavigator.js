@@ -297,15 +297,14 @@ const HomeAdmins = ({ scrollY }) => {
 const AppNavigator = () => {
     const { isLogin, isLoginAdmin } = useContext(AppContext);
 
-    // if (isLoginAdmin) {
-    //     return <HomeAdmins />;
-    // } else if (isLogin) {
-    //     return <Home />;
-    // } else {
-    //     return <Users />;
-    // }
+    if (isLoginAdmin) {
+        return <HomeAdmins />;
+    } else if (isLogin) {
+        return <Home />;
+    } else {
+        return <Users />;
+    }
 
-    return <HomeAdmins />;
 
 }
 
