@@ -57,7 +57,7 @@ const ReportProblem = (props) => {
     uploadImages(selectedImages)
 
     const getNews = async () => {
-      const type = 2;
+      const type = value;
       const room = lop;
       const description = types + "--" + des;
       const image = img;
@@ -80,7 +80,7 @@ const ReportProblem = (props) => {
 
           
 
-          const response = await AxiosIntance().post(`/report/new`, { type: 2, room: room, description: description, image: image });
+          const response = await AxiosIntance().post(`/report/new`, { type: type, room: room, description: description, image: image });
           if (response.result == true) {
             ToastAndroid.show("Gửi yêu cầu thành công", ToastAndroid.SHORT);
 
@@ -107,10 +107,10 @@ const ReportProblem = (props) => {
   }
 
   const data = [
-    { label: 'Về cơ sở vật chất', value: '0' },
+    { label: 'Về cơ sở vật chất', value: '2' },
     { label: 'Sự cố về CNTT', value: '1' },
-    { label: 'Sự cố an ninh', value: '2' },
-    { label: 'Khác', value: '3' },
+    { label: 'Sự cố an ninh', value: '3' },
+    { label: 'Khác', value: '4' },
   ];
   const uploadImage = async (imageUri) => {
     setisLoading(true);
