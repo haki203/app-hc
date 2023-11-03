@@ -50,6 +50,7 @@ const Login = () => {
         }
         const userProfile =
         {
+          id:res.user._id,
           email: userInfo.user.email,
           phone: phone,
           avt: userInfo.user.photo,

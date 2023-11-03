@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>Tables / General - NiceAdmin Bootstrap Template</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -27,10 +28,35 @@
     <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <!-- Template Main CSS File -->
     <link href="../assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <!-- Thư viện Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
+    <!-- Thư viện Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
     <!-- =======================================================
   * Template Name: NiceAdmin - v2.5.0
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -234,6 +260,178 @@
                     <div class="card-body">
                         <h5 class="card-title">Danh sách Reports</h5>
                         <!-- Default Table -->
+
+                        <div class="container">
+                            <h3>Lọc theo nhóm</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="groupDropdown"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Lọc theo nhóm
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="groupDropdown">
+                                            <a class="dropdown-item" href="#" data-filter="1">Sự cố về CNTT</a>
+                                            <a class="dropdown-item" href="#" data-filter="2">Sự cố về cơ sở vật
+                                                chất</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="container">
+                            <h1>Lọc theo khoảng ngày</h1>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="fromDate">Từ ngày:</label>
+                                        <input type="date" class="form-control" id="fromDate">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="toDate">Đến ngày:</label>
+                                        <input type="date" class="form-control" id="toDate">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>&nbsp;</label>
+                                    <button class="btn btn-primary" id="filterButtons">Lọc</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                        <!-- Sử dụng Bootstrap JavaScript và jQuery -->
+                        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+                        <script>
+                            var allRows = document.querySelectorAll('tbody tr');
+
+                            function resetTable() {
+                                // Hiển thị tất cả các dòng
+                                allRows.forEach(row => {
+                                    row.style.display = 'table-row';
+                                });
+                            }
+
+                            // Đoạn mã JavaScript để xử lý sự kiện khi nút "Lọc" được nhấn
+                            document.getElementById('filterButtons').addEventListener('click', function () {
+                                resetTable();
+                                // Lấy giá trị ngày tháng từ trường "Từ ngày" và "Đến ngày"
+                                var fromDate = document.getElementById('fromDate').value;
+                                var toDate = document.getElementById('toDate').value;
+
+                                function convertDateFormat(date) {
+                                    // Phân tách ngày thành các thành phần riêng lẻ
+                                    var dateParts = date.split("-");
+                                    var year = dateParts[0];
+                                    var month = dateParts[1];
+                                    var day = dateParts[2];
+
+                                    // Xây dựng lại ngày theo định dạng "dd/mm/yyyy"
+                                    var newDate = day + "/" + month + "/" + year;
+
+                                    return newDate;
+                                }
+                                var fromDateFormat = convertDateFormat(fromDate);
+                                var toDateFormat = convertDateFormat(toDate);
+                                console.log("can so sanh ", fromDateFormat, toDateFormat)
+
+                                var rows = document.querySelectorAll('tbody tr');
+                                rows.forEach(function (row) {
+                                    var reportDateCell = row.querySelector('.dates');
+                                    var reportDate = moment(reportDateCell.textContent, 'DD/MM/YYYY');
+                                    var formattedDate = reportDate.format("DD/MM/YYYY");
+                                    console.log("data ", formattedDate)
+                                    // bat dau so sanh 
+                                    var currentDateObj = new Date(formattedDate.split("/").reverse().join("-"));
+                                    var fromDateObj = new Date(fromDate.split("/").reverse().join("-"));
+                                    var toDateObj = new Date(toDate.split("/").reverse().join("-"));
+
+                                    if (currentDateObj >= fromDateObj && currentDateObj <= toDateObj) {
+                                        row.style.display = 'table-row';
+                                    } else {
+                                        row.style.display = 'none';
+                                    }
+
+                                });
+                            });
+                        </script>
+
+                        <script>
+                            var allRows = document.querySelectorAll('tbody tr');
+
+                            function resetTable() {
+                                // Hiển thị tất cả các dòng
+                                allRows.forEach(row => {
+                                    row.style.display = 'table-row';
+                                });
+                            }
+                            // Lấy tất cả các mục trong dropdown
+                            const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+                            // Hàm xử lý khi chọn mục trong dropdown
+                            function handleDropdownItemClick(event) {
+                                event.preventDefault();
+                                const filterValue = event.target.getAttribute('data-filter');
+                                if (filterValue == '1') {
+                                    // Gọi hàm khi chọn "Sự cố về CNTT"
+                                    cnttFunction();
+                                } else if (filterValue == '2') {
+                                    csvcFunction();
+                                }
+                                // Thêm logic cho các mục khác ở đây
+                            }
+
+                            // Đặt sự kiện click cho từng mục trong dropdown
+                            dropdownItems.forEach(item => {
+                                item.addEventListener('click', handleDropdownItemClick);
+                            });
+
+                            // Hàm xử lý khi chọn "Sự cố về CNTT"
+                            function cnttFunction() {
+                                resetTable();
+                                // Lấy tất cả các dòng trong bảng
+                                const rows = document.querySelectorAll('tbody tr');
+                                alert('Lọc thành công')
+
+                                // Lặp qua từng dòng và kiểm tra giá trị của "type"
+                                rows.forEach(row => {
+                                    const typeCell = row.querySelector('.types');
+                                    if (typeCell && typeCell.textContent.trim() == 'Sự cố về CNTT') {
+                                        // Hiển thị dòng có type bằng 1
+                                        row.style.display = 'table-row';
+                                    } else {
+                                        // Ẩn các dòng khác
+                                        row.style.display = 'none';
+                                    }
+                                });
+                            }
+                            function csvcFunction() {
+                                resetTable();
+                                // Lấy tất cả các dòng trong bảng
+                                const rows = document.querySelectorAll('tbody tr');
+                                alert('Lọc thành công')
+
+                                // Lặp qua từng dòng và kiểm tra giá trị của "type"
+                                rows.forEach(row => {
+                                    const typeCell = row.querySelector('.types');
+                                    if (typeCell && typeCell.textContent.trim() == 'Sự cố về cơ sở vật chất') {
+                                        // Hiển thị dòng có type bằng 1
+                                        row.style.display = 'table-row';
+                                    } else {
+                                        // Ẩn các dòng khác
+                                        row.style.display = 'none';
+                                    }
+                                });
+                            }
+                        </script>
+
+
                         <table class="table">
                             <style>
                                 .limited-lines {
@@ -276,15 +474,64 @@
                                     <th scope="col">Trạng thái</th>
                                 </tr>
                             </thead>
+                            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                            {{!-- xem nhieu hinh anh --}}
+                            <script>
 
+                                function onClickImg(index) {
+                                    const imageContainer = document.getElementById('imagesNe');
+                                    if (!imageContainer.contains(event.target)) {
+                                        imageContainer.style.display = 'flex'; 
+                                    }
+
+                                    console.log('Vị trí của mục được nhấn: ' + index);
+
+                                    const apiUrl = 'http://localhost:3000/api/report';
+
+                                    axios.get(apiUrl)
+                                        .then(response => {
+                                            const reports = response.data.report;
+                                            if (index >= 0 && index < reports.length) {
+                                                const selectedItem = reports[index];
+                                                const images = selectedItem.image;
+
+                                                // Truy cập phần tử div trong trang HTML bằng ID
+                                                const imageContainer = document.getElementById('imageContainer');
+
+                                                // Xóa bất kỳ hình ảnh trước đó nếu có
+                                                imageContainer.innerHTML = '';
+
+                                                // Duyệt qua mảng ảnh và hiển thị chúng
+                                                images.forEach((imageUrl, i) => {
+                                                    const imgElement = document.createElement('img');
+                                                    imgElement.src = imageUrl;
+                                                    imgElement.style.width = '250px';
+                                                    imgElement.style.height = '280px';
+                                                    imageContainer.appendChild(imgElement);
+                                                });
+                                            } else {
+                                                console.log('Chỉ số không hợp lệ hoặc mục không tồn tại.');
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Lỗi khi gọi API:', error);
+                                        });
+                                }
+                                function esc() {
+                                    const imageContainer = document.getElementById('imagesNe');
+                                    imageContainer.style.display = 'none';
+                                }
+                            </script>
                             <tbody>
                                 {{#each reports}}
                                 <tr>
                                     <td>
-                                        <img style="width:150px; height: 180px;" src="{{this.image}}">
+                                        <button onclick="onClickImg({{ @index }})"><img
+                                                style="width:150px; height: 180px;" src="{{this.image}}"
+                                                class="images"></button>
                                     </td>
                                     <td>{{this.room}}</td>
-                                    <td>{{this.report_date}}</td>
+                                    <td class="dates">{{this.report_date}}</td>
                                     <td>{{this.userId.full_name}}</td>
                                     <td class="types">{{this.type}}</td>
 
@@ -301,10 +548,13 @@
                                 </tr>
                                 {{/each}}
                             </tbody>
+                            <div id="imagesNe">
+                                <p class="textNe">Chi tiết ảnh</p>
+                                <button class="btnEsc" onclick="esc()">x</button>
+                                <div id="imageContainer"></div>
+                            </div>
                             <script>
-                                // Lấy tất cả các dòng có class "types"
                                 const typeCells = document.querySelectorAll('.types');
-                                // Lặp qua từng dòng và kiểm tra giá trị của "this.type"
                                 typeCells.forEach((cell) => {
 
                                     const typeValue = cell.textContent.trim(); // Lấy giá trị của "this.type" và loại bỏ khoảng trắng
@@ -317,7 +567,6 @@
 
 
                                 const typeCells2 = document.querySelectorAll('.status');
-                                // Lặp qua từng dòng và kiểm tra giá trị của "this.type"
                                 typeCells2.forEach((cell) => {
                                     const typeValue2 = cell.textContent.trim(); // Lấy giá trị của "this.type" và loại bỏ khoảng trắng
 
@@ -333,7 +582,39 @@
                                     }
                                 });
                             </script>
+                            <style>
+                                .textNe{
+                                    position: absolute;
+                                    width: 200px;
+                                    height: 50px;
+                                    color: black;
+                                    size: 18px;
+                                    top: 10px;
+                                    left: 30px;
+                                    background-color: white;
+                                }
+                                .btnEsc {
+                                    position: absolute;
+                                    top: 10px;
+                                    left: 0;
+                                }
 
+                                #imageContainer {
+                                    position: absolute;
+                                    top: 40px;
+                                    left: 0;
+                                }
+
+                                #imagesNe {
+                                    width: 600px;
+                                    display: none;
+                                    height: 600px;
+                                    top: 20%;
+                                    padding: 10px;
+                                    left: 40%;
+                                    position: fixed;
+                                }
+                            </style>
                             <!-- End Default Table Example -->
                         </table>
                     </div>

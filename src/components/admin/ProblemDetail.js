@@ -61,16 +61,18 @@ export default ProblemDetail = props => {
 
     const accept = async () => {
       try {
-        console.log("adminID: ", userProfile)
-        // const res = await AxiosIntance().get('/report/' + params.id);
-        //   console.log('du lieu' + JSON.stringify(res));
-        //   if (res) {
-        //     setDetail(res.report);
-        //     console.log(res.report);
-        //     isLoading(false);
-        //   } else {
-        //     ToastAndroid.show('Lấy dữ liệu thất bại', ToastAndroid.SHORT);
-        //   }
+        console.log("adminID: ", userProfile.id)
+        const res = await AxiosIntance().post('/report/accept', {
+          idReport: detail._id,
+          idAdmin: userProfile.id
+        });
+          console.log('du lieu' + JSON.stringify(res));
+          if (res.result) {
+            console.log("Tiep nhan thanh cong");
+            navigation.navigate('Help');
+          } else {
+            ToastAndroid.show('Lấy dữ liệu thất bại', ToastAndroid.SHORT);
+          }
       } catch (err) {
 
       }
@@ -303,7 +305,7 @@ export default ProblemDetail = props => {
         ) : (
           // Hiển thị một ảnh
           <Image
-            source={{uri: detail.image}}
+            source={{uri: detail.image[0]}}
             style={{width: 200, height: 200}}
           />
         )}

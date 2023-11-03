@@ -1,6 +1,6 @@
-import {StyleSheet, Text, View,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
-import {Image} from 'react-native-elements';
+import { Image } from 'react-native-elements';
 
 export const ItemProblem = (props) => {
   try {
@@ -13,12 +13,12 @@ export const ItemProblem = (props) => {
     return (
         <TouchableOpacity onPress={()=>StartNewDetail()}
         style={{
-          padding: 15,
+          padding: 25,
           width: '100%',
           backgroundColor: 'white',
           borderRadius: 10,
           shadowColor: 'black',
-          shadowOffset: {width: 0, height: 2},
+          shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.3,
           shadowRadius: 5,
           elevation: 5,
@@ -36,7 +36,7 @@ export const ItemProblem = (props) => {
               color: 'black',
               fontWeight: 500,
             }}>
-            {problem.description}
+            {problem.description.includes("--") ? problem.description.split("--")[0] : problem.description}
           </Text>
           <Text
             style={{
@@ -55,7 +55,7 @@ export const ItemProblem = (props) => {
           }}>
           <Image
             source={{
-              uri: problem.image,
+              uri: problem.image[0],
             }}
             style={{
               width: 60,
@@ -125,5 +125,5 @@ export const ItemProblem = (props) => {
   } catch (err) {
 
   }
-  
+
 }

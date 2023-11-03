@@ -15,6 +15,9 @@ const History = (props) => {
   const [dataNe, setdataNe] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const { userProfile } = useContext(AppContext);
+  const [visibleData, setVisibleData] = useState([]);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const initialItemCount = 2;
 
   useEffect(() => {
     const getNews = async () => {
@@ -23,7 +26,9 @@ const History = (props) => {
       if (respone.result == true) {
 
         // lay du lieu ok
-        setdataNe(respone.report);
+        const data = sortDataByDate(respone.report);
+        setdataNe(data);
+        setVisibleData(data.slice(0, initialItemCount));
         console.log("du lieu" + respone.report);
         setisLoading(false);
       }
@@ -36,6 +41,48 @@ const History = (props) => {
     return () => {
     }
   }, []);
+
+  function sortDataByDate(data, ascending) {
+    const sortedData = [...data];
+    sortedData.sort((a, b) => {
+      const dateA = new Date(a.report_date.split('/').reverse().join('-'));
+      const dateB = new Date(b.report_date.split('/').reverse().join('-'));
+      return ascending ? dateA - dateB : dateB - dateA;
+    });
+    return sortedData;
+  }
+  const reload = async () => {
+    setisLoading(true);
+    const respone = await AxiosIntance().get("/report");
+    if (respone.result == true) {
+
+      // lay du lieu ok
+      const data = sortDataByDate(respone.report);
+      setdataNe(data);
+      console.log("du lieu" + respone.report);
+      setisLoading(false);
+    }
+    else {
+      ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+    }
+
+  }
+  const loadMoreData = () => {
+    if (!isLoadingMore) {
+      console.log("loading more");
+      setisLoading(true);
+
+      // Tải thêm 4 item
+      const currentItemCount = visibleData.length;
+      const nextIndex = currentItemCount + 2;
+      const newVisibleData = dataNe.slice(0, nextIndex);
+
+      setVisibleData(newVisibleData);
+      setIsLoadingMore(false);
+      setisLoading(false);
+
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -50,13 +97,18 @@ const History = (props) => {
       </View>
       <View style={styles.leader}>
         <Text style={styles.text2}>Lịch sử</Text>
+        <Icon onPress={reload} style={styles.iconmenu1} name='reload1' size={20} />
+
         <View >{isLoading ? <Loading /> :
-          <View style={{width:width,paddingBottom:160}}>
+          <View style={{ width: width, paddingBottom: 160 }}>
             <FlatList
-              data={dataNe}
+              data={visibleData}
               renderItem={({ item }) => <ItemHistory report={item} navigation={navigation} />}
               keyExtractor={item => item._id}
               showsVerticalScrollIndicator={false}
+              onEndReached={loadMoreData} // Khi scroll đến cuối danh sách, gọi hàm để tải thêm item
+              onEndReachedThreshold={0.1}
+              ListFooterComponent={isLoadingMore ? <ActivityIndicator size="small" color="#0000ff" /> : null}
             />
           </View>
         }</View>
@@ -67,7 +119,7 @@ const History = (props) => {
 }
 
 export default History
-// const data = [
+
 //   {
 //     "name": "Unbranded Bronze Chips",
 //     "date": "2023-10-13",
@@ -151,8 +203,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins'
 
   },
-  iconmenu: {
-
+  iconmenu1: {
+    position: 'absolute',
+    top: 20,
+    end: 10
   },
   profile: {
     width: 55,
