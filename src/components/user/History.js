@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, Image, FlatList, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, Dimensions, Image, FlatList, ActivityIndicator, ToastAndroid } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
 import ItemHistory from './ItemHistory';
 import Icon from "react-native-vector-icons/AntDesign"
@@ -15,6 +15,8 @@ const History = (props) => {
   const [isLoading, setisLoading] = useState(false);
   const { userProfile } = useContext(AppContext);
   const [visibleData, setVisibleData] = useState([]);
+
+  const [iduser, setIdUser] = useState([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [visibleItems, setVisibleItems] = useState(3);
   const initialItemCount = 3;
@@ -23,15 +25,45 @@ const History = (props) => {
     const getNews = async () => {
       setisLoading(true);
       const respone = await AxiosIntance().get("/report");
-      
+      const userId2 = respone.report.map(report => report.userId._id);
+      console.log("data ne: " + userId2);
+      // console.log(iduser);
       if (respone.result == true) {
         // lay du lieu ok
         const data = sortDataByDate(respone.report);
-        For(report.userId === userProfile.id)
-        {setdataNe(data)}
+        setdataNe(data);
+        console.log("data: " + data);
+        console.log("Profile: " + userProfile.id);
+        // // setdataNe(data)
         setVisibleData(data.slice(0, initialItemCount));
-        console.log("du lieu" + respone.report);
+        // // console.log("Dữ liệu: ", data);
         setisLoading(false);
+
+        // function checkIfIdsMatch(id1, id2) {
+        //   if (id1.length !== id2.length) {
+        //     return false; // Nếu độ dài của hai ID khác nhau, chắc chắn chúng không trùng nhau.
+        //   }
+        //   for (let i = 0; i < id1.length; i++) {
+        //     if (id1[i] !== id2[i]) {
+        //       return false; // Nếu tìm thấy một ký tự khác nhau, thì hai ID không trùng nhau.
+        //     }
+        //   }
+        //   return true; // Nếu không tìm thấy bất kỳ ký tự nào khác nhau, hai ID trùng nhau.
+        // }
+        // const idPairs = [
+        //   { id1: userId2, id2: userProfile.id },
+        //   // { id1: "xyz123", id2: "xyz123" },
+        //   // Thêm các cặp ID khác vào mảng nếu cần
+        // ];
+
+        // idPairs.forEach(pair => {
+        //   if (checkIfIdsMatch(pair.id1, pair.id2)) {
+        //     setdataNe(data);
+        //     console.log("Hai ID trùng nhau.");
+        //   } else {
+        //     console.log("Hai ID không trùng nhau.");
+        //   }
+        // });
       }
       else {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
@@ -68,7 +100,22 @@ const History = (props) => {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
       }
     } catch (error) {
-      
+      ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+    }
+  }
+  const IdUser = async () => {
+    setisLoading(true)
+    try {
+      const response = await AxiosIntance().get(`/report/user/` + iduser);
+      console.log("du lieu ne " + response.user._id);
+      if (response.result == true) {
+        const data = sortDataByDate(response.user._id);
+        setdataNe(data);
+        console.log("du lieu ne: " + data);
+        setisLoading(false);
+      }
+    } catch (error) {
+      ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
     }
   }
   const loadMoreData = () => {
@@ -107,7 +154,7 @@ const History = (props) => {
         <View >{isLoading ? <Loading /> :
           <View style={{ width: width, paddingBottom: 160 }}>
             <FlatList
-              data={visibleData.slice(0, )}
+              data={visibleData.slice().reverse()} // Đảo ngược mảng dữ liệu
               renderItem={({ item }) => <ItemHistory report={item} navigation={navigation} />}
               keyExtractor={item => item._id}
               showsVerticalScrollIndicator={false}

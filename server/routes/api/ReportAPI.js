@@ -6,6 +6,7 @@ const userModel = require('../../components/users/UserModel');
 const adminModel = require('../../components/users/AdminModel');
 const moment = require('moment'); // Import thư viện moment
 const reportController = require('../../components/report/ReportController');
+const { populate } = require('../../components/products/ProductModel');
 // API POST để thêm báo cáo
 router.post('/new', async (req, res) => {
     try {
