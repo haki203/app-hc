@@ -123,13 +123,20 @@ router.get('/:id', async (req, res, next) => {
     } false
 });
 router.post('/accept', async (req, res, next) => {
-    const { id } = req.body;
+    const { idReport, idAdmin } = req.body;
     try {
-        const report = await reportModel.findById(id).populate('admin', 'full_name');
+        // Tìm tài liệu report dựa trên idReport và cập nhật trường admin thành idAdmin
+        const report = await reportModel.findByIdAndUpdate(idReport, { admin: idAdmin });
+
+        if (!report) {
+            // Trường hợp không tìm thấy report với idReport tương ứng
+            return res.status(400).json({ result: false, message: 'Không tìm thấy báo cáo này' });
+        }
+
         res.status(200).json({ report, result: true });
     } catch (error) {
-        res.status(400).json({ result: false, message: 'khong có id này' });
-    } 
+        res.status(500).json({ result: false, message: 'Lỗi khi cập nhật báo cáo' });
+    }
 });
 
 // get user by id

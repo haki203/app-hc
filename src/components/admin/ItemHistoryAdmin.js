@@ -28,7 +28,7 @@ const ItemHistoryAdmin = (props) => {
             <Text></Text>
           </View>
         </View>
-        <Image source={{uri: report.image}} style={styles.profile}></Image>
+        <Image source={{uri: report.image[0]}} style={styles.profile}></Image>
       </TouchableOpacity>
     </View>
   )

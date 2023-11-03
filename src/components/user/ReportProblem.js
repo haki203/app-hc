@@ -53,21 +53,21 @@ const ReportProblem = (props) => {
   const [isLoading, setisLoading] = useState(false);
 
   const sendApi = async () => {
+    uploadImage(image)
+    uploadImages(selectedImages)
+
     const getNews = async () => {
-      const type = 2;
+      const type = value;
       const room = lop;
       const description = types + "--" + des;
       const image = img;
       if (!room) {
-        ToastAndroid.show("Vui lòng phòng học", ToastAndroid.SHORT);
-
+        ToastAndroid.show("Vui lòng nhap phòng học", ToastAndroid.SHORT);
       } else if (!description) {
         ToastAndroid.show("Vui lòng nhập mô tả", ToastAndroid.SHORT);
-
-
       } else if (!image) {
         ToastAndroid.show("Vui lòng chọn hình", ToastAndroid.SHORT);
-
+      }else if(isLoading==true){
 
       }
       else {
@@ -77,9 +77,14 @@ const ReportProblem = (props) => {
           console.log("Description ne: ", description);
           console.log("Image ne: ", image);
           setisLoading(true);
-          const response = await AxiosIntance().post(`/report/new`, { type: 2, room: room, description: description, image: image });
+
+          const response = await AxiosIntance().post(`/report/new`, { type: type, room: room, description: description, image: image });
           if (response.result == true) {
             ToastAndroid.show("Gửi yêu cầu thành công", ToastAndroid.SHORT);
+
+            // reload
+            handleReloadPage()
+            handleClearText()
             setisLoading(false);
             console.log(response.report);
           }else{
@@ -103,10 +108,10 @@ const ReportProblem = (props) => {
   }
 
   const data = [
-    { label: 'Về cơ sở vật chất', value: '0' },
+    { label: 'Về cơ sở vật chất', value: '2' },
     { label: 'Sự cố về CNTT', value: '1' },
-    { label: 'Sự cố an ninh', value: '2' },
-    { label: 'Khác', value: '3' },
+    { label: 'Sự cố an ninh', value: '3' },
+    { label: 'Khác', value: '4' },
   ];
   const uploadImage = async (imageUri) => {
     setisLoading(true);
@@ -413,10 +418,8 @@ const ReportProblem = (props) => {
 
         <TouchableOpacity
           onPress={() => {
-            uploadImage(image)
-            uploadImages(selectedImages)
-            handleReloadPage()
-            handleClearText()
+            sendApi()
+
           }}
           style={{
             borderColor: 'gray',

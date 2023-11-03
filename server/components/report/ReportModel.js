@@ -7,7 +7,7 @@ const schema = new Schema({
     userId: { type: ObjectId, ref: 'users' }, 
     type: { type: Number}, 
     room: { type: String },
-    image: { type: String },
+    image: [{ type: String }],
     time: { type: String },
     admin: {  type: ObjectId, ref: 'admins'  },
     accept: { type: String },

@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions ,ActivityIndicator} from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions, ActivityIndicator, FlatList, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import AxiosIntance from '../../axios/AxiosIntance';
 import Loading from '../isLoading/Loading';
@@ -13,22 +13,25 @@ const Report = (props) => {
   const [isLoading, setisLoading] = useState(false);
   const [data, setdataNe] = useState([]);
   const [admin, setAdmin] = useState("Chưa có");
+  const [lengthImage, setLengthImage] = useState("Chưa có");
   const [image, setImage] = useState("http://dummyimage.com/142x100.png/5fa2dd/ffffff");
 
   useEffect(() => {
     const getNews = async () => {
 
       const response = await AxiosIntance().get(`/report/${id}`);
+      console.log("Hinh ne: ", response.report.image[0]);
 
-      console.log(response);
       if (response.result == true) {
         // console.log(respone.report.admin);
         // lay du lieu ok
+        setLengthImage(response.report.image.length);
+        console.log("report nay co ", response.report.image.length, " hinh");
         setdataNe(response.report);
         try {
           //setAdmin(response.report.admin.full_name);
-          console.log(response.report.image);
           setImage(response.report.image)
+          console.log(response.report.image);
         } catch (error) {
           console.log(error);
         }
@@ -46,8 +49,8 @@ const Report = (props) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-            <View>{isLoading ? <View style={{ width: width, height: height, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator size="large" color="black" /></View> : <View></View>}</View>
+    <ScrollView style={styles.container}>
+      <View>{isLoading ? <View style={{ width: width, height: height, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator size="large" color="black" /></View> : <View></View>}</View>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
           <Image style={styles.back} source={require(baseImgPath + 'back.png')}></Image>
@@ -57,7 +60,7 @@ const Report = (props) => {
         <Text></Text>
       </View>
       <View style={styles.leader}>
-        <Image style={styles.profile} source={{ uri: image }}></Image>
+        <Image style={styles.profile} source={{ uri: image[0] }}></Image>
         <View style={styles.leader2}>
           <Text style={styles.text2}>{data.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}</Text>
           <View style={{ flexDirection: 'row' }}>
@@ -74,7 +77,31 @@ const Report = (props) => {
           </View>
         </View>
       </View>
+      <View>
+        {lengthImage > 1 ? (
+          <View >
+            <Text style={styles.text5}>Tất cả ảnh</Text>
+            <FlatList
+              data={image}
+              horizontal={true}
+              style={{ paddingStart: 10 }}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item, index }) => (
+                <View>
+                  <Image
+                    source={{ uri: item }}
+                    style={{ width: 120, height: 120, margin: 10 }}
+                  />
+                </View>
+              )}
+            />
+          </View>
+        ) : (
+          <View></View>
+        )}
+      </View>
       <Text style={styles.text5}>Trạng Thái yêu cầu</Text>
+
       <View style={{ height: '56%', width: '100%', padding: 20, paddingBottom: 15 }}>
         <Content data={data} />
       </View>
@@ -94,6 +121,7 @@ const Report = (props) => {
           borderRadius: 8,
           paddingVertical: 10, // Padding theo chiều dọc (top và bottom)
           paddingHorizontal: 33, // Padding theo chiều ngang (left và right),
+          marginBottom: 100
         }}>
           <Text style={{
             color: '#FFF',
@@ -103,14 +131,14 @@ const Report = (props) => {
           }}>{data.status === 2 ? 'Đánh giá' : 'Phản hồi'}</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 const Content = (props) => {
   const { data } = props;
   const status = data.status;
   return (
-    <View style={{ flex: 1,  flexDirection: 'row' }}>
+    <View style={{ flex: 1, flexDirection: 'row' }}>
       <View style={{ width: 70, height: '100%', backgroundColor: 'white', padding: 5, alignItems: 'center' }}>
         <Image source={status < 0 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
         <View style={{ height: '22%', width: 3, backgroundColor: '#d3d3d3' }}></View>
@@ -118,8 +146,8 @@ const Content = (props) => {
         <View style={{ height: '22%', width: 3, backgroundColor: '#d3d3d3' }}></View>
         <Image source={status < 2 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
       </View>
-      <View style={{ flexDirection: 'column',flex:1 }}>
-        <View style={{padding:20,width:'100%',flex:1}}>
+      <View style={{ flexDirection: 'column', flex: 1 }}>
+        <View style={{ padding: 20, width: '100%', flex: 1 }}>
           {
             (status < 1) ?
               (
@@ -136,7 +164,7 @@ const Content = (props) => {
               )
           }
         </View>
-        <View style={{padding:20,width:'100%',flex:1}}>
+        <View style={{ padding: 20, width: '100%', flex: 1 }}>
           {
             (status < 1) ?
               (
@@ -153,9 +181,9 @@ const Content = (props) => {
               )
           }
         </View>
-        <View style={{padding:20,width:'100%',flex:1}}>
+        <View style={{ padding: 20, width: '100%', flex: 1 }}>
           {
-            (status <2) ?
+            (status < 2) ?
               (
                 <View style={{ flexDirection: 'column' }}>
                   <Text>Yêu cầu đã hoàn thành</Text>
@@ -178,7 +206,6 @@ export default Report
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#FFFFFF'
   },
   header: {
