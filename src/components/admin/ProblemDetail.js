@@ -69,7 +69,8 @@ export default ProblemDetail = props => {
           console.log('du lieu' + JSON.stringify(res));
           if (res.result) {
             console.log("Tiep nhan thanh cong");
-            navigation.navigate('Help');
+            navigation.popToTop(); 
+  navigation.navigate('Help');
           } else {
             ToastAndroid.show('Lấy dữ liệu thất bại', ToastAndroid.SHORT);
           }
