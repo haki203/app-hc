@@ -474,12 +474,61 @@
                                     <th scope="col">Trạng thái</th>
                                 </tr>
                             </thead>
+                            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                            {{!-- xem nhieu hinh anh --}}
+                            <script>
 
+                                function onClickImg(index) {
+                                    const imageContainer = document.getElementById('imagesNe');
+                                    if (!imageContainer.contains(event.target)) {
+                                        imageContainer.style.display = 'flex'; 
+                                    }
+
+                                    console.log('Vị trí của mục được nhấn: ' + index);
+
+                                    const apiUrl = 'http://localhost:3000/api/report';
+
+                                    axios.get(apiUrl)
+                                        .then(response => {
+                                            const reports = response.data.report;
+                                            if (index >= 0 && index < reports.length) {
+                                                const selectedItem = reports[index];
+                                                const images = selectedItem.image;
+
+                                                // Truy cập phần tử div trong trang HTML bằng ID
+                                                const imageContainer = document.getElementById('imageContainer');
+
+                                                // Xóa bất kỳ hình ảnh trước đó nếu có
+                                                imageContainer.innerHTML = '';
+
+                                                // Duyệt qua mảng ảnh và hiển thị chúng
+                                                images.forEach((imageUrl, i) => {
+                                                    const imgElement = document.createElement('img');
+                                                    imgElement.src = imageUrl;
+                                                    imgElement.style.width = '250px';
+                                                    imgElement.style.height = '280px';
+                                                    imageContainer.appendChild(imgElement);
+                                                });
+                                            } else {
+                                                console.log('Chỉ số không hợp lệ hoặc mục không tồn tại.');
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Lỗi khi gọi API:', error);
+                                        });
+                                }
+                                function esc() {
+                                    const imageContainer = document.getElementById('imagesNe');
+                                    imageContainer.style.display = 'none';
+                                }
+                            </script>
                             <tbody>
                                 {{#each reports}}
                                 <tr>
                                     <td>
-                                        <img style="width:150px; height: 180px;" src="{{this.image}}">
+                                        <button onclick="onClickImg({{ @index }})"><img
+                                                style="width:150px; height: 180px;" src="{{this.image}}"
+                                                class="images"></button>
                                     </td>
                                     <td>{{this.room}}</td>
                                     <td class="dates">{{this.report_date}}</td>
@@ -499,6 +548,11 @@
                                 </tr>
                                 {{/each}}
                             </tbody>
+                            <div id="imagesNe">
+                                <p class="textNe">Chi tiết ảnh</p>
+                                <button class="btnEsc" onclick="esc()">x</button>
+                                <div id="imageContainer"></div>
+                            </div>
                             <script>
                                 const typeCells = document.querySelectorAll('.types');
                                 typeCells.forEach((cell) => {
@@ -528,7 +582,39 @@
                                     }
                                 });
                             </script>
+                            <style>
+                                .textNe{
+                                    position: absolute;
+                                    width: 200px;
+                                    height: 50px;
+                                    color: black;
+                                    size: 18px;
+                                    top: 10px;
+                                    left: 30px;
+                                    background-color: white;
+                                }
+                                .btnEsc {
+                                    position: absolute;
+                                    top: 10px;
+                                    left: 0;
+                                }
 
+                                #imageContainer {
+                                    position: absolute;
+                                    top: 40px;
+                                    left: 0;
+                                }
+
+                                #imagesNe {
+                                    width: 600px;
+                                    display: none;
+                                    height: 600px;
+                                    top: 20%;
+                                    padding: 10px;
+                                    left: 40%;
+                                    position: fixed;
+                                }
+                            </style>
                             <!-- End Default Table Example -->
                         </table>
                     </div>
