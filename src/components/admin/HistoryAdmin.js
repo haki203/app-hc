@@ -10,8 +10,7 @@ const bacroundHeight = '#FFF';
 const HistoryAdmin = (props) => {
   const { navigation } = props;
   const { userProfile } = useContext(AppContext);
-  const [initialItems, setInitialItems] = useState(3);
-  const [itemsPerLoad, setItemsPerLoad] = useState(4);
+  const [initialItems, setInitialItems] = useState(4);
   const [dataNe, setdataNe] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   useEffect(() => {
@@ -34,6 +33,10 @@ const HistoryAdmin = (props) => {
     return () => {
     }
   }, []);
+  const loadMoreItems = () => {
+    // Tăng số lượng mục hiển thị thêm lên, chẳng hạn 3 mục mỗi lần
+    setInitialItems(initialItems + 2);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -58,9 +61,7 @@ const HistoryAdmin = (props) => {
             data={dataNe.slice(0, initialItems)}
             renderItem={({ item }) => <ItemHistoryAdmin report={item} navigation={navigation} />}
             keyExtractor={item => item._id}
-            onEndReached={() => {
-              setInitialItems(initialItems + itemsPerLoad)
-            }}
+            onEndReached={loadMoreItems}
             onEndReachedThreshold={0.1}
             initialNumToRender={3}
             showsVerticalScrollIndicator={false}

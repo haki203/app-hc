@@ -16,16 +16,19 @@ const History = (props) => {
   const { userProfile } = useContext(AppContext);
   const [visibleData, setVisibleData] = useState([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [visibleItems, setVisibleItems] = useState(3);
   const initialItemCount = 3;
 
   useEffect(() => {
     const getNews = async () => {
       setisLoading(true);
       const respone = await AxiosIntance().get("/report");
+      
       if (respone.result == true) {
         // lay du lieu ok
         const data = sortDataByDate(respone.report);
-        setdataNe(data);
+        For(report.userId === userProfile.id)
+        {setdataNe(data)}
         setVisibleData(data.slice(0, initialItemCount));
         console.log("du lieu" + respone.report);
         setisLoading(false);
@@ -49,6 +52,7 @@ const History = (props) => {
     });
     return sortedData;
   }
+
   const reload = async () => {
     setisLoading(true);
     try {
@@ -74,9 +78,10 @@ const History = (props) => {
 
       // Tải thêm 4 item
       const currentItemCount = visibleData.length;
-      const nextIndex = currentItemCount + 2;
+      const nextIndex = currentItemCount + 3;
       const newVisibleData = dataNe.slice(0, nextIndex);
 
+      setVisibleItems(visibleItems + 3);
       setVisibleData(newVisibleData);
       setIsLoadingMore(false);
       setisLoading(false);
@@ -102,7 +107,7 @@ const History = (props) => {
         <View >{isLoading ? <Loading /> :
           <View style={{ width: width, paddingBottom: 160 }}>
             <FlatList
-              data={visibleData}
+              data={visibleData.slice(0, )}
               renderItem={({ item }) => <ItemHistory report={item} navigation={navigation} />}
               keyExtractor={item => item._id}
               showsVerticalScrollIndicator={false}
