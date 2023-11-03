@@ -42,9 +42,11 @@ const CurrentReport = ({navigation}) => {
   return (
     <View
       style={{
+        flex: 1,
         padding: 15,
         backgroundColor: 'white',
         height: '100%',
+        marginBottom: 50
       }}>
       <FlatList
         data={data}

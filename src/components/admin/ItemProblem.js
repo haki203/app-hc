@@ -4,13 +4,14 @@ import {Image} from 'react-native-elements';
 
 export const ItemProblem = (props) => {
   try {
-    const { problem } = props;
-  console.log("problem: " ,problem)
+    const { problem, navigation } = props;
+    //console.log("problem: " ,problem)
   
-
-  const { navigation } = props;
+  const StartNewDetail = () => {
+    navigation.navigate("Detail", { id: problem._id });
+  };
     return (
-        <TouchableOpacity onPress={()=>navigation.navigate('Detail')}
+        <TouchableOpacity onPress={()=>StartNewDetail()}
         style={{
           padding: 15,
           width: '100%',
@@ -21,6 +22,7 @@ export const ItemProblem = (props) => {
           shadowOpacity: 0.3,
           shadowRadius: 5,
           elevation: 5,
+          marginBottom: 15
         }}>
         <View
           style={{
