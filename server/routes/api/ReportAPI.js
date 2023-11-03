@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const mongoose = require('mongoose'); // Import mongoose
 const reportModel = require('../../components/report/ReportModel');
 const typeModel = require('../../components/report/TypeModel');
 const userModel = require('../../components/users/UserModel');
@@ -36,6 +37,11 @@ router.post('/new', async (req, res) => {
             res.status(400).json({ result: false, message: 'missing image' });
             return;
         }
+        if (!userId) {
+            // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
+            res.status(400).json({ result: false, message: 'missing userId' });
+            return;
+        }
         if (!room) {
             // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
             res.status(400).json({ result: false, message: 'missing room' });
@@ -49,7 +55,6 @@ router.post('/new', async (req, res) => {
 
         // Kiểm tra và đặt các trường là chuỗi rỗng nếu chúng là null hoặc undefined
         const adminValue = admin || null;
-        const userIdValue = userId || '652bc5771e8e20f18f052a65';
         const imageValue = image || 'http://dummyimage.com/142x100.png/5fa2dd/ffffff';
         const acceptValue = accept || null;
         const doneValue = done || null;
@@ -58,7 +63,7 @@ router.post('/new', async (req, res) => {
         // Tạo một bản ghi report mới
         const newReport = {
             report_date,
-            userId: userIdValue,
+            userId: userId,
             type,
             room,
             image: imageValue,
@@ -70,14 +75,14 @@ router.post('/new', async (req, res) => {
             status: 0
         };
         //Lưu bản ghi report vào cơ sở dữ liệu
-        let newResult="";
+        let newResult = "";
         try {
             newResult = await reportModel.create(newReport);
         } catch (error) {
             console.log(error);
         }
         if (newResult) {
-            res.status(201).json({ result: true, message: 'Báo cáo đã được thêm thành công.' ,report:newResult});
+            res.status(201).json({ result: true, message: 'Báo cáo đã được thêm thành công.', report: newResult });
             return;
         } else {
             res.status(400).json({ result: false, message: 'Thêm báo cáo thất bại' });
@@ -117,8 +122,8 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
     try {
-        const report = await reportModel.findById(id).populate('admin', 'full_name');;
-        res.status(200).json({  result: true,report:report });
+        const report = await reportModel.findById(id)
+        res.status(200).json({ result: true, report: report });
     } catch (error) {
         res.status(400).json({ result: false, message: 'khong có id này' });
     } false
@@ -127,19 +132,31 @@ router.post('/accept', async (req, res, next) => {
     const { idReport, idAdmin } = req.body;
 
     const acceptAt = moment().format('hh:mm A');
-    try {
-        // Tìm tài liệu report dựa trên idReport và cập nhật trường admin thành idAdmin
-        const report = await reportModel.findByIdAndUpdate(idReport, { admin: idAdmin,status:1,accept:acceptAt });
-
-        if (!report) {
-            // Trường hợp không tìm thấy report với idReport tương ứng
-            return res.status(400).json({ result: false, message: 'Không tìm thấy báo cáo này' });
-        }
-
-        res.status(200).json({ report, result: true });
-    } catch (error) {
-        res.status(500).json({ result: false, message: 'Lỗi khi cập nhật báo cáo' });
+    if (idReport.length < 10) {
+        return res.status(400).json({ result: false, message: 'Thieu idReport' });
     }
+    else if (idAdmin.length < 10) {
+        return res.status(400).json({ result: false, message: 'Thieu idAdmin' });
+
+    } else {
+        try {
+            const adminId =new mongoose.Types.ObjectId(idAdmin);
+            console.log(adminId);
+            // Tìm tài liệu report dựa trên idReport và cập nhật trường admin thành idAdmin
+            const report = await reportModel.findByIdAndUpdate(idReport, { admin: adminId, status: 1, accept: acceptAt });
+
+            if (!report) {
+                // Trường hợp không tìm thấy report với idReport tương ứng
+                return res.status(400).json({ result: false, message: 'Không tìm thấy báo cáo này' });
+            }
+
+            res.status(200).json({ report, result: true });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ result: false, message: 'Lỗi khi cập nhật báo cáo' });
+        }
+    }
+
 });
 
 // get user by id

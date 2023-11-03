@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'react-native-elements';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -8,7 +8,10 @@ import HandlingReport from './HandlingReprot';
 
 const Tab = createMaterialTopTabNavigator();
 
-const HomeAdmin = ({ navigation }) => {
+const HomeAdmin = (props) => {
+  const {navigation} = props
+  
+  
   return (
     <SafeAreaView
       style={{
