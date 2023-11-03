@@ -36,6 +36,11 @@ router.post('/new', async (req, res) => {
             res.status(400).json({ result: false, message: 'missing image' });
             return;
         }
+        if (!userId) {
+            // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
+            res.status(400).json({ result: false, message: 'missing userId' });
+            return;
+        }
         if (!room) {
             // Sử dụng moment để lấy giờ hiện tại và định dạng theo "hh:mm a"
             res.status(400).json({ result: false, message: 'missing room' });
@@ -49,7 +54,6 @@ router.post('/new', async (req, res) => {
 
         // Kiểm tra và đặt các trường là chuỗi rỗng nếu chúng là null hoặc undefined
         const adminValue = admin || null;
-        const userIdValue = userId || '652bc5771e8e20f18f052a65';
         const imageValue = image || 'http://dummyimage.com/142x100.png/5fa2dd/ffffff';
         const acceptValue = accept || null;
         const doneValue = done || null;
@@ -58,7 +62,7 @@ router.post('/new', async (req, res) => {
         // Tạo một bản ghi report mới
         const newReport = {
             report_date,
-            userId: userIdValue,
+            userId: userId,
             type,
             room,
             image: imageValue,

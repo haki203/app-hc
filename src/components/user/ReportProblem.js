@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef ,useContext} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -22,11 +22,12 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 const baseImgPath = '../../assets/images/';
 const { width, height } = Dimensions.get('window');
 import storage from '@react-native-firebase/storage';
+import { AppContext } from '../../context/AppContext';
 import AxiosIntance from '../../axios/AxiosIntance';
 import Loading from '../isLoading/Loading';
 
 const ReportProblem = (props) => {
-
+  const { userProfile } = useContext(AppContext);
   const handleReloadPage = () => {
     navigation.goBack(); // Quay lại màn hình trước đó
     navigation.navigate('Report'); // Điều hướng đến lại trang "ReportProblem"
@@ -80,7 +81,7 @@ const ReportProblem = (props) => {
 
           
 
-          const response = await AxiosIntance().post(`/report/new`, { type: type, room: room, description: description, image: image });
+          const response = await AxiosIntance().post(`/report/new`, { type: type, room: room, description: description, image: image,userId:userProfile.id });
           if (response.result == true) {
             ToastAndroid.show("Gửi yêu cầu thành công", ToastAndroid.SHORT);
 
