@@ -9,6 +9,7 @@ const ItemHistory = (props) => {
   const { navigation } = props;
   const [id, setId] = useState(report._id);
   useEffect(() => {
+    
     try {
       setFullName(report.admin.full_name);
     } catch (error) {

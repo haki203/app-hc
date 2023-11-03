@@ -10,7 +10,8 @@ const bacroundHeight = '#FFF';
 const HistoryAdmin = (props) => {
   const { navigation } = props;
   const { userProfile } = useContext(AppContext);
-
+  const [initialItems, setInitialItems] = useState(3);
+  const [itemsPerLoad, setItemsPerLoad] = useState(4);
   const [dataNe, setdataNe] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   useEffect(() => {
@@ -54,9 +55,13 @@ const HistoryAdmin = (props) => {
         <Text style={styles.text2}>Lịch sử</Text>
         <View style={{ width: width }}>
           <FlatList
-            data={dataNe}
+            data={dataNe.slice(0, initialItems)}
             renderItem={({ item }) => <ItemHistoryAdmin report={item} navigation={navigation} />}
             keyExtractor={item => item._id}
+            onEndReached={() => {
+              setInitialItems(initialItems + itemsPerLoad)
+            }}
+            onEndReachedThreshold={0.1}
             initialNumToRender={3}
             showsVerticalScrollIndicator={false}
           />

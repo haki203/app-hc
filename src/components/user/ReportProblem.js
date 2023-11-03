@@ -77,17 +77,17 @@ const ReportProblem = (props) => {
           console.log("Description ne: ", description);
           console.log("Image ne: ", image);
           setisLoading(true);
-
-          
-
           const response = await AxiosIntance().post(`/report/new`, { type: 2, room: room, description: description, image: image });
           if (response.result == true) {
             ToastAndroid.show("Gửi yêu cầu thành công", ToastAndroid.SHORT);
             setisLoading(false);
             console.log(response.report);
+          }else{
+            ToastAndroid.show("Gửi yêu cầu thất bại", ToastAndroid.SHORT);
+
           }
         } catch (error) {
-          console.log(error);
+          console.log("error" + error);
         }
       }
 
@@ -398,9 +398,7 @@ const ReportProblem = (props) => {
             />
           </TouchableOpacity>
         </View>
-
         <ImageDisplay selectedImages={selectedImages} />
-
         {image && (
           <Image
             source={{ uri: image }}

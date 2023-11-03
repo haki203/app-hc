@@ -5,7 +5,6 @@ import Icon from "react-native-vector-icons/AntDesign"
 import AxiosIntance from '../../axios/AxiosIntance';
 import Loading from '../isLoading/Loading';
 import { AppContext } from '../../context/AppContext';
-
 const bacroundHeight = '#FFF';
 const { width, height } = Dimensions.get('window');
 const baseImgPath = '../../assets/images/';
@@ -17,14 +16,13 @@ const History = (props) => {
   const { userProfile } = useContext(AppContext);
   const [visibleData, setVisibleData] = useState([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const initialItemCount = 2;
+  const initialItemCount = 3;
 
   useEffect(() => {
     const getNews = async () => {
       setisLoading(true);
       const respone = await AxiosIntance().get("/report");
       if (respone.result == true) {
-
         // lay du lieu ok
         const data = sortDataByDate(respone.report);
         setdataNe(data);
@@ -53,19 +51,21 @@ const History = (props) => {
   }
   const reload = async () => {
     setisLoading(true);
-    const respone = await AxiosIntance().get("/report");
-    if (respone.result == true) {
-
-      // lay du lieu ok
-      const data = sortDataByDate(respone.report);
-      setdataNe(data);
-      console.log("du lieu" + respone.report);
-      setisLoading(false);
+    try {
+      const response = await AxiosIntance().get("/report");
+      if (response.result == true) {
+        // lay du lieu ok
+        const data = sortDataByDate(response.report);
+        setdataNe(data);
+        console.log("du lieu ne" + response.report);
+        setisLoading(false);
+      }
+      else {
+        ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      
     }
-    else {
-      ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
-    }
-
   }
   const loadMoreData = () => {
     if (!isLoadingMore) {

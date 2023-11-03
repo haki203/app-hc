@@ -207,7 +207,7 @@ export default ProblemDetail = ({navigation}) => {
       </View>
 
       <TouchableOpacity
-          
+          onPress={() => navigation.navigate('DetailReport')}
           style={{
             borderColor: 'gray',
             borderWidth: 1,

@@ -28,6 +28,7 @@ import HistoryAdminDetail from '../components/admin/HistoryAdminDetail';
 import ListFloor_F from '../components/admin/ListFloor_F';
 import ListFloor_P from '../components/admin/ListFloor_P';
 import ListFloor_T from '../components/admin/ListFloor_T';
+import ReportAdmin from '../components/admin/ReportAdmin';
 
 
 const Stack = createStackNavigator();
@@ -61,6 +62,7 @@ const Admin = () => {
             <Stack.Screen name="Check" component={CheckRoom} />
             <Stack.Screen name="Help" component={HomeAdmin} />
             <Stack.Screen name="Detail" component={ProblemDetail} />
+            <Stack.Screen name="DetailReport" component={ReportAdmin} />
             <Stack.Screen name="ToaF" component={ListFloor_F} />
             <Stack.Screen name="ToaP" component={ListFloor_P} />
             <Stack.Screen name="ToaT" component={ListFloor_T} />
@@ -305,7 +307,7 @@ const AppNavigator = () => {
     //     return <Users />;
     // }
 
-    return <HomeAdmins />;
+    return <Home />;
 
 }
 
