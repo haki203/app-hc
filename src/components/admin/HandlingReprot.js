@@ -42,9 +42,10 @@ const HandlingReport = ({navigation}) => {
   return (
     <View
       style={{
+        flex: 1,
         padding: 15,
         backgroundColor: 'white',
-        height: '100%',
+        marginBottom: 50
       }}>
         {/* <Text>abc</Text> */}
       <FlatList
