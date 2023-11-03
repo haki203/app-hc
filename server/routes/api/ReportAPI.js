@@ -124,9 +124,11 @@ router.get('/:id', async (req, res, next) => {
 });
 router.post('/accept', async (req, res, next) => {
     const { idReport, idAdmin } = req.body;
+
+    const acceptAt = moment().format('hh:mm A');
     try {
         // Tìm tài liệu report dựa trên idReport và cập nhật trường admin thành idAdmin
-        const report = await reportModel.findByIdAndUpdate(idReport, { admin: idAdmin });
+        const report = await reportModel.findByIdAndUpdate(idReport, { admin: idAdmin,status:1,accept:acceptAt });
 
         if (!report) {
             // Trường hợp không tìm thấy report với idReport tương ứng
