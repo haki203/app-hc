@@ -13,12 +13,23 @@ const Report = (props) => {
   const [isLoading, setisLoading] = useState(false);
   const [data, setdataNe] = useState([]);
   const [admin, setAdmin] = useState("Chưa có");
-  const [lengthImage, setLengthImage] = useState("Chưa có");
+  const [lengthImage, setLengthImage] = useState(1);
   const [image, setImage] = useState("http://dummyimage.com/142x100.png/5fa2dd/ffffff");
 
   useEffect(() => {
     const getNews = async () => {
-
+      // lay name admin
+      const getAdmin = async () => {
+        try {
+          if (response.report.admin) {
+            const respones = await AxiosIntance().get(`/report/user/${response.report.admin}`);
+            console.log("admin khi goi api detail ne: ", respones.user.full_name);
+            setAdmin(respones.user.full_name)
+          }
+        } catch (error) {
+        }
+  
+      }
       const response = await AxiosIntance().get(`/report/${id}`);
       console.log("Hinh ne: ", response.report.image[0]);
 
@@ -36,11 +47,14 @@ const Report = (props) => {
           console.log(error);
         }
         setisLoading(false);
+        getAdmin();
+
       }
       else {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
       }
     }
+    
     setisLoading(true);
     getNews();
 
@@ -247,7 +261,7 @@ const styles = StyleSheet.create({
   },
   text3: {
     color: '#000',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '500',
     fontStyle: 'normal',
     paddingTop: 13,
@@ -262,7 +276,7 @@ const styles = StyleSheet.create({
   },
   text4: {
     color: '#000',
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '500',
     fontStyle: 'normal',
     fontFamily: 'Poppins'

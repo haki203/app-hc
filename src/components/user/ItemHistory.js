@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Image } from 'react-native-elements';
-
+import AxiosIntance from '../../axios/AxiosIntance';
 const ItemHistory = (props) => {
   const { report } = props;
   const [fullName, setFullName] = useState("Chưa có");
@@ -9,12 +9,24 @@ const ItemHistory = (props) => {
   const { navigation } = props;
   const [id, setId] = useState(report._id);
   useEffect(() => {
+    const getAdmin = async () => {
+      try {
+        if (report.admin) {
+          console.log('admin ne: ',report.admin);
+          const respone = await AxiosIntance().get(`/report/user/${report.admin}`);
+          console.log("admin khi goi api ne: ", respone.user.full_name);
+          setFullName(respone.user.full_name)
+        }
+      } catch (error) {
+      }
+
+    }
     try {
-      setFullName(report.admin.full_name);
+      getAdmin();
     } catch (error) {
       setFullName("Chưa có");
     }
- 
+
   }, []);
   const clickItem = () => {
     console.log(id);
@@ -23,7 +35,8 @@ const ItemHistory = (props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.leader} onPress={clickItem}>
-        <View style={{width:'85%'}}>
+
+        <View style={{ width: '85%' }}>
           <Text style={styles.text}>
             {report.description.includes("--") ? report.description.split("--")[0] : report.description}
           </Text>
@@ -55,8 +68,8 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,paddingBottom:5,
-    
+    padding: 10, paddingBottom: 5,
+
   },
   header: {
     flexDirection: 'row',
@@ -82,8 +95,8 @@ const styles = StyleSheet.create({
     padding: 20,
     width: '90%',
     flexDirection: 'row',
-    alignItems:'center',
-    elevation:4
+    alignItems: 'center',
+    elevation: 4
   },
   text2: {
     color: '#000',
@@ -100,7 +113,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     paddingTop: 13,
     fontFamily: 'Poppins',
-    marginBottom:10
+    marginBottom: 10
   },
   leader2: {
   },

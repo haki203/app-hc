@@ -44,44 +44,26 @@ const History = (props) => {
       if (respone.result == true) {
         // lay du lieu ok
         const data = sortDataByDate(respone.report);
-        // setdataNe(data);
-        // console.log("data: " + data);
-        // console.log("Profile: " + userProfile.id);
-        // // // setdataNe(data)
-        // setVisibleData(data.slice(0, initialItemCount));
-        // // // console.log("Dữ liệu: ", data);
-        // setisLoading(false);
-        let allMatch = true;
-        // Sử dụng vòng lặp while
-        let i = 0;
-        for (let i = 0; i < useIdsArray.length; i++) {
-          if (useIdsArray[i] === userProfileId) {
-            console.log("ID khớp:", useIdsArray[i]);
-            // const data1 =  {
-            //   id: useIdsArray[i],
-            //   description: res,
-            //   report_date: report_date,
-            //   time: time,
-            //   room: room,
-            //   // image: image,
-            // }
-            // console.log("data1:",data1)
-            // const data = sortDataByDate(data1);
-            setdataNe(data);
-            setVisibleData(data.slice(0, initialItemCount));
-            console.log("Dữ liệu: ", data);
-            setisLoading(false);
-          } else {
-            console.log("ID không khớp", userProfileId);
-
+        let dataUser = [];
+        console.log("id user ne: ", userProfile.id);
+        for (let i = 0; i < data.length; i++) {
+          if (respone.report[i].userId == userProfile.id) {
+            console.log("id report ne: ", respone.report[i].userId);
+            dataUser.push(data[i]);
           }
-        }
 
+        }
+        console.log(dataUser.length);
+        setdataNe(dataUser);
+        setVisibleData(dataUser.slice(0, initialItemCount));
+        console.log("du lieu" + respone.report);
+        setisLoading(false);
       }
       else {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
       }
     }
+
     getNews();
 
     return () => {
@@ -99,22 +81,34 @@ const History = (props) => {
   }
 
   const reload = async () => {
-    setisLoading(true);
-    try {
-      const response = await AxiosIntance().get("/report");
-      if (response.result == true) {
+    const getNews = async () => {
+      setisLoading(true);
+      const respone = await AxiosIntance().get("/report");
+      if (respone.result == true) {
+
         // lay du lieu ok
-        const data = sortDataByDate(response.report);
-        setdataNe(data);
-        console.log("du lieu ne" + response.report);
+        const data = sortDataByDate(respone.report);
+        let dataUser = [];
+        console.log("id user ne: ", userProfile.id);
+        for (let i = 0; i < data.length; i++) {
+          if (respone.report[i].userId == userProfile.id) {
+            console.log("id report ne: ", respone.report[i].userId);
+            dataUser.push(data[i]);
+          }
+
+        }
+        console.log(dataUser.length);
+        setdataNe(dataUser);
+        setVisibleData(dataUser.slice(0, initialItemCount));
+        console.log("du lieu" + respone.report);
         setisLoading(false);
       }
       else {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
       }
-    } catch (error) {
-      ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
     }
+
+    getNews();
   }
   // const IdUser = async () => {
   //   setisLoading(true)

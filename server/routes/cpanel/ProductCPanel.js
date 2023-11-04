@@ -28,7 +28,7 @@ async function uploadFiles(path, filename) {
 router.get('/', async (req, res, next) => {
 
     //hien thi trang danh sach sp
-    const reports = await reportModel.find({}).populate('userId', 'full_name').populate('admin', 'full_name');
+    const reports = await reportModel.find({}).populate('userId', 'full_name')
     let modifiedReports = [];
 
     for (let i = 0; i < reports.length; i++) {
