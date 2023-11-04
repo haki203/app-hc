@@ -107,7 +107,6 @@ const History = (props) => {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
       }
     }
-
     getNews();
   }
   // const IdUser = async () => {
@@ -129,7 +128,6 @@ const History = (props) => {
     if (!isLoadingMore) {
       console.log("loading more");
       setisLoading(true);
-
       // Tải thêm 4 item
       const currentItemCount = visibleData.length;
       const nextIndex = currentItemCount + 3;
@@ -157,11 +155,10 @@ const History = (props) => {
       <View style={styles.leader}>
         <Text style={styles.text2}>Lịch sử</Text>
         <Icon onPress={reload} style={styles.iconmenu1} name='reload1' size={20} />
-
         <View >{isLoading ? <Loading /> :
           <View style={{ width: width, paddingBottom: 160 }}>
             <FlatList
-              data={visibleData.slice().reverse()} // Đảo ngược mảng dữ liệu
+              data={visibleData} // Đảo ngược mảng dữ liệu
               renderItem={({ item }) => <ItemHistory report={item} navigation={navigation} />}
               keyExtractor={item => item._id}
               showsVerticalScrollIndicator={false}

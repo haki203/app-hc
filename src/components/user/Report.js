@@ -24,7 +24,7 @@ const Report = (props) => {
           if (response.report.admin) {
             const respones = await AxiosIntance().get(`/report/user/${response.report.admin}`);
             console.log("admin khi goi api detail ne: ", respones.user.full_name);
-            setAdmin(respones.user.full_name)
+            setAdmin(respones.user.full_name);
           }
         } catch (error) {
         }

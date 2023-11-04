@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Image } from 'react-native-elements';
 import AxiosIntance from '../../axios/AxiosIntance';
+import { ToastAndroid } from 'react-native';
 const ItemHistory = (props) => {
   const { report } = props;
   const [fullName, setFullName] = useState("Chưa có");
@@ -35,7 +36,6 @@ const ItemHistory = (props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.leader} onPress={clickItem}>
-
         <View style={{ width: '85%' }}>
           <Text style={styles.text}>
             {report.description.includes("--") ? report.description.split("--")[0] : report.description}

@@ -4,19 +4,51 @@ import Icon from "react-native-vector-icons/AntDesign"
 import AxiosIntance from '../../axios/AxiosIntance';
 const baseImgPath = '../../assets/images/';
 const HistoryAdminDetail = (props) => {
-    const {navigation}= props;
+    const { navigation } = props;
+    const { route } = props;
+    const { params } = route;
+    const { id } = params;
     const [isLoading, setisLoading] = useState(false);
-    const [data, setdataNe] = useState("");
+    const [report_date, setreport_date] = useState("");
+    const [data, setdataNe] = useState([]);
+    const [room, setroom] = useState("");
+    const [admin, setAdmin] = useState("Chưa có");
+    const [phone, setPhone] = useState("Chưa có");
+
+    const [lengthImage, setLengthImage] = useState(1);
+    const [image, setImage] = useState("http://dummyimage.com/142x100.png/5fa2dd/ffffff");
+
     useEffect(() => {
         const getNews = async () => {
-            const response = await AxiosIntance().get(`/report/`);
+            const getAdmin = async () => {
+                try {
+                    if (response.report.userId) {
+                        const respones = await AxiosIntance().get(`/report/user/${response.report.userId}`);
+                        console.log("admin khi goi api detail ne: ", respones.user.full_name);
+                        setAdmin(respones.user.full_name);
+                        setPhone(respones.user.phone)
+                    }
+                } catch (error) {
+                }
+            }
+            const response = await AxiosIntance().get(`/report/${id}`);
+            console.log("Hinh ne: ", response.report.image[0]);
             console.log(response.report);
             if (response.result == true) {
                 // console.log(respone.report.admin);
                 // lay du lieu ok
+                setLengthImage(response.report.image.length);
+                console.log("report nay co ", response.report.image.length, " hinh");
                 setdataNe(response.report);
-                console.log("data " + data.room)
+                try {
+                    //setAdmin(response.report.admin.full_name);
+                    setImage(response.report.image)
+                    console.log(response.report.image);
+                } catch (error) {
+                    console.log(error);
+                }
                 setisLoading(false);
+                getAdmin();
             }
             else {
                 ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
@@ -31,31 +63,31 @@ const HistoryAdminDetail = (props) => {
     return (
         <View>
             <View style={styles.header}>
-                <Icon style={styles.icon} onPress={()=>navigation.goBack()} name='left' size={20} color="#000000" />
+                <Icon style={styles.icon} onPress={() => navigation.goBack()} name='left' size={20} color="#000000" />
                 <Text style={styles.text}>Sự cố về cơ sở vật chất</Text>
                 <Text></Text>
             </View>
             <View>
                 <Text style={styles.text1}>Tên người yêu cầu:</Text>
                 <View style={styles.leader1}>
-                    <Image style={styles.image} source={{ uri: data.image }}></Image>
+                    <Image style={styles.image} source={{ uri: image[0] }}></Image>
                     <View style={styles.leader2}>
-                        <Text style={styles.text2}>Lê Văn Hiếu</Text>
-                        <Text style={styles.text3}>0123456789</Text>
+                        <Text style={styles.text2}>{admin}</Text>
+                        <Text style={styles.text3}>{phone}</Text>
                     </View>
                     <Image style={styles.image1} source={require('../../assets//images/phone.png')}></Image>
                 </View>
                 <View style={{ flexDirection: 'row', padding: 20 }}>
                     <Text style={styles.text4}>Thời gian: </Text>
-                    <Text style={styles.text3}> 09:05 am</Text>
+                    <Text style={styles.text3}> {data.time}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginLeft: 20 }}>
                     <Text style={styles.text4}>Phòng: </Text>
-                    <Text style={styles.text5}>T1011</Text>
+                    <Text style={styles.text5}>{data.room}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', padding: 20 }}>
                     <Text style={styles.text4}>Mô tả sự cố: </Text>
-                    <Text style={styles.text6}> Bóng đèn cháy, lỗi tivi, lỗi điều hòa</Text>
+                    <Text style={styles.text6}> {data.description}</Text>
                 </View>
             </View>
             <TextInput
@@ -126,7 +158,8 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 52,
-        height: 47
+        height: 47,
+        borderRadius: 30
     },
     image1: {
         width: 52,
@@ -136,7 +169,7 @@ const styles = StyleSheet.create({
     leader2: {
         position: 'absolute',
         width: '70%',
-        paddingLeft: 75
+        paddingLeft: 80
     },
     text2: {
         color: '#000',

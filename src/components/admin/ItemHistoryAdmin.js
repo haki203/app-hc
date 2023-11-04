@@ -1,10 +1,30 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
-import React, {useState} from 'react'
-
+import { StyleSheet, Text, View, TouchableOpacity, Image, ToastAndroid } from 'react-native'
+import React, {useState, useEffect} from 'react'
+import AxiosIntance from '../../axios/AxiosIntance';
 const ItemHistoryAdmin = (props) => {
   const { report } = props;
   const { navigation } = props;
   const [id, setId] = useState(report._id);
+  const [fullName, setFullName] = useState("chưa có");
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        if (report.userId) {
+          console.log('user ne: ',report.user);
+          const respone = await AxiosIntance().get(`/report/user/${report.userId}`);
+          console.log("user khi goi api ne: ", respone.user.full_name);
+          setFullName(respone.user.full_name)
+        }
+      } catch (error) {
+        ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+      }
+    }
+    try {
+      getUser();
+    } catch (error) {
+      setFullName("Chưa có");
+    }
+  }, []);
   const clickItemAdmin = () => {
     console.log(id);
     navigation.navigate('Detail', { id: id });
@@ -17,7 +37,7 @@ const ItemHistoryAdmin = (props) => {
             {report.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}
           </Text>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.text3}>Người yêu cầu: {report.userId}</Text>
+            <Text style={styles.text3}>Người yêu cầu: {fullName}</Text>
           </View>
           <View style={styles.leader3}>
             <Text style={styles.text4}>{report.report_date}</Text>
