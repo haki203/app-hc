@@ -27,8 +27,18 @@ const History = (props) => {
 
         // lay du lieu ok
         const data = sortDataByDate(respone.report);
-        setdataNe(data);
-        setVisibleData(data.slice(0, initialItemCount));
+        let dataUser = [];
+        console.log("id user ne: ", userProfile.id);
+        for (let i = 0; i < data.length; i++) {
+          if (respone.report[i].userId == userProfile.id) {
+            console.log("id report ne: ", respone.report[i].userId);
+            dataUser.push(data[i]);
+          }
+
+        }
+        console.log(dataUser.length);
+        setdataNe(dataUser);
+        setVisibleData(dataUser.slice(0, initialItemCount));
         console.log("du lieu" + respone.report);
         setisLoading(false);
       }
@@ -36,6 +46,7 @@ const History = (props) => {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
       }
     }
+
     getNews();
 
     return () => {
@@ -52,20 +63,34 @@ const History = (props) => {
     return sortedData;
   }
   const reload = async () => {
-    setisLoading(true);
-    const respone = await AxiosIntance().get("/report");
-    if (respone.result == true) {
+    const getNews = async () => {
+      setisLoading(true);
+      const respone = await AxiosIntance().get("/report");
+      if (respone.result == true) {
 
-      // lay du lieu ok
-      const data = sortDataByDate(respone.report);
-      setdataNe(data);
-      console.log("du lieu" + respone.report);
-      setisLoading(false);
-    }
-    else {
-      ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+        // lay du lieu ok
+        const data = sortDataByDate(respone.report);
+        let dataUser = [];
+        console.log("id user ne: ", userProfile.id);
+        for (let i = 0; i < data.length; i++) {
+          if (respone.report[i].userId == userProfile.id) {
+            console.log("id report ne: ", respone.report[i].userId);
+            dataUser.push(data[i]);
+          }
+
+        }
+        console.log(dataUser.length);
+        setdataNe(dataUser);
+        setVisibleData(dataUser.slice(0, initialItemCount));
+        console.log("du lieu" + respone.report);
+        setisLoading(false);
+      }
+      else {
+        ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+      }
     }
 
+    getNews();
   }
   const loadMoreData = () => {
     if (!isLoadingMore) {
