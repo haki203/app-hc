@@ -272,8 +272,10 @@
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="groupDropdown">
                                             <a class="dropdown-item" href="#" data-filter="1">Sự cố về CNTT</a>
-                                            <a class="dropdown-item" href="#" data-filter="2">Sự cố về cơ sở vật
-                                                chất</a>
+                                            <a class="dropdown-item" href="#" data-filter="2">Sự cố về cơ sở vật</a>
+                                            <a class="dropdown-item" href="#" data-filter="3">Sự cố về an ninh</a>
+                                            <a class="dropdown-item" href="#" data-filter="4">Sự cố khác</a>
+                                            <a class="dropdown-item" href="#" data-filter="5">Tất cả</a>
                                         </div>
                                     </div>
                                 </div>
@@ -384,6 +386,15 @@
                                 } else if (filterValue == '2') {
                                     csvcFunction();
                                 }
+                                else if (filterValue == '3') {
+                                    anFunction();
+                                }
+                                else if (filterValue == '4') {
+                                    kFunction();
+                                }
+                                else if (filterValue == '5') {
+                                    allFunction();
+                                }
                                 // Thêm logic cho các mục khác ở đây
                             }
 
@@ -421,6 +432,56 @@
                                 rows.forEach(row => {
                                     const typeCell = row.querySelector('.types');
                                     if (typeCell && typeCell.textContent.trim() == 'Sự cố về cơ sở vật chất') {
+                                        // Hiển thị dòng có type bằng 1
+                                        row.style.display = 'table-row';
+                                    } else {
+                                        // Ẩn các dòng khác
+                                        row.style.display = 'none';
+                                    }
+                                });
+                            }
+                            function anFunction() {
+                                resetTable();
+                                // Lấy tất cả các dòng trong bảng
+                                const rows = document.querySelectorAll('tbody tr');
+                                alert('Lọc thành công')
+
+                                // Lặp qua từng dòng và kiểm tra giá trị của "type"
+                                rows.forEach(row => {
+                                    const typeCell = row.querySelector('.types');
+                                    if (typeCell && typeCell.textContent.trim() == 'Sự cố về an ninh') {
+                                        // Hiển thị dòng có type bằng 1
+                                        row.style.display = 'table-row';
+                                    } else {
+                                        // Ẩn các dòng khác
+                                        row.style.display = 'none';
+                                    }
+                                });
+                            }
+                            function allFunction() {
+                                resetTable();
+                                // Lấy tất cả các dòng trong bảng
+                                const rows = document.querySelectorAll('tbody tr');
+                                alert('Lọc thành công')
+
+                                // Lặp qua từng dòng và kiểm tra giá trị của "type"
+                                rows.forEach(row => {
+                                    const typeCell = row.querySelector('.types');
+                                    row.style.display = 'table-row';
+
+                                });
+
+                            }
+                            function kFunction() {
+                                resetTable();
+                                // Lấy tất cả các dòng trong bảng
+                                const rows = document.querySelectorAll('tbody tr');
+                                alert('Lọc thành công')
+
+                                // Lặp qua từng dòng và kiểm tra giá trị của "type"
+                                rows.forEach(row => {
+                                    const typeCell = row.querySelector('.types');
+                                    if (typeCell && typeCell.textContent.trim() == 'Khác') {
                                         // Hiển thị dòng có type bằng 1
                                         row.style.display = 'table-row';
                                     } else {
@@ -481,7 +542,7 @@
                                 function onClickImg(index) {
                                     const imageContainer = document.getElementById('imagesNe');
                                     if (!imageContainer.contains(event.target)) {
-                                        imageContainer.style.display = 'flex'; 
+                                        imageContainer.style.display = 'flex';
                                     }
 
                                     console.log('Vị trí của mục được nhấn: ' + index);
@@ -534,13 +595,8 @@
                                     <td class="dates">{{this.report_date}}</td>
                                     <td>{{this.userId.full_name}}</td>
                                     <td class="types">{{this.type}}</td>
-
-                                    <td>
-                                        {{#if this.admin.full_name}}
-                                        {{this.admin.full_name}}
-                                        {{else}}
-                                        Chưa có ai tiếp nhận
-                                        {{/if}}
+                                    <td class="admins">
+                                        {{this.admin}}
                                     </td>
 
                                     <td class="limited-lines">{{this.description}}</td>
@@ -554,6 +610,28 @@
                                 <div id="imageContainer"></div>
                             </div>
                             <script>
+                                const typeCellAdmin = document.querySelectorAll('.admins');
+                                typeCellAdmin.forEach((cell) => {
+
+                                    const typeValues = cell.textContent.trim(); // Lấy giá trị của "this.type" và loại bỏ khoảng trắng
+                                    console.log(typeValues)
+
+                                    if (typeValues == "") {
+                                        cell.textContent = 'Chưa có ai tiếp nhận';
+                                    }
+                                    const apiUrls = 'http://localhost:3000/api/report/user/' + typeValues;
+
+                                    axios.get(apiUrls)
+                                        .then(response => {
+                                            const admin = response.data.user.full_name;
+                                            cell.textContent = response.data.user.full_name;
+                                            console.log(response.data.user.full_name)
+                                        })
+                                        .catch(error => {
+                                            console.error('Lỗi khi gọi API:', error);
+                                        });
+                                });
+
                                 const typeCells = document.querySelectorAll('.types');
                                 typeCells.forEach((cell) => {
 
@@ -562,6 +640,12 @@
                                         cell.textContent = 'Sự cố về CNTT';
                                     } else if (typeValue === '2') {
                                         cell.textContent = 'Sự cố về cơ sở vật chất';
+                                    }
+                                    else if (typeValue === '3') {
+                                        cell.textContent = 'Sự cố về an ninh';
+                                    }
+                                    else if (typeValue === '4') {
+                                        cell.textContent = 'Khác';
                                     }
                                 });
 
@@ -583,7 +667,7 @@
                                 });
                             </script>
                             <style>
-                                .textNe{
+                                .textNe {
                                     position: absolute;
                                     width: 200px;
                                     height: 50px;
@@ -593,6 +677,7 @@
                                     left: 30px;
                                     background-color: white;
                                 }
+
                                 .btnEsc {
                                     position: absolute;
                                     top: 10px;

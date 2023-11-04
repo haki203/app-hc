@@ -54,8 +54,6 @@ const ReportProblem = (props) => {
   const [isLoading, setisLoading] = useState(false);
 
   const sendApi = async () => {
-    uploadImage(image)
-    uploadImages(selectedImages)
 
     const getNews = async () => {
       const type = value;
@@ -150,7 +148,8 @@ const ReportProblem = (props) => {
         // Lấy URL của tệp vừa tải lên
         const url = await reference.getDownloadURL();
         console.log('URL ảnh tải lên:', url);
-  
+        setisLoading(false)
+        
         return url; // Trả về URL của ảnh
       } catch (error) {
         console.error('Lỗi khi tải lên ảnh:', error);
@@ -160,7 +159,6 @@ const ReportProblem = (props) => {
   
     try {
       const uploadedUrls = await Promise.all(uploadPromises);
-  
       console.log('Tất cả ảnh đã được tải lên:', uploadedUrls);
       setisLoading(false)
       setImg(uploadedUrls);
@@ -194,10 +192,11 @@ const ReportProblem = (props) => {
           setImage(image);
           console.log(image)
         }
-        // upload image
-        // if (image) {
-        //   uploadImage(image)
-        // }
+        //upload image
+        if (image) {
+
+          uploadImage(image)
+        }
 
         // const paths = selectedImages.map(item => item.realPath);
         // console.log(paths);
@@ -224,7 +223,9 @@ const ReportProblem = (props) => {
       const response = await openPicker(options);
       if (response && response.length > 0) {
         setSelectedImages(response);
-        console.log(response)
+        console.log("Hinh chon ne: ",response)
+        //upload image
+          uploadImages(response)
       }
     } catch (err) {
     }
