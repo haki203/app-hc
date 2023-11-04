@@ -60,6 +60,7 @@ const HistoryAdminDetail = (props) => {
         return () => {
         }
     }, []);
+
     return (
         <View>
             <View style={styles.header}>
@@ -96,26 +97,94 @@ const HistoryAdminDetail = (props) => {
                 placeholder="Sự cố này hoàn thành chưa được tốt cần khắc phục"
             />
             <Text style={styles.text8}>Trạng Thái đã xử lý</Text>
-            <View style={{ height: '56%', width: '100%', padding: 20, paddingBottom: 15 }}>
+            <View style={{ height: '35%', width: '100%', paddingBottom: 15, paddingLeft: 20 }}>
+                <Content data={data} />
             </View>
-            <View style={{ alignItems: 'center', }}>
-                <TouchableOpacity style={{
-                    display: 'flex',
-                    width: 343,
-                    height: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexShrink: 0,
-                    gap: 10,
-                    borderWidth: 1,
-                    borderColor: 'rgba(217, 114, 69, 0.80)',
-                    borderStyle: 'solid',
-                    backgroundColor: '#D97245',
-                    borderRadius: 8,
-                    paddingVertical: 10, // Padding theo chiều dọc (top và bottom)
-                    paddingHorizontal: 33, // Padding theo chiều ngang (left và right),
-                }}>
-                </TouchableOpacity>
+        </View>
+    )
+}
+const Content = (props) => {
+    const { data } = props;
+    const status = data.status;
+    return (
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ width: 70, height: '100%', padding: 5, alignItems: 'center' }}>
+                <Image source={status < 0 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
+                <View style={{ height: '22%', width: 3, backgroundColor: '#d3d3d3' }}></View>
+                <Image source={status < 1 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
+                <View style={{ height: '22%', width: 3, backgroundColor: '#d3d3d3' }}></View>
+                <Image source={status < 2 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
+            </View>
+            <View style={{ flexDirection: 'column', flex: 1 }}>
+                <View style={{ paddingTop: 10, width: '100%', flex: 1, paddingLeft: 10 }}>
+                    {
+                        (status < 1) ?
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>{data.report_date} |</Text>
+                                        <Text> {data.time}</Text>
+                                    </View>
+                                </View>
+                            ) :
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu xử lý</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>{data.report_date} |</Text>
+                                        <Text> {data.time}</Text>
+                                    </View>
+                                </View>
+                            )
+                    }
+                </View>
+                <View style={{ marginTop: 65, width: '100%', flex: 1, paddingLeft: 10 }}>
+                    {
+                        (status < 1) ?
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu đã được tiếp nhận</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>__:__ |</Text>
+                                        <Text> __:__</Text>
+                                    </View>
+                                </View>
+                            ) :
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu đã được tiếp nhận</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>{data.report_date} |</Text>
+                                        <Text> {data.accept}</Text>
+                                    </View>
+                                </View>
+                            )
+                    }
+                </View>
+                <View style={{ marginTop: 55, width: '100%', flex: 1, paddingLeft: 10 }}>
+                    {
+                        (status < 2) ?
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu đã hoàn thành</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>__:__ |</Text>
+                                        <Text> __:__</Text>
+                                    </View>
+                                </View>
+                            ) :
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu đã hoàn thành</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>{data.report_date} |</Text>
+                                        <Text> {data.done}</Text>
+                                    </View>
+                                </View>
+                            )
+                    }
+                </View>
             </View>
         </View>
     )

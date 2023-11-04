@@ -10,7 +10,7 @@ const ItemHistoryAdmin = (props) => {
     const getUser = async () => {
       try {
         if (report.userId) {
-          console.log('user ne: ',report.user);
+          console.log('user ne: ',report.userId);
           const respone = await AxiosIntance().get(`/report/user/${report.userId}`);
           console.log("user khi goi api ne: ", respone.user.full_name);
           setFullName(respone.user.full_name)
