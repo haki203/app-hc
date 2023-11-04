@@ -18,7 +18,6 @@ const HistoryAdmin = (props) => {
       setisLoading(true);
       const respone = await AxiosIntance().get("/report");
       if (respone.result == true) {
-
         // lay du lieu ok
         setdataNe(respone.report);
         console.log("du lieu" + respone.report);

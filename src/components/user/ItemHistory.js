@@ -9,7 +9,6 @@ const ItemHistory = (props) => {
   const { navigation } = props;
   const [id, setId] = useState(report._id);
   useEffect(() => {
-    
     try {
       setFullName(report.admin.full_name);
     } catch (error) {
@@ -24,7 +23,6 @@ const ItemHistory = (props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.leader} onPress={clickItem}>
-
         <View style={{width:'85%'}}>
           <Text style={styles.text}>
             {report.description.includes("--") ? report.description.split("--")[0] : report.description}
@@ -43,6 +41,7 @@ const ItemHistory = (props) => {
         </View>
         <Image source={{ uri: report.image[0] }} style={styles.profile}></Image>
       </TouchableOpacity>
+      {/* <View>{report.id}</View> */}
     </View>
   )
 }

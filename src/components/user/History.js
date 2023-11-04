@@ -25,45 +25,58 @@ const History = (props) => {
     const getNews = async () => {
       setisLoading(true);
       const respone = await AxiosIntance().get("/report");
-      const userId2 = respone.report.map(report => report.userId._id);
+      const userId2 = respone.report.map(report => report.userId);
       console.log("data ne: " + userId2);
+      console.log("data ne: " + userProfile.id);
+      const useIds = userId2.join(',');
+      const useIdsArray = useIds.split(',');
+      const userPRF = userProfile.id;
+      const userProfileId = userPRF.toString();
+      const res = respone.report.map(report => report.description);
+      const image = respone.report.map(report => report.image);
+      const time = respone.report.map(report => report.time);
+      const room = respone.report.map(report => report.room);
+      const report_date = respone.report.map(report => report.report_date);
+
+      console.log("dess ", res);
+      console.log(useIdsArray)
       // console.log(iduser);
       if (respone.result == true) {
         // lay du lieu ok
         const data = sortDataByDate(respone.report);
-        setdataNe(data);
-        console.log("data: " + data);
-        console.log("Profile: " + userProfile.id);
-        // // setdataNe(data)
-        setVisibleData(data.slice(0, initialItemCount));
-        // // console.log("Dữ liệu: ", data);
-        setisLoading(false);
+        // setdataNe(data);
+        // console.log("data: " + data);
+        // console.log("Profile: " + userProfile.id);
+        // // // setdataNe(data)
+        // setVisibleData(data.slice(0, initialItemCount));
+        // // // console.log("Dữ liệu: ", data);
+        // setisLoading(false);
+        let allMatch = true;
+        // Sử dụng vòng lặp while
+        let i = 0;
+        for (let i = 0; i < useIdsArray.length; i++) {
+          if (useIdsArray[i] === userProfileId) {
+            console.log("ID khớp:", useIdsArray[i]);
+            // const data1 =  {
+            //   id: useIdsArray[i],
+            //   description: res,
+            //   report_date: report_date,
+            //   time: time,
+            //   room: room,
+            //   // image: image,
+            // }
+            // console.log("data1:",data1)
+            // const data = sortDataByDate(data1);
+            setdataNe(data);
+            setVisibleData(data.slice(0, initialItemCount));
+            console.log("Dữ liệu: ", data);
+            setisLoading(false);
+          } else {
+            console.log("ID không khớp", userProfileId);
 
-        // function checkIfIdsMatch(id1, id2) {
-        //   if (id1.length !== id2.length) {
-        //     return false; // Nếu độ dài của hai ID khác nhau, chắc chắn chúng không trùng nhau.
-        //   }
-        //   for (let i = 0; i < id1.length; i++) {
-        //     if (id1[i] !== id2[i]) {
-        //       return false; // Nếu tìm thấy một ký tự khác nhau, thì hai ID không trùng nhau.
-        //     }
-        //   }
-        //   return true; // Nếu không tìm thấy bất kỳ ký tự nào khác nhau, hai ID trùng nhau.
-        // }
-        // const idPairs = [
-        //   { id1: userId2, id2: userProfile.id },
-        //   // { id1: "xyz123", id2: "xyz123" },
-        //   // Thêm các cặp ID khác vào mảng nếu cần
-        // ];
+          }
+        }
 
-        // idPairs.forEach(pair => {
-        //   if (checkIfIdsMatch(pair.id1, pair.id2)) {
-        //     setdataNe(data);
-        //     console.log("Hai ID trùng nhau.");
-        //   } else {
-        //     console.log("Hai ID không trùng nhau.");
-        //   }
-        // });
       }
       else {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
@@ -103,21 +116,21 @@ const History = (props) => {
       ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
     }
   }
-  const IdUser = async () => {
-    setisLoading(true)
-    try {
-      const response = await AxiosIntance().get(`/report/user/` + iduser);
-      console.log("du lieu ne " + response.user._id);
-      if (response.result == true) {
-        const data = sortDataByDate(response.user._id);
-        setdataNe(data);
-        console.log("du lieu ne: " + data);
-        setisLoading(false);
-      }
-    } catch (error) {
-      ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
-    }
-  }
+  // const IdUser = async () => {
+  //   setisLoading(true)
+  //   try {
+  //     const response = await AxiosIntance().get(`/report/user/` + iduser);
+  //     console.log("du lieu ne " + response.user._id);
+  //     if (response.result == true) {
+  //       const data = sortDataByDate(response.user._id);
+  //       setdataNe(data);
+  //       console.log("du lieu ne: " + data);
+  //       setisLoading(false);
+  //     }
+  //   } catch (error) {
+  //     ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+  //   }
+  // }
   const loadMoreData = () => {
     if (!isLoadingMore) {
       console.log("loading more");
