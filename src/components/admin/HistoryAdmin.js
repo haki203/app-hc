@@ -20,9 +20,20 @@ const HistoryAdmin = (props) => {
       if (respone.result == true) {
 
         // lay du lieu ok
-        setdataNe(respone.report);
         console.log("du lieu" + respone.report);
         setisLoading(false);
+        // loc data 
+        let dataUser = [];
+        console.log("id user ne: ", userProfile.id);
+        for (let i = 0; i < respone.report.length; i++) {
+          if (respone.report[i].admin == userProfile.id) {
+            console.log("id report ne: ", respone.report[i].userId);
+            dataUser.push(respone.report[i]);
+          }
+
+        }
+        console.log("Có tổng cộng ",dataUser.length);
+        setdataNe(dataUser)
       }
       else {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);

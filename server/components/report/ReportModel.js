@@ -15,5 +15,6 @@ const schema = new Schema({
     description: { type: String },
     status: { type: Number },
 
+
 });
 module.exports = mongoose.model('report', schema, 'reports');

@@ -62,11 +62,17 @@ const Login = () => {
         if (res.result == true) {
           setisLoading(false);
           {
-            if (res.user.role == 100) {
-              setIsLoginAdmin(true)
-              ToastAndroid.show("Đăng nhập với tư cách Admin", ToastAndroid.SHORT);
-            } {
-              setIsLogin(true)
+            if(res.user.ban==true){
+              ToastAndroid.show("Bạn đã bị ban, không thể đăng nhập", ToastAndroid.SHORT);
+            }
+            else{
+               if (res.user.role == 100) {
+                setIsLoginAdmin(true)
+                ToastAndroid.show("Đăng nhập với tư cách Admin", ToastAndroid.SHORT);
+              } 
+              else if(res.user.role == 1){
+                setIsLogin(true)
+              }
             }
           }
 

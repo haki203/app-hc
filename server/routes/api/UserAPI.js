@@ -12,18 +12,18 @@ const { authenApp } = require('../../middle/Authen');
 // Kiểm tra email và trả về user hoặc tạo mới user
 router.get('/login-google/:email', async (req, res) => {
     try {
-      const { email } = req.params;
-      // Kiểm tra xem email đã tồn tại trong MongoDB chưa
-      let user = await userModel.findOne({ email });
-      if (!user) {
-        // Nếu email chưa tồn tại, tạo mới user với email và các trường khác là null
-        user = await userModel.create({ email });
-      }
-      res.status(200).json({ result: true, user: user});
+        const { email } = req.params;
+        // Kiểm tra xem email đã tồn tại trong MongoDB chưa
+        let user = await userModel.findOne({ email });
+        if (!user) {
+            // Nếu email chưa tồn tại, tạo mới user với email và các trường khác là null
+            user = await userModel.create({ email });
+        }
+        res.status(200).json({ result: true, user: user });
     } catch (error) {
-      res.status(500).json({result:false, message: 'Internal Server Error'+error });
+        res.status(500).json({ result: false, message: 'Internal Server Error' + error });
     }
-  });
+});
 router.post('/login', async (req, res, next) => {
     try {
         const { email } = req.body;
@@ -71,10 +71,10 @@ router.post('/register', [validation.checkRegister], async (req, res, next) => {
             statusCode: 200,
             result,
         }
-        if(result==true){
+        if (result == true) {
             return res.status(200).json({ result: true, data });
         }
-        else{
+        else {
             return res.status(401).json({ result: false, data });
         }
     } catch (error) {
@@ -122,21 +122,46 @@ router.get('/findUser/:id', async (req, res, next) => {
     } catch (error) {
         console.log(error);
         //next error; Chi chay web
-        return res.status(400).json({ result: false});
+        return res.status(400).json({ result: false });
+    }
+});
+router.post('/banUser', async (req, res, next) => {
+    try {
+        const { id, ban } = req.body;
+        if (!id) {
+            return res.status(402).json({ result: false });
+        }
+        if (ban==null) {
+            return res.status(403).json({ result: false,message:"Chua co ban" });
+        }
+        else {
+            const getUser = await userModel.find({});
+            const user = await userModel.findByIdAndUpdate(getUser[id]._id, { ban: ban });
+            if (!user) {
+                return res.status(200).json({ result: false });
+            }
+            else {
+                return res.status(200).json({ result: true, user });
+            }
+        }
+
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ result: false });
     }
 });
 // get all admin
 router.get('/admin', async (req, res, next) => {
     try {
         const admin = await adminModel.find({});
-        if(admin){
-            res.status(200).json({admin,result:true});
+        if (admin) {
+            res.status(200).json({ admin, result: true });
         }
-        else{
-            res.status(400).json({result:false});
+        else {
+            res.status(400).json({ result: false });
         }
     } catch (error) {
-        res.status(400).json({result:false});
+        res.status(400).json({ result: false });
     }
 });
 // get category
@@ -150,7 +175,7 @@ router.get('/category', async (req, res, next) => {
             res.status(400).json({ result: false, message: "không có danh mục nào" });
         }
     } catch (error) {
-        res.status(400).json({ result: false});
+        res.status(400).json({ result: false });
     }
 });
 // get user by id
@@ -158,14 +183,14 @@ router.get('/admin/:id', async (req, res, next) => {
     const { id } = req.params;
     try {
         const admin = await adminModel.findById(id);
-        if(admin){
-            res.status(200).json({admin,result:true});
+        if (admin) {
+            res.status(200).json({ admin, result: true });
         }
-        else{
-            res.status(400).json({result:false});
+        else {
+            res.status(400).json({ result: false });
         }
     } catch (error) {
-        res.status(400).json({result:false});
+        res.status(400).json({ result: false });
     }
 });
 

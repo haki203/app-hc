@@ -1,14 +1,35 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
-import React, {useState} from 'react'
-
+import React, {useState,useEffect} from 'react'
+import AxiosIntance from '../../axios/AxiosIntance';
 const ItemHistoryAdmin = (props) => {
   const { report } = props;
   const { navigation } = props;
+  const [fullName, setFullName] = useState("Chưa có");
   const [id, setId] = useState(report._id);
   const clickItemAdmin = () => {
     console.log(id);
     navigation.navigate('Detail', { id: id });
   }
+  useEffect(() => {
+    const getAdmin = async () => {
+      try {
+        if (report.admin) {
+          console.log('user ne: ',report.userId);
+          const respone = await AxiosIntance().get(`/report/user/${report.userId}`);
+          console.log("user khi goi api ne: ", respone.user.full_name);
+          setFullName(respone.user.full_name)
+        }
+      } catch (error) {
+      }
+
+    }
+    try {
+      getAdmin();
+    } catch (error) {
+      setFullName("Chưa có");
+    }
+
+  }, []);
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.leader} onPress={clickItemAdmin}>
@@ -17,7 +38,7 @@ const ItemHistoryAdmin = (props) => {
             {report.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}
           </Text>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.text3}>Người yêu cầu: {report.userId.full_name}</Text>
+            <Text style={styles.text3}>Người yêu cầu: {fullName}</Text>
           </View>
           <View style={styles.leader3}>
             <Text style={styles.text4}>{report.report_date}</Text>
