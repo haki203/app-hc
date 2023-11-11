@@ -108,7 +108,31 @@ router.get('/category', async (req, res, next) => {
     }
 });
 
+router.get('/new-coll', async (req, res, next) => {
+    try {
+        // Kết nối tới cơ sở dữ liệu
 
+        const databaseName = "xuong"; // Thay đổi tên cơ sở dữ liệu của bạn
+        const collectionName = "reports"; // Thay đổi tên bộ sưu tập của bạn
+
+        const db = client.db(databaseName);
+        const collection = db.collection(collectionName);
+
+        // Sử dụng updateMany để thêm cột mới và đặt giá trị mặc định cho tất cả tài liệu
+        const updateResult = await collection.updateMany(
+            {},
+            {
+                $set: {
+                    comment: "", // Thay đổi tên cột mới và giá trị mặc định của bạn
+                },
+            }
+        );
+
+        console.log(`${updateResult.modifiedCount} tài liệu đã được cập nhật.`);
+    } finally {
+        // Đóng kết nối
+    }
+});
 
 router.get('/', async (req, res, next) => {
     try {
@@ -119,14 +143,42 @@ router.get('/', async (req, res, next) => {
         res.status(400).json({ result: false });
     }
 });
-router.get('/:id', async (req, res, next) => {
-    const { id } = req.params;
+router.post('/comment', async (req, res, next) => {
+    const { reportId, comment } = req.body;
+
     try {
-        const report = await reportModel.findById(id)
-        res.status(200).json({ result: true, report: report });
+        if (!reportId || !comment) {
+            res.status(400).json({ result: false, message: 'thieu tt' });
+
+        } else {
+            // let reports = []
+            // const report = await reportModel.find({})
+            // for (let i = 0; i < report.length; i++) {
+            //     if (report[i].status == 2) {
+            //         reports.push(report[i])
+            //     }
+            // }
+            // res.status(200).json({ result: true, reports });
+            const report = await reportModel.findById(reportId);
+            if(report.status==2){
+                const reportChange = await reportModel.findByIdAndUpdate(reportId, { comment:comment });
+            }
+            const reportNew = await reportModel.findById(reportId);
+
+
+            res.status(200).json({ result: true, reportNew });
+
+        }
+
+
+        // if(report.status==2){
+        //     const report = await reportModel.findByIdAndUpdate(reportId, { comment:comment });
+        // }
+
+
     } catch (error) {
-        res.status(400).json({ result: false, message: 'khong có id này' });
-    } false
+        res.status(400).json({ result: false, message: 'Lỗi khi cập nhật cột mới.' });
+    }
 });
 router.post('/accept', async (req, res, next) => {
     const { idReport, idAdmin } = req.body;
@@ -140,7 +192,7 @@ router.post('/accept', async (req, res, next) => {
 
     } else {
         try {
-            const adminId =new mongoose.Types.ObjectId(idAdmin);
+            const adminId = new mongoose.Types.ObjectId(idAdmin);
             console.log(adminId);
             // Tìm tài liệu report dựa trên idReport và cập nhật trường admin thành idAdmin
             const report = await reportModel.findByIdAndUpdate(idReport, { admin: adminId, status: 1, accept: acceptAt });
