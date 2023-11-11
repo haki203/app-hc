@@ -1,34 +1,35 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, ToastAndroid } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import React, {useState,useEffect} from 'react'
 import AxiosIntance from '../../axios/AxiosIntance';
 const ItemHistoryAdmin = (props) => {
   const { report } = props;
   const { navigation } = props;
+  const [fullName, setFullName] = useState("Chưa có");
   const [id, setId] = useState(report._id);
-  const [fullName, setFullName] = useState("chưa có");
+  const clickItemAdmin = () => {
+    console.log(id);
+    navigation.navigate('Detail', { id: id });
+  }
   useEffect(() => {
-    const getUser = async () => {
+    const getAdmin = async () => {
       try {
-        if (report.userId) {
+        if (report.admin) {
           console.log('user ne: ',report.userId);
           const respone = await AxiosIntance().get(`/report/user/${report.userId}`);
           console.log("user khi goi api ne: ", respone.user.full_name);
           setFullName(respone.user.full_name)
         }
       } catch (error) {
-        ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
       }
+
     }
     try {
-      getUser();
+      getAdmin();
     } catch (error) {
       setFullName("Chưa có");
     }
+
   }, []);
-  const clickItemAdmin = () => {
-    console.log(id);
-    navigation.navigate('Detail', { id: id });
-  }
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.leader} onPress={clickItemAdmin}>
