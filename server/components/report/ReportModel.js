@@ -11,6 +11,7 @@ const schema = new Schema({
     time: { type: String },
     admin: {  type: ObjectId, ref: 'admins'  },
     accept: { type: String },
+    comment: { type: String ,default:""},
     done: { type: String },
     description: { type: String },
     status: { type: Number },
