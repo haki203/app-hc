@@ -13,7 +13,6 @@ const schema = new Schema({
     accept: { type: String },
     done: { type: String },
     description: { type: String },
-    comment: { type: String ,default:""},
     status: { type: Number },
 
 
