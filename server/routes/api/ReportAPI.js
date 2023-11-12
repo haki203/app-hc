@@ -127,6 +127,26 @@ router.get('/:id', async (req, res, next) => {
         res.status(400).json({ result: false, message: 'khong có id này' });
     } false
 });
+router.post('/comment', async (req, res, next) => {
+    const { reportId, comment } = req.body;
+    try {
+        if (!reportId || !comment) {
+            res.status(400).json({ result: false, message: 'thieu tt' });
+        } else {
+
+            const report = await reportModel.findById(reportId);
+            if (report.status == 2) {
+                const reportChange = await reportModel.findByIdAndUpdate(reportId, { comment: comment });
+            }
+            const reportNew = await reportModel.findById(reportId);
+            res.status(200).json({ result: true, reportNew });
+        }
+    } catch (error) {
+        res.status(400).json({ result: false});
+
+    }
+
+});
 router.post('/accept', async (req, res, next) => {
     const { idReport, idAdmin } = req.body;
 
@@ -139,7 +159,7 @@ router.post('/accept', async (req, res, next) => {
 
     } else {
         try {
-            const adminId =new mongoose.Types.ObjectId(idAdmin);
+            const adminId = new mongoose.Types.ObjectId(idAdmin);
             console.log(adminId);
             // Tìm tài liệu report dựa trên idReport và cập nhật trường admin thành idAdmin
             const report = await reportModel.findByIdAndUpdate(idReport, { admin: adminId, status: 1, accept: acceptAt });
