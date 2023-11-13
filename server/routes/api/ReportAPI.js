@@ -134,7 +134,6 @@ router.post('/comment', async (req, res, next) => {
         if (!reportId || !comment) {
             res.status(400).json({ result: false, message: 'thieu tt' });
         } else {
-
             const report = await reportModel.findById(reportId);
             if (report.status == 2) {
                 const reportChange = await reportModel.findByIdAndUpdate(reportId, { comment: comment });

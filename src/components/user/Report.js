@@ -1,11 +1,16 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions, ActivityIndicator, FlatList, ScrollView } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions, ActivityIndicator, FlatList, ScrollView, ToastAndroid } from 'react-native'
+import React, { useState, useEffect, useContext } from 'react'
 import AxiosIntance from '../../axios/AxiosIntance';
 import Loading from '../isLoading/Loading';
+import { Modal, Alert, TextInput } from 'react-native';
+import Icon from "react-native-vector-icons/AntDesign"
+import { AppContext } from '../../context/AppContext';
+import { report } from '../../../server/routes';
 const baseImgPath = '../../assets/images/';
 
 const { width, height } = Dimensions.get('window');
 const Report = (props) => {
+  const { infoUser } = useContext(AppContext);
   const { navigation } = props;
   const { route } = props;
   const { params } = route;
@@ -15,6 +20,13 @@ const Report = (props) => {
   const [admin, setAdmin] = useState("Chưa có");
   const [lengthImage, setLengthImage] = useState(1);
   const [image, setImage] = useState("http://dummyimage.com/142x100.png/5fa2dd/ffffff");
+  const [isDobModalVisible, setDobModalVisible] = useState(false);
+  const [isDobModalVisible1, setDobModalVisible1] = useState(false);
+  const [content, setContent] = useState('');
+  const [comment, setComment] = useState('');
+  const [reportId, setReportId] = useState([]);
+
+
 
   useEffect(() => {
     const getNews = async () => {
@@ -28,19 +40,26 @@ const Report = (props) => {
           }
         } catch (error) {
         }
-  
+
       }
       const response = await AxiosIntance().get(`/report/${id}`);
       console.log("Hinh ne: ", response.report.image[0]);
-
+      const data1 = {
+        id: response.report._id,
+        report_date: response.report.report_date,
+        time: response.report.time,
+        room: response.report.room
+      }
+      console.log("data 1 ne", data1)
+      setReportId(data1);
       if (response.result == true) {
         // console.log(respone.report.admin);
         // lay du lieu ok
         setLengthImage(response.report.image.length);
         console.log("report nay co ", response.report.image.length, " hinh");
         setdataNe(response.report);
+        console.log("datane: ", response.report)
         try {
-          //setAdmin(response.report.admin.full_name);
           setImage(response.report.image)
           console.log(response.report.image);
         } catch (error) {
@@ -54,7 +73,7 @@ const Report = (props) => {
         ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
       }
     }
-    
+
     setisLoading(true);
     getNews();
 
@@ -62,6 +81,40 @@ const Report = (props) => {
     }
   }, []);
 
+  const DanhGia = async () => {
+    try {
+      try {
+        if (comment) {
+          setComment(comment);
+        } else {
+          Alert.alert('Vui lòng nhập comment');
+          return;
+        }
+      } catch (error) {
+      }
+      try {
+        const postData = {
+          reportId: reportId.id,
+          comment: comment,
+        };
+        console.log("postData ne: ", postData);
+        const respone = await AxiosIntance().post('/report/comment', postData);
+        console.log("Kết quả nè", respone);
+        if (respone.result){
+          ToastAndroid.show("Đánh giá thành công", ToastAndroid.SHORT);
+          setDobModalVisible1(false);
+        }
+        else {
+          ToastAndroid.show("Đánh giá thất bại", ToastAndroid.SHORT);
+        }
+      } catch (error) {
+        ToastAndroid.show("Đánh giá thất bại ne", ToastAndroid.SHORT);
+
+      }
+    } catch (error) {
+      console.log("lỗi đăng nè: ", error);
+    }
+  }
   return (
     <ScrollView style={styles.container}>
       <View>{isLoading ? <View style={{ width: width, height: height, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator size="large" color="black" /></View> : <View></View>}</View>
@@ -120,7 +173,7 @@ const Report = (props) => {
         <Content data={data} />
       </View>
       <View style={{ alignItems: 'center', }}>
-        <TouchableOpacity style={{
+        <TouchableOpacity onPress={() => setDobModalVisible1(true)} style={{
           display: 'flex',
           width: 343,
           height: 40,
@@ -144,6 +197,37 @@ const Report = (props) => {
             fontStyle: 'normal',
           }}>{data.status === 2 ? 'Đánh giá' : 'Phản hồi'}</Text>
         </TouchableOpacity>
+        <Modal animationType="slide" transparent={true} visible={isDobModalVisible1}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={{
+                textAlign: 'center',
+                fontSize: 22,
+                fontStyle: 'normal',
+                fontWeight: '700',
+                color: '#000',
+                paddingBottom: '5%'
+              }}>Đánh Giá</Text>
+              <Icon onPress={() => setDobModalVisible1(false)} style={styles.iconmenu} name='closecircleo' size={25} color="#000" />
+              <TextInput
+                style={styles.input1}
+                placeholder="Ghi đánh giá"
+                placeholderTextColor='#808080'
+                onChangeText={(text) => setComment(text)}
+                value={comment}
+              />
+              <TouchableOpacity onPress={() => DanhGia()} style={styles.button1}>
+                <Text style={{
+                  color: '#FFF',
+                  fontSize: 15,
+                  fontWeight: '700',
+                  fontStyle: 'normal',
+                  fontFamily: 'Poppins'
+                }}>Hoàn Thành</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   )
@@ -331,5 +415,59 @@ const styles = StyleSheet.create({
     end: 10,
     top: '25%',
 
+  },
+  starContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  button1: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '13%',
+    backgroundColor: '#D97245',
+    borderRadius: 15,
+    top: '18%'
+  },
+  button_text: {
+    color: '#272956',
+    height: 40,
+    textAlign: 'center',
+    paddingTop: 10,
+    borderRadius: 10,
+    fontSize: 16,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    padding: 20,
+    alignItems: 'center'
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    width: '100%',
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    height: 450,
+    position: 'absolute'
+  },
+  input1: {
+    height: '60%',
+    borderColor: 'gray',
+    borderWidth: 1,
+    fontStyle: 'normal',
+    borderRadius: 15,
+    fontSize: 16,
+    color: 'black',
+    fontFamily: 'Poppins',
+    paddingBottom: 200,
+    paddingLeft: 10
+  },
+  iconmenu: {
+    position: 'absolute',
+    right: 0,
+    padding: 20
   }
 })
