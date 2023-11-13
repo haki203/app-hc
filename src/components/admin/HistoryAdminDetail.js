@@ -1,8 +1,10 @@
-import { StyleSheet, Text, View, Dropdown, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Dropdown, TextInput, TouchableOpacity, Image, ScrollView, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Icon from "react-native-vector-icons/AntDesign"
 import AxiosIntance from '../../axios/AxiosIntance';
 const baseImgPath = '../../assets/images/';
+const { width, height } = Dimensions.get('window');
+
 const HistoryAdminDetail = (props) => {
     const { navigation } = props;
     const { route } = props;
@@ -64,6 +66,7 @@ const HistoryAdminDetail = (props) => {
     return (
         <View>
             <ScrollView>
+                <View>{isLoading ? <View style={{ width: width, height: height, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator size="large" color="black" /></View> : <View></View>}</View>
                 <View style={styles.header}>
                     <Icon style={styles.icon} onPress={() => navigation.goBack()} name='left' size={20} color="#000000" />
                     <Text style={styles.text}>Sự cố về cơ sở vật chất</Text>

@@ -52,9 +52,9 @@ const HistoryAdmin = (props) => {
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: 20,
-          marginTop: 35
+          marginTop: '5%'
         }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center',  }}>
             <Image source={{uri:userProfile.avt}} style={styles.profile}></Image>
             <Text style={styles.text1}>{userProfile.name}</Text>
           </View>
