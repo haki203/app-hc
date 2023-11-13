@@ -23,7 +23,7 @@ const HandlingReport = ({ navigation }) => {
         let dataUser = [];
         console.log("id cua toi: ", userProfile.id);
         for (let i = 0; i < res.report.length; i++) {
-          if (res.report[i].admin == userProfile.id) {
+          if (res.report[i].admin == userProfile.id &&res.report[i].status==1) {
             dataUser.push(res.report[i]);
           }
           // const respone = await AxiosIntance().get(`/report/user/${res.report[i].admin}`);

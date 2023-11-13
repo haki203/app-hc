@@ -176,63 +176,6 @@ const History = (props) => {
 
 export default History
 
-//   {
-//     "name": "Unbranded Bronze Chips",
-//     "date": "2023-10-13",
-//     "time": "9:31 am",
-//     "room": "Sausages",
-//     "_id": "1"
-//   },
-//   {
-//     "name": "Rustic Soft Car",
-//     "date": "2023-10-13",
-//     "time": "20:31 pm",
-//     "room": "Fish",
-//     "_id": "2"
-//   },
-//   {
-//     "name": "Generic Granite Pants",
-//     "date": "2023-10-13",
-//     "time": "19:31 pm",
-//     "room": "Hat",
-//     "_id": "3"
-//   },
-//   {
-//     "name": "Incredible Soft Towels",
-//     "date": "2023-10-13",
-//     "time": "13:31 am",
-//     "room": "Bacon",
-//     "_id": "4"
-//   },
-//   {
-//     "name": "Unbranded Concrete Tuna",
-//     "date": "2023-10-13",
-//     "time": "11:31 am",
-//     "room": "Computer",
-//     "_id": "5"
-//   },
-//   {
-//     "name": "Oriental Frozen Ball",
-//     "date": "2023-10-13",
-//     "time": "10:31 am",
-//     "room": "Tuna",
-//     "_id": "6"
-//   },
-//   {
-//     "name": "Incredible Steel Cheese",
-//     "date": "2023-10-13",
-//     "time": "9:31 am",
-//     "room": "Table",
-//     "_id": "7"
-//   },
-//   {
-//     "name": "Bespoke Rubber Soap",
-//     "date": "2023-10-13",
-//     "time": "12:31 pm",
-//     "room": "Bike",
-//     "_id": "8"
-//   }
-// ];
 const styles = StyleSheet.create({
   container: {
     flex: 1,

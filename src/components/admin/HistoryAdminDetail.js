@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dropdown, TextInput, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, Dropdown, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Icon from "react-native-vector-icons/AntDesign"
 import AxiosIntance from '../../axios/AxiosIntance';
@@ -63,43 +63,46 @@ const HistoryAdminDetail = (props) => {
 
     return (
         <View>
-            <View style={styles.header}>
-                <Icon style={styles.icon} onPress={() => navigation.goBack()} name='left' size={20} color="#000000" />
-                <Text style={styles.text}>Sự cố về cơ sở vật chất</Text>
-                <Text></Text>
-            </View>
-            <View>
-                <Text style={styles.text1}>Tên người yêu cầu:</Text>
-                <View style={styles.leader1}>
-                    <Image style={styles.image} source={{ uri: image[0] }}></Image>
-                    <View style={styles.leader2}>
-                        <Text style={styles.text2}>{admin}</Text>
-                        <Text style={styles.text3}>{phone}</Text>
+            <ScrollView>
+                <View style={styles.header}>
+                    <Icon style={styles.icon} onPress={() => navigation.goBack()} name='left' size={20} color="#000000" />
+                    <Text style={styles.text}>Sự cố về cơ sở vật chất</Text>
+                    <Text></Text>
+                </View>
+                <View>
+                    <Text style={styles.text1}>Tên người yêu cầu:</Text>
+                    <View style={styles.leader1}>
+                        <Image style={styles.image} source={{ uri: image[0] }}></Image>
+                        <View style={styles.leader2}>
+                            <Text style={styles.text2}>{admin}</Text>
+                            <Text style={styles.text3}>{phone}</Text>
+                        </View>
+                        <Image style={styles.image1} source={require('../../assets//images/phone.png')}></Image>
                     </View>
-                    <Image style={styles.image1} source={require('../../assets//images/phone.png')}></Image>
+                    <View style={{ flexDirection: 'row', padding: 20 }}>
+                        <Text style={styles.text4}>Thời gian: </Text>
+                        <Text style={styles.text3}> {data.time}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', marginLeft: 20 }}>
+                        <Text style={styles.text4}>Phòng: </Text>
+                        <Text style={styles.text5}>{data.room}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', padding: 20 }}>
+                        <Text style={styles.text4}>Mô tả sự cố: </Text>
+                        <Text style={styles.text6}> {data.description}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', padding: 20, paddingTop: 5 }}>
+                        <Text style={styles.text4}>Đánh giá: </Text>
+                        <Text style={styles.text6}>{data.comment ? data.comment : 'Chưa có đánh giá'}</Text>
+                    </View>
                 </View>
-                <View style={{ flexDirection: 'row', padding: 20 }}>
-                    <Text style={styles.text4}>Thời gian: </Text>
-                    <Text style={styles.text3}> {data.time}</Text>
+
+                <Text style={styles.text8}>Trạng Thái đã xử lý</Text>
+                <View style={{ height: '35%', width: '100%', paddingBottom: 15, paddingLeft: 20 }}>
+                    <Content data={data} />
                 </View>
-                <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                    <Text style={styles.text4}>Phòng: </Text>
-                    <Text style={styles.text5}>{data.room}</Text>
-                </View>
-                <View style={{ flexDirection: 'row', padding: 20 }}>
-                    <Text style={styles.text4}>Mô tả sự cố: </Text>
-                    <Text style={styles.text6}> {data.description}</Text>
-                </View>
-            </View>
-            <TextInput
-                style={styles.textInput}
-                multiline={true}
-                placeholder="Sự cố này hoàn thành chưa được tốt cần khắc phục"
-            />
-            <Text style={styles.text8}>Trạng Thái đã xử lý</Text>
-            <View style={{ height: '35%', width: '100%', paddingBottom: 15, paddingLeft: 20 }}>
-                <Content data={data} />
-            </View>
+            </ScrollView>
+
         </View>
     )
 }

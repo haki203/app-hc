@@ -147,6 +147,36 @@ router.post('/comment', async (req, res, next) => {
     }
 
 });
+router.post('/done', async (req, res, next) => {
+    const { idReport, idAdmin } = req.body;
+
+    const doneAt = moment().format('hh:mm A');
+    if (idReport.length < 10) {
+        return res.status(400).json({ result: false, message: 'Thieu idReport' });
+    }
+    else if (idAdmin.length < 10) {
+        return res.status(400).json({ result: false, message: 'Thieu idAdmin' });
+
+    } else {
+        try {
+            const adminId = new mongoose.Types.ObjectId(idAdmin);
+            console.log(adminId);
+            // Tìm tài liệu report dựa trên idReport và cập nhật trường admin thành idAdmin
+            const report = await reportModel.findByIdAndUpdate(idReport, { admin: adminId, status: 2, done: doneAt });
+
+            if (!report) {
+                // Trường hợp không tìm thấy report với idReport tương ứng
+                return res.status(400).json({ result: false, message: 'Không tìm thấy báo cáo này' });
+            }
+
+            res.status(200).json({ report, result: true });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ result: false, message: 'Lỗi khi cập nhật báo cáo' });
+        }
+    }
+
+});
 router.post('/accept', async (req, res, next) => {
     const { idReport, idAdmin } = req.body;
 

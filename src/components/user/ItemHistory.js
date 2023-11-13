@@ -13,7 +13,7 @@ const ItemHistory = (props) => {
     const getAdmin = async () => {
       try {
         if (report.admin) {
-          console.log('admin ne: ',report.admin);
+          console.log('admin ne: ', report.admin);
           const respone = await AxiosIntance().get(`/report/user/${report.admin}`);
           console.log("admin khi goi api ne: ", respone.user.full_name);
           setFullName(respone.user.full_name)
@@ -53,6 +53,10 @@ const ItemHistory = (props) => {
           </View>
         </View>
         <Image source={{ uri: report.image[0] }} style={styles.profile}></Image>
+        <View style={{
+          width: 10, height: 10, position: 'absolute',
+          end: 10, bottom: 10, backgroundColor: report.status === 2 ? 'green' : 'orange', borderRadius: 20
+        }}></View>
       </TouchableOpacity>
       {/* <View>{report.id}</View> */}
     </View>
@@ -137,8 +141,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins'
   },
   profile: {
-    width: 40,
-    height: 40,
+    width: 55,
+    height: 55,
     borderRadius: 50,
     marginRight: 35
   }
