@@ -4,19 +4,51 @@ import Icon from "react-native-vector-icons/AntDesign"
 import AxiosIntance from '../../axios/AxiosIntance';
 const baseImgPath = '../../assets/images/';
 const HistoryAdminDetail = (props) => {
-    const {navigation}= props;
+    const { navigation } = props;
+    const { route } = props;
+    const { params } = route;
+    const { id } = params;
     const [isLoading, setisLoading] = useState(false);
-    const [data, setdataNe] = useState("");
+    const [report_date, setreport_date] = useState("");
+    const [data, setdataNe] = useState([]);
+    const [room, setroom] = useState("");
+    const [admin, setAdmin] = useState("Chưa có");
+    const [phone, setPhone] = useState("Chưa có");
+
+    const [lengthImage, setLengthImage] = useState(1);
+    const [image, setImage] = useState("http://dummyimage.com/142x100.png/5fa2dd/ffffff");
+
     useEffect(() => {
         const getNews = async () => {
-            const response = await AxiosIntance().get(`/report/`);
+            const getAdmin = async () => {
+                try {
+                    if (response.report.userId) {
+                        const respones = await AxiosIntance().get(`/report/user/${response.report.userId}`);
+                        console.log("admin khi goi api detail ne: ", respones.user.full_name);
+                        setAdmin(respones.user.full_name);
+                        setPhone(respones.user.phone)
+                    }
+                } catch (error) {
+                }
+            }
+            const response = await AxiosIntance().get(`/report/${id}`);
+            console.log("Hinh ne: ", response.report.image[0]);
             console.log(response.report);
             if (response.result == true) {
                 // console.log(respone.report.admin);
                 // lay du lieu ok
+                setLengthImage(response.report.image.length);
+                console.log("report nay co ", response.report.image.length, " hinh");
                 setdataNe(response.report);
-                console.log("data " + data.room)
+                try {
+                    //setAdmin(response.report.admin.full_name);
+                    setImage(response.report.image)
+                    console.log(response.report.image);
+                } catch (error) {
+                    console.log(error);
+                }
                 setisLoading(false);
+                getAdmin();
             }
             else {
                 ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
@@ -28,34 +60,35 @@ const HistoryAdminDetail = (props) => {
         return () => {
         }
     }, []);
+
     return (
         <View>
             <View style={styles.header}>
-                <Icon style={styles.icon} onPress={()=>navigation.goBack()} name='left' size={20} color="#000000" />
+                <Icon style={styles.icon} onPress={() => navigation.goBack()} name='left' size={20} color="#000000" />
                 <Text style={styles.text}>Sự cố về cơ sở vật chất</Text>
                 <Text></Text>
             </View>
             <View>
                 <Text style={styles.text1}>Tên người yêu cầu:</Text>
                 <View style={styles.leader1}>
-                    <Image style={styles.image} source={{ uri: data.image }}></Image>
+                    <Image style={styles.image} source={{ uri: image[0] }}></Image>
                     <View style={styles.leader2}>
-                        <Text style={styles.text2}>Lê Văn Hiếu</Text>
-                        <Text style={styles.text3}>0123456789</Text>
+                        <Text style={styles.text2}>{admin}</Text>
+                        <Text style={styles.text3}>{phone}</Text>
                     </View>
                     <Image style={styles.image1} source={require('../../assets//images/phone.png')}></Image>
                 </View>
                 <View style={{ flexDirection: 'row', padding: 20 }}>
                     <Text style={styles.text4}>Thời gian: </Text>
-                    <Text style={styles.text3}> 09:05 am</Text>
+                    <Text style={styles.text3}> {data.time}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', marginLeft: 20 }}>
                     <Text style={styles.text4}>Phòng: </Text>
-                    <Text style={styles.text5}>T1011</Text>
+                    <Text style={styles.text5}>{data.room}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', padding: 20 }}>
                     <Text style={styles.text4}>Mô tả sự cố: </Text>
-                    <Text style={styles.text6}> Bóng đèn cháy, lỗi tivi, lỗi điều hòa</Text>
+                    <Text style={styles.text6}> {data.description}</Text>
                 </View>
             </View>
             <TextInput
@@ -64,26 +97,94 @@ const HistoryAdminDetail = (props) => {
                 placeholder="Sự cố này hoàn thành chưa được tốt cần khắc phục"
             />
             <Text style={styles.text8}>Trạng Thái đã xử lý</Text>
-            <View style={{ height: '56%', width: '100%', padding: 20, paddingBottom: 15 }}>
+            <View style={{ height: '35%', width: '100%', paddingBottom: 15, paddingLeft: 20 }}>
+                <Content data={data} />
             </View>
-            <View style={{ alignItems: 'center', }}>
-                <TouchableOpacity style={{
-                    display: 'flex',
-                    width: 343,
-                    height: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexShrink: 0,
-                    gap: 10,
-                    borderWidth: 1,
-                    borderColor: 'rgba(217, 114, 69, 0.80)',
-                    borderStyle: 'solid',
-                    backgroundColor: '#D97245',
-                    borderRadius: 8,
-                    paddingVertical: 10, // Padding theo chiều dọc (top và bottom)
-                    paddingHorizontal: 33, // Padding theo chiều ngang (left và right),
-                }}>
-                </TouchableOpacity>
+        </View>
+    )
+}
+const Content = (props) => {
+    const { data } = props;
+    const status = data.status;
+    return (
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ width: 70, height: '100%', padding: 5, alignItems: 'center' }}>
+                <Image source={status < 0 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
+                <View style={{ height: '22%', width: 3, backgroundColor: '#d3d3d3' }}></View>
+                <Image source={status < 1 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
+                <View style={{ height: '22%', width: 3, backgroundColor: '#d3d3d3' }}></View>
+                <Image source={status < 2 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
+            </View>
+            <View style={{ flexDirection: 'column', flex: 1 }}>
+                <View style={{ paddingTop: 10, width: '100%', flex: 1, paddingLeft: 10 }}>
+                    {
+                        (status < 1) ?
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>{data.report_date} |</Text>
+                                        <Text> {data.time}</Text>
+                                    </View>
+                                </View>
+                            ) :
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu xử lý</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>{data.report_date} |</Text>
+                                        <Text> {data.time}</Text>
+                                    </View>
+                                </View>
+                            )
+                    }
+                </View>
+                <View style={{ marginTop: 65, width: '100%', flex: 1, paddingLeft: 10 }}>
+                    {
+                        (status < 1) ?
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu đã được tiếp nhận</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>__:__ |</Text>
+                                        <Text> __:__</Text>
+                                    </View>
+                                </View>
+                            ) :
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu đã được tiếp nhận</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>{data.report_date} |</Text>
+                                        <Text> {data.accept}</Text>
+                                    </View>
+                                </View>
+                            )
+                    }
+                </View>
+                <View style={{ marginTop: 55, width: '100%', flex: 1, paddingLeft: 10 }}>
+                    {
+                        (status < 2) ?
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu đã hoàn thành</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>__:__ |</Text>
+                                        <Text> __:__</Text>
+                                    </View>
+                                </View>
+                            ) :
+                            (
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text>Yêu cầu đã hoàn thành</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text>{data.report_date} |</Text>
+                                        <Text> {data.done}</Text>
+                                    </View>
+                                </View>
+                            )
+                    }
+                </View>
             </View>
         </View>
     )
@@ -126,7 +227,8 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 52,
-        height: 47
+        height: 47,
+        borderRadius: 30
     },
     image1: {
         width: 52,
@@ -136,7 +238,7 @@ const styles = StyleSheet.create({
     leader2: {
         position: 'absolute',
         width: '70%',
-        paddingLeft: 75
+        paddingLeft: 80
     },
     text2: {
         color: '#000',

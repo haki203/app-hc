@@ -7,6 +7,7 @@ const userModel = require('../../components/users/UserModel');
 const adminModel = require('../../components/users/AdminModel');
 const moment = require('moment'); // Import thư viện moment
 const reportController = require('../../components/report/ReportController');
+const { populate } = require('../../components/products/ProductModel');
 // API POST để thêm báo cáo
 router.post('/new', async (req, res) => {
     try {
@@ -133,7 +134,6 @@ router.post('/comment', async (req, res, next) => {
         if (!reportId || !comment) {
             res.status(400).json({ result: false, message: 'thieu tt' });
         } else {
-
             const report = await reportModel.findById(reportId);
             if (report.status == 2) {
                 const reportChange = await reportModel.findByIdAndUpdate(reportId, { comment: comment });

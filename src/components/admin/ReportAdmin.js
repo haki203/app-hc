@@ -1,11 +1,24 @@
-import { StyleSheet, Text, View, Dropdown, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import Icon from "react-native-vector-icons/AntDesign"
 import { Image } from 'react-native-elements'
-
-const ReportAdmin = () => {
-    const [isFocus, setIsFocus] = useState(false);
-    const [value, setValue] = useState(null);
+import DropDownPicker from 'react-native-dropdown-picker'
+const ReportAdmin = (props) => {
+    const { navigation } = props;
+    const [isOpen, setIsopen] = useState(false);
+    const [currentValue, setCurrentValue] = useState();
+    const [isOpen1, setIsopen1] = useState(false);
+    const [currentValue1, setCurrentValue1] = useState();
+    const items = [
+        { label: 'Item 1', value: '1' },
+        { label: 'Item 2', value: '2' },
+        { label: 'Item 3', value: '3' },
+        { label: 'Item 4', value: '4' },
+        { label: 'Item 5', value: '5' },
+        { label: 'Item 6', value: '6' },
+        { label: 'Item 7', value: '7' },
+        { label: 'Item 8', value: '8' },
+    ];
     const data = [
         { label: 'Item 1', value: '1' },
         { label: 'Item 2', value: '2' },
@@ -19,7 +32,7 @@ const ReportAdmin = () => {
     return (
         <View>
             <View style={styles.header}>
-                <Icon style={styles.icon} name='left' size={20} color="#000000" />
+                <Icon onPress={() => navigation.goBack()} style={styles.icon} name='left' size={20} color="#000000" />
                 <Text style={styles.text}>Sự cố về cơ sở vật chất</Text>
                 <Text></Text>
             </View>
@@ -45,6 +58,37 @@ const ReportAdmin = () => {
                     <Text style={styles.text4}>Mô tả sự cố: </Text>
                     <Text style={styles.text6}> Bóng đèn cháy, lỗi tivi, lỗi điều hòa</Text>
                 </View>
+            </View>
+            <View style={{padding: 10, flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 10}}>
+            <DropDownPicker
+            items={items} 
+            open={isOpen} 
+            setOpen={() => setIsopen(!isOpen)} 
+            value={currentValue} 
+            setValue={(val) => setCurrentValue(val)}
+            autoScroll
+            maxHeight={200}
+            containerStyle={{width: '58%'}}
+            searchPlaceholder='search...'
+            placeholderStyle={{color: 'red', fontWeight: 'bold', fontFamily: 'Poppions', fontSize: 16, fontStyle: 'normal'}}
+            placeholder='Lỗi sự cố từ'
+            showTickIcon={true}
+            showArrowIcon={true}/>
+
+            <DropDownPicker 
+            items={data} 
+            open={isOpen1} 
+            setOpen={() => setIsopen1(!isOpen1)} 
+            value={currentValue1} 
+            setValue={(val) => setCurrentValue1(val)}
+            autoScroll
+            maxHeight={200}
+            containerStyle={{width: '40%'}}
+            searchPlaceholder='search...'
+            placeholderStyle={{color: 'red', fontWeight: 'bold', fontFamily: 'Poppions', fontSize: 16, fontStyle: 'normal'}}
+            placeholder='Thời gian'
+            showTickIcon={true}
+            showArrowIcon={true}/>
             </View>
             <TextInput
                 style={styles.textInput}
@@ -189,7 +233,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: '#FF2D2D'
     },
-    text7:{
+    text7: {
         color: '#fff',
         fontFamily: 'Poppins',
         fontSize: 12,

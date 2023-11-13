@@ -24,6 +24,8 @@ ios/.xcode.env.local
 src/axios
 # Android/IntelliJ
 #
+src/axios
+
 android/
 .app
 build/
@@ -70,3 +72,6 @@ yarn.lock
 yarn.lock
 App.js
 src/axios/AxiosIntance.js
+src/axios/AxiosIntance.js
+
+src/navigation
