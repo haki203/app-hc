@@ -113,10 +113,8 @@ const ReportProblem = (props) => {
   ];
   const uploadImage = async (imageUri) => {
     setisLoading(true);
-
     const reference = storage().ref(`images/${new Date().getTime()}.jpg`);
     console.log('đang tải ảnh lên');
-
     try {
       // Tải lên tệp ảnh
       if (imageUri) {
@@ -130,7 +128,6 @@ const ReportProblem = (props) => {
       } else {
       console.log('Khg có image');
       }
-      
     } catch (error) {
       console.error('Lỗi khi tải lên ảnh:', error);
     }
