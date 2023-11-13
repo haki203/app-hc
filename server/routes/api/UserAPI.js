@@ -42,6 +42,25 @@ router.post('/login', async (req, res, next) => {
         res.status(400).json({ result: false });
     }
 });
+router.get('/add-column', async (req, res, next) => {
+    try {
+      // Sử dụng Mongoose để thực hiện cập nhật cho tất cả tài liệu
+      const updateResult = await userModel.updateMany(
+        {},
+        {
+          $set: {
+            avatar: "https://th.bing.com/th/id/OIP.p5aepZh8OpbpDE8YlmVtWgHaHa?pid=ImgDet&rs=1", // Thay đổi tên cột mới và giá trị mặc định của bạn
+          },
+        }
+      );
+  
+      res.status(200).json({
+        result: true,
+      });
+    } catch (error) {
+      res.status(400).json({ result: false, message: 'Lỗi khi cập nhật cột mới.' });
+    }
+  });
 router.get('/logout', async (req, res, next) => {
     try {
         req.session.destroy;
@@ -153,9 +172,15 @@ router.post('/banUser', async (req, res, next) => {
 // get all admin
 router.get('/admin', async (req, res, next) => {
     try {
-        const admin = await adminModel.find({});
-        if (admin) {
-            res.status(200).json({ admin, result: true });
+        const users = await userModel.find({})
+        if (users) {
+            let admins=[];
+            for(let i=0;i<users.length;i++){
+                if(users[i].role==100){
+                    admins.push(users[i])
+                }
+            }
+            res.status(200).json({ admins, result: true });
         }
         else {
             res.status(400).json({ result: false });

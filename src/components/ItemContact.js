@@ -3,22 +3,22 @@ import React from 'react'
 
 const baseImgPath = '../assets/images/';
 const ItemContact = (props) => {
-    const {admin} = props;
+    const {admin,navigation} = props;
 
     const clickItemAdmin = () => {
-       
+        navigation.navigate('ProfileContact',{admin:admin})
       }
   return (
     <View style={styles.topbody}>
     <TouchableOpacity style={styles.item}  onPress={clickItemAdmin}>   
     {/* <View style={styles.item}> */}
         <View style={styles.itemin}>
-            <Image source={require(baseImgPath+'avavtarChibi.png')} />
+            <Image style={{width:66,height:66,borderRadius:100}} source={{uri:admin.avatar}} />
             <View style={styles.in4contact}>
                 <Text style={styles.name}>{admin.full_name}</Text>
                 <Text style={styles.department}>{admin.position}</Text>
             </View>
-            <Image source={require(baseImgPath+'chevron-right.png')} />
+            <Image style={{position:'absolute',end:10}} source={require(baseImgPath+'chevron-right.png')} />
         </View>
     {/* </View> */}
     </TouchableOpacity>  
@@ -51,6 +51,9 @@ const styles = StyleSheet.create({
         width: '100%',
         
     },
+    in4contact:{
+        marginLeft:'15%'
+    },
     item: {
         borderRadius: 20,
         backgroundColor: '#f2f2f2',
@@ -58,12 +61,8 @@ const styles = StyleSheet.create({
         marginBottom:10,
     },
     itemin: {
-        justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-
-
-
     },
     bottombody: {
 

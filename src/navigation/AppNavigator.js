@@ -29,6 +29,7 @@ import ListFloor_F from '../components/admin/ListFloor_F';
 import ListFloor_P from '../components/admin/ListFloor_P';
 import ListFloor_T from '../components/admin/ListFloor_T';
 import ProblemHandingDetail from '../components/admin/ProblemHandingDetail';
+import ProfileAdminContact from '../components/admin/ProfileAdminContact';
 
 
 const Stack = createStackNavigator();
@@ -118,12 +119,11 @@ const Histories = () => {
 
     )
 }
-const ManChao = () => {
+const Contacts = () => {
     return (
-        <Stack.Navigator initialRouteName='Sign' screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Sign" component={SignUpScreen} />
-            <Stack.Screen name='Filter' component={CategoryFilterScreen} />
-            <Stack.Screen name='Go' component={ReadyGoScreen} />
+        <Stack.Navigator initialRouteName='Contacts' screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Contacts" component={ContactScreen} />
+            <Stack.Screen name='ProfileContact' component={ProfileAdminContact} />
         </Stack.Navigator>
 
     )
@@ -201,7 +201,7 @@ const Home = ({ scrollY }) => {
                 }}
             >
                 {() => (
-                    <ContactScreen />
+                    <Contacts />
                 )}
             </Tab.Screen>
 
