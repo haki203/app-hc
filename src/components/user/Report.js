@@ -169,10 +169,10 @@ const Report = (props) => {
       </View>
       <Text style={styles.text5}>Trạng Thái yêu cầu</Text>
 
-      <View style={{ height: '56%', width: '100%', padding: 20, paddingBottom: 15 }}>
+      <View style={{ height: 300, width: '100%', padding: 20, marginBottom: 25 }}>
         <Content data={data} />
       </View>
-      <View style={{ alignItems: 'center', }}>
+      <View style={{ alignItems: 'center'}}>
         <TouchableOpacity onPress={() => setDobModalVisible1(true)} style={{
           display: 'flex',
           width: 343,
@@ -188,7 +188,7 @@ const Report = (props) => {
           borderRadius: 8,
           paddingVertical: 10, // Padding theo chiều dọc (top và bottom)
           paddingHorizontal: 33, // Padding theo chiều ngang (left và right),
-          marginBottom: 100
+          marginBottom: 20
         }}>
           <Text style={{
             color: '#FFF',
@@ -237,11 +237,11 @@ const Content = (props) => {
   const status = data.status;
   return (
     <View style={{ flex: 1, flexDirection: 'row' }}>
-      <View style={{ width: 70, height: '100%', backgroundColor: 'white', padding: 5, alignItems: 'center' }}>
+      <View style={{ width: 70, height: '95%', backgroundColor: 'white', padding: 5, alignItems: 'center' }}>
         <Image source={status < 0 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
         <View style={{ height: '22%', width: 3, backgroundColor: '#d3d3d3' }}></View>
         <Image source={status < 1 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
-        <View style={{ height: '22%', width: 3, backgroundColor: '#d3d3d3' }}></View>
+        <View style={{ height: '20%', width: 3, backgroundColor: '#d3d3d3' }}></View>
         <Image source={status < 2 ? require(baseImgPath + 'resum.png') : require(baseImgPath + 'tick.png')} />
       </View>
       <View style={{ flexDirection: 'column', flex: 1 }}>
@@ -279,7 +279,7 @@ const Content = (props) => {
               )
           }
         </View>
-        <View style={{ padding: 20, width: '100%', flex: 1 }}>
+        <View style={{ padding: 20, width: '100%', flex: 1}}>
           {
             (status < 2) ?
               (

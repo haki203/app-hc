@@ -13,32 +13,34 @@ const HistoryAdmin = (props) => {
 
   const [dataNe, setdataNe] = useState([]);
   const [isLoading, setisLoading] = useState(false);
-  useEffect(() => {
-    const getNews = async () => {
-      setisLoading(true);
-      const respone = await AxiosIntance().get("/report");
-      if (respone.result == true) {
+  const getNews = async () => {
+    setisLoading(true);
+    const respone = await AxiosIntance().get("/report");
+    if (respone.result == true) {
 
-        // lay du lieu ok
-        console.log("du lieu" + respone.report);
-        setisLoading(false);
-        // loc data 
-        let dataUser = [];
-        console.log("id user ne: ", userProfile.id);
-        for (let i = 0; i < respone.report.length; i++) {
-          if (respone.report[i].admin == userProfile.id) {
-            console.log("id report ne: ", respone.report[i].userId);
+      // lay du lieu ok
+      console.log("du lieu" + respone.report);
+      setisLoading(false);
+      // loc data 
+      let dataUser = [];
+      console.log("id user ne: ", userProfile.id);
+      for (let i = 0; i < respone.report.length; i++) {
+        if (respone.report[i].admin == userProfile.id) {
+          console.log("id report ne: ", respone.report[i].userId);
+          if (respone.report[i].status > 1) {
             dataUser.push(respone.report[i]);
           }
-
         }
-        console.log("Có tổng cộng ",dataUser.length);
-        setdataNe(dataUser)
+
       }
-      else {
-        ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
-      }
+      console.log("Có tổng cộng ", dataUser.length);
+      setdataNe(dataUser)
     }
+    else {
+      ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+    }
+  }
+  useEffect(() => {
     getNews();
 
     return () => {
@@ -55,14 +57,14 @@ const HistoryAdmin = (props) => {
           marginTop: 35
         }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
-            <Image source={{uri:userProfile.avt}} style={styles.profile}></Image>
+            <Image source={{ uri: userProfile.avt }} style={styles.profile}></Image>
             <Text style={styles.text1}>{userProfile.name}</Text>
           </View>
           <Icon style={styles.iconmenu} name='bells' size={20} color="#FFFFFF" />
         </View>
       </View>
       <View style={styles.leader}>
-        <Text style={styles.text2}>Lịch sử</Text>
+        <Text onPress={()=>getNews()} style={styles.text2}>Lịch sử</Text>
         <View style={{ width: width }}>
           <FlatList
             data={dataNe}

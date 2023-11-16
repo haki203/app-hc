@@ -14,46 +14,43 @@ const HistoryAdminDetail = (props) => {
     const [room, setroom] = useState("");
     const [admin, setAdmin] = useState("Chưa có");
     const [phone, setPhone] = useState("Chưa có");
+    const [avatar, setAvatar] = useState("https://th.bing.com/th/id/OIP.NkU4YYLWSnrScALzNF-bxAAAAA?pid=ImgDet&rs=1");
 
     const [lengthImage, setLengthImage] = useState(1);
     const [image, setImage] = useState("http://dummyimage.com/142x100.png/5fa2dd/ffffff");
-
-    useEffect(() => {
-        const getNews = async () => {
-            const getAdmin = async () => {
-                try {
-                    if (response.report.userId) {
-                        const respones = await AxiosIntance().get(`/report/user/${response.report.userId}`);
-                        console.log("admin khi goi api detail ne: ", respones.user.full_name);
-                        setAdmin(respones.user.full_name);
-                        setPhone(respones.user.phone)
-                    }
-                } catch (error) {
+    const getNews = async () => {
+        const getAdmin = async () => {
+            try {
+                if (response.report.userId) {
+                    const respones = await AxiosIntance().get(`/report/user/${response.report.userId}`);
+                    setAdmin(respones.user.full_name);
+                    setPhone(respones.user.phone)
+                    setAvatar(respones.user.avatar)
                 }
-            }
-            const response = await AxiosIntance().get(`/report/${id}`);
-            console.log("Hinh ne: ", response.report.image[0]);
-            console.log(response.report);
-            if (response.result == true) {
-                // console.log(respone.report.admin);
-                // lay du lieu ok
-                setLengthImage(response.report.image.length);
-                console.log("report nay co ", response.report.image.length, " hinh");
-                setdataNe(response.report);
-                try {
-                    //setAdmin(response.report.admin.full_name);
-                    setImage(response.report.image)
-                    console.log(response.report.image);
-                } catch (error) {
-                    console.log(error);
-                }
-                setisLoading(false);
-                getAdmin();
-            }
-            else {
-                ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+            } catch (error) {
             }
         }
+        const response = await AxiosIntance().get(`/report/${id}`);
+        if (response.result == true) {
+            // console.log(respone.report.admin);
+            // lay du lieu ok
+            setLengthImage(response.report.image.length);
+            setdataNe(response.report);
+            try {
+                //setAdmin(response.report.admin.full_name);
+                setImage(response.report.image)
+            } catch (error) {
+                console.log(error);
+            }
+            setisLoading(false);
+            getAdmin();
+        }
+        else {
+            ToastAndroid.show("Lay du lieu that bai", ToastAndroid.SHORT);
+        }
+    }
+    useEffect(() => {
+
         setisLoading(true);
         getNews();
 
@@ -61,50 +58,56 @@ const HistoryAdminDetail = (props) => {
         }
     }, []);
 
-    return (
-        <View>
-            <ScrollView>
-                <View style={styles.header}>
-                    <Icon style={styles.icon} onPress={() => navigation.goBack()} name='left' size={20} color="#000000" />
-                    <Text style={styles.text}>Sự cố về cơ sở vật chất</Text>
-                    <Text></Text>
-                </View>
-                <View>
-                    <Text style={styles.text1}>Tên người yêu cầu:</Text>
-                    <View style={styles.leader1}>
-                        <Image style={styles.image} source={{ uri: image[0] }}></Image>
-                        <View style={styles.leader2}>
-                            <Text style={styles.text2}>{admin}</Text>
-                            <Text style={styles.text3}>{phone}</Text>
+
+    try {
+        return (
+            <View>
+                <ScrollView>
+                    <View style={styles.header}>
+                        <Icon style={styles.icon} onPress={() => navigation.goBack()} name='left' size={20} color="#000000" />
+                        <Text style={styles.text}>{data.description.includes("--") ? data.description.split("--")[0] : data.description}</Text>
+                        <Text></Text>
+                    </View>
+                    <View>
+                        <Text style={styles.text1}>Người yêu cầu:</Text>
+                        <View style={styles.leader1}>
+                            <Image style={styles.image} source={{ uri: avatar }}></Image>
+                            <View style={styles.leader2}>
+                                <Text style={styles.text2}>{admin}</Text>
+                                <Text style={styles.text3}>0{phone}</Text>
+                            </View>
+                            <Image style={styles.image1} source={require('../../assets//images/phone.png')}></Image>
                         </View>
-                        <Image style={styles.image1} source={require('../../assets//images/phone.png')}></Image>
+                        <View style={{ flexDirection: 'row', padding: 20 }}>
+                            <Text style={styles.text4}>Thời gian: </Text>
+                            <Text style={styles.text3}> {data.time}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginLeft: 20 }}>
+                            <Text style={styles.text4}>Phòng: </Text>
+                            <Text style={styles.text5}>{data.room}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', padding: 20 }}>
+                            <Text style={styles.text4}>Mô tả sự cố: </Text>
+                            <Text style={styles.text6}> {data.description}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', padding: 20, paddingTop: 5 }}>
+                            <Text style={styles.text4}>Đánh giá: </Text>
+                            <Text style={styles.text6}>{data.comment ? data.comment : 'Chưa có đánh giá'}</Text>
+                        </View>
                     </View>
-                    <View style={{ flexDirection: 'row', padding: 20 }}>
-                        <Text style={styles.text4}>Thời gian: </Text>
-                        <Text style={styles.text3}> {data.time}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', marginLeft: 20 }}>
-                        <Text style={styles.text4}>Phòng: </Text>
-                        <Text style={styles.text5}>{data.room}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', padding: 20 }}>
-                        <Text style={styles.text4}>Mô tả sự cố: </Text>
-                        <Text style={styles.text6}> {data.description}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', padding: 20, paddingTop: 5 }}>
-                        <Text style={styles.text4}>Đánh giá: </Text>
-                        <Text style={styles.text6}>{data.comment ? data.comment : 'Chưa có đánh giá'}</Text>
-                    </View>
-                </View>
 
-                <Text style={styles.text8}>Trạng Thái đã xử lý</Text>
-                <View style={{ height: '35%', width: '100%', paddingBottom: 15, paddingLeft: 20 }}>
-                    <Content data={data} />
-                </View>
-            </ScrollView>
+                    <Text style={styles.text8}>Trạng thái xử lý</Text>
+                    <View style={{ height: '35%', width: '100%', paddingBottom: 15, paddingLeft: 20 }}>
+                        <Content data={data} />
+                    </View>
+                </ScrollView>
 
-        </View>
-    )
+            </View>
+        )
+    } catch (error) {
+
+    }
+
 }
 const Content = (props) => {
     const { data } = props;
@@ -126,16 +129,14 @@ const Content = (props) => {
                                 <View style={{ flexDirection: 'column' }}>
                                     <Text>Yêu cầu</Text>
                                     <View style={{ flexDirection: 'row' }}>
-                                        <Text>{data.report_date} |</Text>
                                         <Text> {data.time}</Text>
                                     </View>
                                 </View>
                             ) :
                             (
                                 <View style={{ flexDirection: 'column' }}>
-                                    <Text>Yêu cầu xử lý</Text>
+                                    <Text>Yêu cầu</Text>
                                     <View style={{ flexDirection: 'row' }}>
-                                        <Text>{data.report_date} |</Text>
                                         <Text> {data.time}</Text>
                                     </View>
                                 </View>
@@ -149,7 +150,6 @@ const Content = (props) => {
                                 <View style={{ flexDirection: 'column' }}>
                                     <Text>Yêu cầu đã được tiếp nhận</Text>
                                     <View style={{ flexDirection: 'row' }}>
-                                        <Text>__:__ |</Text>
                                         <Text> __:__</Text>
                                     </View>
                                 </View>
@@ -158,7 +158,6 @@ const Content = (props) => {
                                 <View style={{ flexDirection: 'column' }}>
                                     <Text>Yêu cầu đã được tiếp nhận</Text>
                                     <View style={{ flexDirection: 'row' }}>
-                                        <Text>{data.report_date} |</Text>
                                         <Text> {data.accept}</Text>
                                     </View>
                                 </View>
@@ -172,7 +171,6 @@ const Content = (props) => {
                                 <View style={{ flexDirection: 'column' }}>
                                     <Text>Yêu cầu đã hoàn thành</Text>
                                     <View style={{ flexDirection: 'row' }}>
-                                        <Text>__:__ |</Text>
                                         <Text> __:__</Text>
                                     </View>
                                 </View>
@@ -181,7 +179,6 @@ const Content = (props) => {
                                 <View style={{ flexDirection: 'column' }}>
                                     <Text>Yêu cầu đã hoàn thành</Text>
                                     <View style={{ flexDirection: 'row' }}>
-                                        <Text>{data.report_date} |</Text>
                                         <Text> {data.done}</Text>
                                     </View>
                                 </View>

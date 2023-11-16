@@ -20,7 +20,8 @@ const CurrentReport = ({navigation}) => {
         
         console.log("du lieu" + JSON.stringify(res.report));
         console.log("du lieu"+ JSON.stringify(duLieuCoAdminNull));
-        setData(duLieuCoAdminNull);
+        const reversedData = [...duLieuCoAdminNull].reverse();
+        setData(reversedData);
         setIsLoading(false);
 
       }

@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
-import React, {useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import AxiosIntance from '../../axios/AxiosIntance';
 const ItemHistoryAdmin = (props) => {
   const { report } = props;
   const { navigation } = props;
   const [fullName, setFullName] = useState("Chưa có");
+  const [avatar, setAvatar] = useState("https://th.bing.com/th/id/OIP.NkU4YYLWSnrScALzNF-bxAAAAA?pid=ImgDet&rs=1");
   const [id, setId] = useState(report._id);
   const clickItemAdmin = () => {
     console.log(id);
@@ -14,10 +15,11 @@ const ItemHistoryAdmin = (props) => {
     const getAdmin = async () => {
       try {
         if (report.admin) {
-          console.log('user ne: ',report.userId);
+          console.log('user ne: ', report.userId);
           const respone = await AxiosIntance().get(`/report/user/${report.userId}`);
           console.log("user khi goi api ne: ", respone.user.full_name);
           setFullName(respone.user.full_name)
+          setAvatar(respone.user.avatar)
         }
       } catch (error) {
       }
@@ -35,7 +37,7 @@ const ItemHistoryAdmin = (props) => {
       <TouchableOpacity style={styles.leader} onPress={clickItemAdmin}>
         <View style={{ width: '85%' }}>
           <Text style={styles.text}>
-            {report.type === 1 ? 'Sự cố về CNTT' : 'Sự cố về cơ sở vật chất'}
+            {report.description.includes("--") ? report.description.split("--")[0] : report.description}
           </Text>
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.text3}>Người yêu cầu: {fullName}</Text>
@@ -49,7 +51,11 @@ const ItemHistoryAdmin = (props) => {
             <Text></Text>
           </View>
         </View>
-        <Image source={{uri: report.image[0]}} style={styles.profile}></Image>
+        <Image source={{ uri: report.image[0] }} style={styles.profile}></Image>
+        {/* <View style={{
+          width: 10, height: 10, position: 'absolute',
+          end: 10, bottom: 10, backgroundColor: report.status === 2 ? 'green' : 'orange', borderRadius: 20
+        }}></View> */}
       </TouchableOpacity>
     </View>
   )

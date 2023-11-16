@@ -1,12 +1,25 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { Image } from 'react-native-elements';
+import AxiosIntance from '../../axios/AxiosIntance';
 
 export const ItemProblem = (props) => {
   try {
     const { problem, navigation } = props;
     //console.log("problem: " ,problem)
+    const [fullName, setFullName] = useState("Ki vu");
+    const getUser = async () => {
+      const respone = await AxiosIntance().get(`/report/user/${problem.userId}`);
+      console.log("user khi goi api ne: ", respone.user.full_name);
+      setFullName(respone.user.full_name)
+    }
+    useEffect(() => {
+      try {
+        getUser();
+      } catch (error) {
+      }
   
+    }, []);
   const StartNewDetail = () => {
     navigation.navigate("Detail", { id: problem._id });
   };
@@ -72,7 +85,7 @@ export const ItemProblem = (props) => {
                 color: 'black',
                 fontWeight: 500,
               }}>
-              {problem.userId.full_name}
+              Người yêu cầu: {fullName}
             </Text>
             <View
               style={{
@@ -116,6 +129,15 @@ export const ItemProblem = (props) => {
                   marginRight: 10,
                 }}>
                 {problem.report_date}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: '#8C8C8C',
+                  fontWeight: 500,
+                  marginRight: 10,
+                }}>
+                {problem.time}
               </Text>
             </View>
           </View>

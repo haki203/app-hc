@@ -25,7 +25,7 @@ const CheckAdmin = ({navigation}) => {
                         <View style={styles.in4item}>
                             <View style={styles.in4place}>
                                 <Text style={styles.toa}>Tòa F</Text>
-                                <Text style={styles.tang}>3 tầng</Text>
+                                <Text style={styles.tang}>2 tầng</Text>
 
                             </View>
                             <View>
@@ -35,7 +35,7 @@ const CheckAdmin = ({navigation}) => {
                         <Image style={styles.icon} source={require('../../assets/images/chevron-right-white.png')}/>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.item2}  onPress={()=>navigation.navigate('ToaT')}>
+                <TouchableOpacity style={styles.item2}  onPress={()=>navigation.navigate('ToaP')}>
 
                     <View style={styles.itemin}>
                         <View style={styles.in4item}>
@@ -51,7 +51,7 @@ const CheckAdmin = ({navigation}) => {
                         <Image style={styles.icon} source={require('../../assets/images/chevron-right-white.png')}/>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.item3} onPress={()=>navigation.navigate('ToaP')} >
+                <TouchableOpacity style={styles.item3} onPress={()=>navigation.navigate('ToaT')} >
 
                     <View style={styles.itemin}>
                         <View style={styles.in4item}>

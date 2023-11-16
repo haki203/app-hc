@@ -1,17 +1,29 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { Image } from 'react-native-elements';
+import AxiosIntance from '../../axios/AxiosIntance';
 
 export const ItemHanding = (props) => {
   try {
     const { problem, navigation } = props;
-    //console.log("problem: " ,problem)
+    const [fullName, setFullName] = useState("Ki vu");
+    const getUser = async () => {
+      const respone = await AxiosIntance().get(`/report/user/${problem.userId}`);
+      console.log("user khi goi api ne: ", respone.user.full_name);
+      setFullName(respone.user.full_name)
+    }
+    useEffect(() => {
+      try {
+        getUser();
+      } catch (error) {
+      }
   
-  const StartNewDetail = () => {
-    navigation.navigate("DetailHandling", { id: problem._id });
-  };
+    }, []);
+    const StartNewDetail = () => {
+      navigation.navigate("DetailHandling", { id: problem._id });
+    };
     return (
-        <TouchableOpacity onPress={()=>StartNewDetail()}
+      <TouchableOpacity onPress={() => StartNewDetail()}
         style={{
           padding: 25,
           width: '100%',
@@ -36,7 +48,7 @@ export const ItemHanding = (props) => {
               color: 'black',
               fontWeight: 500,
             }}>
-            {problem.description}
+            {problem.description.includes("--") ? problem.description.split("--")[0] : problem.description}
           </Text>
           <Text
             style={{
@@ -72,7 +84,7 @@ export const ItemHanding = (props) => {
                 color: 'black',
                 fontWeight: 500,
               }}>
-              {problem.userId.full_name}
+              Người yêu cầu: {fullName}
             </Text>
             <View
               style={{
